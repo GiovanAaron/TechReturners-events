@@ -1,19 +1,18 @@
-const client = require('../connection.js');
-
+const client = require("../connection.js");
 
 async function seed(userdata, eventsdata, attendancedata) {
-    try {
-      await client.connect();
-  
-      // Drop tables in reverse order to handle dependencies
-      await client.query(`DROP TABLE IF EXISTS attendance CASCADE;`);
-      await client.query(`DROP TABLE IF EXISTS event CASCADE;`);
-      await client.query(`DROP TABLE IF EXISTS users CASCADE;`);
+  try {
+    await client.connect();
 
-      console.log("done")
-  
-      // Create users table
-      await client.query(`
+    // Drop tables in reverse order to handle dependencies
+    await client.query(`DROP TABLE IF EXISTS attendance CASCADE;`);
+    await client.query(`DROP TABLE IF EXISTS event CASCADE;`);
+    await client.query(`DROP TABLE IF EXISTS users CASCADE;`);
+
+    console.log("done");
+
+    // Create users table
+    await client.query(`
         CREATE TABLE users (
           id SERIAL PRIMARY KEY,
           first_name VARCHAR(255) NOT NULL,
@@ -27,9 +26,9 @@ async function seed(userdata, eventsdata, attendancedata) {
           updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP 
         );
       `);
-  
-      // Create event table
-      await client.query(`
+
+    // Create event table
+    await client.query(`
         CREATE TABLE event (
           id SERIAL PRIMARY KEY,
           owner_id INT NOT NULL,
@@ -70,9 +69,9 @@ async function seed(userdata, eventsdata, attendancedata) {
           CONSTRAINT fk_owner FOREIGN KEY (owner_id) REFERENCES users(id) ON DELETE CASCADE
         );
       `);
-  
-      // Create attendance table
-      await client.query(`
+
+    // Create attendance table
+    await client.query(`
         CREATE TABLE attendance (
           id SERIAL PRIMARY KEY,
           event_id INT NOT NULL,
@@ -83,62 +82,118 @@ async function seed(userdata, eventsdata, attendancedata) {
           CONSTRAINT fk_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
         );
       `);
-  
-      console.log("Tables created successfully.");
-        
-       // Insert user data into 'users' table
-       console.log(userdata)
-       const userInsertPromises = userdata.map(async (user) => {
-        const { first_name, last_name, email, age, gender, access_type, avatar, created_at, updated_at } = user;
-        const query = `
+
+    console.log("Tables created successfully.");
+
+    // Insert user data into 'users' table
+    
+    const userInsertPromises = userdata.map(async (user) => {
+      const {
+        first_name,
+        last_name,
+        email,
+        age,
+        gender,
+        access_type,
+        avatar,
+        created_at,
+        updated_at,
+      } = user;
+      const query = `
             INSERT INTO users (first_name, last_name, email, age, gender, access_type, avatar, created_at, updated_at)
             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
         `;
-        await client.query(query, [first_name, last_name, email, age, gender, access_type, avatar, created_at, updated_at]);
+      await client.query(query, [
+        first_name,
+        last_name,
+        email,
+        age,
+        gender,
+        access_type,
+        avatar,
+        created_at,
+        updated_at,
+      ]);
     });
 
     // Wait for all user data to be inserted
     await Promise.all(userInsertPromises);
-    console.log(`${userdata.length} users inserted successfully.`);
 
     // Insert event data into 'event' table (assuming eventsdata structure)
     const eventInsertPromises = eventsdata.map(async (event) => {
-        const { owner_id, title, tickets_remaining, capacity, description, category, start_datetime, end_datetime, location_type, 
-                address, city, region, price, photo_1_url, photo_2_url, photo_3_url, created_at, updated_at, google_event_id, visibility, recurrence_rule } = event;
-        const query = `
+      const {
+        owner_id,
+        title,
+        tickets_remaining,
+        capacity,
+        description,
+        category,
+        start_datetime,
+        end_datetime,
+        location_type,
+        address,
+        city,
+        region,
+        price,
+        photo_1_url,
+        photo_2_url,
+        photo_3_url,
+        created_at,
+        updated_at,
+        google_event_id,
+        visibility,
+        recurrence_rule,
+      } = event;
+      const query = `
             INSERT INTO event (owner_id, title, tickets_remaining, capacity, description, category, start_datetime, end_datetime, 
             location_type, address, city, region, price, photo_1_url, photo_2_url, photo_3_url, created_at, updated_at, google_event_id, 
             visibility, recurrence_rule)
             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21)
         `;
-        await client.query(query, [owner_id, title, tickets_remaining, capacity, description, category, start_datetime, end_datetime, 
-                                  location_type, address, city, region, price, photo_1_url, photo_2_url, photo_3_url, created_at, updated_at, google_event_id, visibility, recurrence_rule]);
+      await client.query(query, [
+        owner_id,
+        title,
+        tickets_remaining,
+        capacity,
+        description,
+        category,
+        start_datetime,
+        end_datetime,
+        location_type,
+        address,
+        city,
+        region,
+        price,
+        photo_1_url,
+        photo_2_url,
+        photo_3_url,
+        created_at,
+        updated_at,
+        google_event_id,
+        visibility,
+        recurrence_rule,
+      ]);
     });
 
     // Wait for all event data to be inserted
     await Promise.all(eventInsertPromises);
-    console.log(`${eventsdata.length} events inserted successfully.`);
 
     // Insert attendance data into 'attendance' table (assuming attendancedata structure)
     const attendanceInsertPromises = attendancedata.map(async (attendance) => {
-        const { event_id, user_id, status, registered_at } = attendance;
-        const query = `
+      const { event_id, user_id, status, registered_at } = attendance;
+      const query = `
             INSERT INTO attendance (event_id, user_id, status, registered_at)
             VALUES ($1, $2, $3, $4)
         `;
-        await client.query(query, [event_id, user_id, status, registered_at]);
+      await client.query(query, [event_id, user_id, status, registered_at]);
     });
 
     // Wait for all attendance data to be inserted
     await Promise.all(attendanceInsertPromises);
-    console.log(`${attendancedata.length} attendance records inserted successfully.`);
-      
-    } catch (err) {
-      console.error("Error creating tables:", err);
-    } finally {
-      await client.end();
-    }
+    console.log("Data inserted successfully.");
+  } catch (err) {
+    console.error("Error creating tables:", err);
   }
-  
+}
 
-  module.exports = seed;
+module.exports = seed;
