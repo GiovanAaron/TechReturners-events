@@ -2,13 +2,23 @@
   "dependencies": {
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
-    "jest": "^29.7.0",
-    "pg": "^8.13.1",
-    "supertest": "^7.0.0"
+    "pg": "^8.13.1"
   },
   "scripts": {
-    
     "test": "PGDATABASE=tr_events_test jest --detectOpenHandles __tests__",
-    "dev": "nodemon listen.js"
+    "dev": "nodemon listen.js",
+    "build": "tsc",
+    "jest": "jest --detectOpenHandles"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "@types/jest": "^29.5.14",
+    "@types/pg": "^8.11.10",
+    "@types/supertest": "^6.0.2",
+    "jest": "^29.7.0",
+    "supertest": "^7.0.0",
+    "ts-jest": "^29.2.5",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.3"
   }
 }

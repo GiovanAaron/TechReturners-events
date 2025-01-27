@@ -1,6 +1,52 @@
-const client = require("../connection.js");
+import { Client } from "pg";
 
-async function seed(userdata, eventsdata, attendancedata) {
+
+interface User {
+  first_name: string;
+  last_name: string;
+  email: string;
+  age: number;
+  gender: string;
+  access_type: "Admin" | "Moderator" | "User";
+  avatar: string;
+  created_at: string;
+  updated_at: string;
+}
+
+interface Event {
+  owner_id: number;
+  title: string;
+  tickets_remaining: number;
+  capacity: number;
+  description: string;
+  category: string;
+  start_datetime: string;
+  end_datetime: string;
+  location_type: "Remote" | "In-Person";
+  address: string | null;
+  city: string | null;
+  region: string | null;
+  price: number;
+  photo_1_url: string;
+  photo_2_url: string | null;
+  photo_3_url: string | null;
+  google_event_id: string;
+  visibility: "public" | "private" | "default";
+  recurrence_rule: string | null;
+}
+
+interface Attendance {
+  event_id: number;
+  user_id: number;
+  status: "Registered" | "Attended" | "Cancelled";
+  registered_at: string;
+}
+
+async function seed(userdata: User[], eventsdata: Event[], attendancedata: Attendance[]) {
+  const client = new Client({
+    connectionString: process.env.DATABASE_URL,
+  });
+
   try {
     await client.connect();
 
@@ -9,7 +55,6 @@ async function seed(userdata, eventsdata, attendancedata) {
     await client.query(`DROP TABLE IF EXISTS event CASCADE;`);
     await client.query(`DROP TABLE IF EXISTS users CASCADE;`);
 
-    console.log("done");
 
     // Create users table
     await client.query(`
@@ -39,7 +84,7 @@ async function seed(userdata, eventsdata, attendancedata) {
           category VARCHAR(50) NOT NULL CHECK (category IN ('Webinar', 'Job Fair', 'Hackathon')),
           start_datetime TIMESTAMPTZ NOT NULL,
           end_datetime TIMESTAMPTZ NOT NULL,
-          location_type VARCHAR(50) NOT NULL CHECK (location_type IN ('Remote', 'In-person')),
+          location_type VARCHAR(50) NOT NULL CHECK (location_type IN ('Remote', 'In-Person')),
           address TEXT,
           city VARCHAR(100) CHECK (city IN (
             'London', 
@@ -83,7 +128,7 @@ async function seed(userdata, eventsdata, attendancedata) {
         );
       `);
 
-    console.log("Tables created successfully.");
+    // console.log("Tables created successfully.");
 
     // Insert user data into 'users' table
     
@@ -138,17 +183,15 @@ async function seed(userdata, eventsdata, attendancedata) {
         photo_1_url,
         photo_2_url,
         photo_3_url,
-        created_at,
-        updated_at,
         google_event_id,
         visibility,
         recurrence_rule,
       } = event;
       const query = `
             INSERT INTO event (owner_id, title, tickets_remaining, capacity, description, category, start_datetime, end_datetime, 
-            location_type, address, city, region, price, photo_1_url, photo_2_url, photo_3_url, created_at, updated_at, google_event_id, 
+            location_type, address, city, region, price, photo_1_url, photo_2_url, photo_3_url, google_event_id, 
             visibility, recurrence_rule)
-            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21)
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19)
         `;
       await client.query(query, [
         owner_id,
@@ -167,8 +210,6 @@ async function seed(userdata, eventsdata, attendancedata) {
         photo_1_url,
         photo_2_url,
         photo_3_url,
-        created_at,
-        updated_at,
         google_event_id,
         visibility,
         recurrence_rule,
@@ -190,10 +231,13 @@ async function seed(userdata, eventsdata, attendancedata) {
 
     // Wait for all attendance data to be inserted
     await Promise.all(attendanceInsertPromises);
-    console.log("Data inserted successfully.");
+    // console.log("Data inserted successfully.");
   } catch (err) {
     console.error("Error creating tables:", err);
+  } finally{
+    await client.end();
   }
 }
 
-module.exports = seed;
+export default seed;
+
