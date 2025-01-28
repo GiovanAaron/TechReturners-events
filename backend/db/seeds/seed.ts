@@ -1,5 +1,9 @@
 import { Client } from "pg";
 
+import bcrypt from "bcrypt";
+
+const saltRounds = 10; // Recommended number of salt rounds for bcrypt
+
 
 interface User {
   first_name: string;
@@ -11,6 +15,8 @@ interface User {
   avatar: string;
   created_at: string;
   updated_at: string;
+  username: string;
+  password: string;
 }
 
 interface Event {
@@ -63,6 +69,8 @@ async function seed(userdata: User[], eventsdata: Event[], attendancedata: Atten
           first_name VARCHAR(255) NOT NULL,
           last_name VARCHAR(255) NOT NULL,
           email VARCHAR(255) NOT NULL UNIQUE,
+          username VARCHAR(255) NOT NULL UNIQUE,
+          password_hash TEXT NOT NULL,
           age INT CHECK (age >= 0),
           gender VARCHAR(10) CHECK (gender IN ('Male', 'Female', 'Other')),
           access_type VARCHAR(50) NOT NULL CHECK (access_type IN ('Admin', 'Moderator', 'User')),
@@ -137,6 +145,8 @@ async function seed(userdata: User[], eventsdata: Event[], attendancedata: Atten
         first_name,
         last_name,
         email,
+        username,
+        password, // Plain text password from seed data
         age,
         gender,
         access_type,
@@ -144,14 +154,21 @@ async function seed(userdata: User[], eventsdata: Event[], attendancedata: Atten
         created_at,
         updated_at,
       } = user;
+    
+      // Hash the plain text password before inserting
+      const hashedPassword = await bcrypt.hash(password, saltRounds);
+    
       const query = `
-            INSERT INTO users (first_name, last_name, email, age, gender, access_type, avatar, created_at, updated_at)
-            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+            INSERT INTO users (first_name, last_name, email, username, password_hash, age, gender, access_type, avatar, created_at, updated_at)
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
         `;
+    
       await client.query(query, [
         first_name,
         last_name,
         email,
+        username,
+        hashedPassword, // Use the hashed password instead of plain text
         age,
         gender,
         access_type,
@@ -160,6 +177,7 @@ async function seed(userdata: User[], eventsdata: Event[], attendancedata: Atten
         updated_at,
       ]);
     });
+    
 
     // Wait for all user data to be inserted
     await Promise.all(userInsertPromises);

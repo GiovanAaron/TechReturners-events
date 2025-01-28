@@ -1,5 +1,12 @@
 import express, { Request, Response } from "express";
-import { getAllUsers, getUserById, createUser, patchUser, deleteUser } from "../controller/api.controller";
+import {
+  getAllUsers,
+  getUserById,
+  postUser,
+  patchUser,
+  deleteUser,
+} from "../controller/api.user.controller";
+import { loginUser } from "../controller/api.login.controller";
 
 const app = express();
 
@@ -10,10 +17,12 @@ app.use(express.json());
 //Route Handlers:
 //Users
 app.get("/api/users", (req: Request, res: Response) => getAllUsers(req, res));
-app.get('/api/users/:id', getUserById);
-app.post('/api/users', createUser);
-app.patch('/api/users/:id', patchUser);
-app.delete('/api/users/:id', deleteUser);
+app.get("/api/users/:id", getUserById);
+app.post("/api/users", postUser);
+app.patch("/api/users/:id", patchUser);
+app.delete("/api/users/:id", deleteUser);
+
+app.post("/api/users/login", loginUser);
 
 //Events
 // app.get('/api/events', getAllEvents);
@@ -35,16 +44,15 @@ app.delete('/api/users/:id', deleteUser);
 // app.put('/api/attendances/:id', updateAttendance);
 // app.delete('/api/attendances/:id', deleteAttendance);
 
-
-app.use((err:any, req:any, res:any, next:any) => {
-    // console.log("hello")
-    if (err.msg) {
-      return res.status(err.status).send({ error: err.msg });
-    } else {
-      next(err);
-    }
-  });
-  //server errors
+app.use((err: any, req: any, res: any, next: any) => {
+  // console.log("hello")
+  if (err.msg) {
+    return res.status(err.status).send({ error: err.msg });
+  } else {
+    next(err);
+  }
+});
+//server errors
 //   app.use((err:any, req:any, res:any, next:any) => {
 //     console.log(err, "<<------ from our 500");
 //     return res.status(500).send({ msg: "Internal Server Error" });

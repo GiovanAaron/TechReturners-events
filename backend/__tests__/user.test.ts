@@ -2,6 +2,7 @@ import client from "../db/connection";
 import app from "../src/app";
 import seed from "../db/seeds/seed";
 import request from "supertest";
+import bcrypt from "bcrypt";
 import {
   attendanceData,
   userData,
@@ -28,8 +29,9 @@ describe("Get Users", () => {
       expect(response.status).toBe(200);
       expect(response.body.users).toBeInstanceOf(Array);
       expect(response.body.users.length).toBe(userData.length);
-      userData.forEach((user) => {
+      response.body.users.forEach((user : any) => {
         expect(user).toMatchObject({
+          username: expect.any(String),
           first_name: expect.any(String),
           last_name: expect.any(String),
           email: expect.any(String),
@@ -43,12 +45,25 @@ describe("Get Users", () => {
       });
     });
   });
+  describe("GET /api/users password security", () => {
+    it("status: 200 responds with an array of all Users without password", async () => {
+      const response = await request(app).get("/api/users");
+
+      expect(response.status).toBe(200);
+      expect(response.body.users).toBeInstanceOf(Array);
+      expect(response.body.users.length).toBe(userData.length);
+      response.body.users.forEach((user : any) => {
+        expect(user.password).toBe(undefined);
+      });
+    });
+  });
   describe("GET /api/users/:id", () => {
     it("status: 200 should respond with a single user", async () => {
       const response = await request(app).get("/api/users/2");
       expect(response.status).toBe(200);
       expect(response.body.user).toBeInstanceOf(Object);
       expect(response.body.user).toMatchObject({
+        username: expect.any(String),
         first_name: expect.any(String),
         last_name: expect.any(String),
         email: expect.any(String),
@@ -60,7 +75,9 @@ describe("Get Users", () => {
         updated_at: expect.any(String),
         id: expect.any(Number),
       });
+      expect(response.body.user.password).toBe(undefined);
     });
+    
     describe("GET /api/users/:id Error Handling", () => {
       it("status: 404 should respond with an error message", async () => {
         const response = await request(app).get("/api/users/100");
@@ -79,7 +96,10 @@ describe("Get Users", () => {
 describe("POST /api/users", () => {
   describe("Should create new user", () => {
     it("status: 201 should respond with new user [returning details]", async () => {
-      const response = await request(app).post("/api/users").send({
+      const response = await request(app)
+      .post("/api/users")
+      .send({
+        username: "febiBuffay",
         first_name: "Febi",
         last_name: "Buffay",
         email: "friends@gmail.com",
@@ -87,6 +107,7 @@ describe("POST /api/users", () => {
         gender: "Female",
         access_type: "Admin",
         avatar: "febi_avataer.img",
+        password: "febiPass123",
       });
 
       expect(response.status).toBe(201);
@@ -101,7 +122,34 @@ describe("POST /api/users", () => {
         created_at: expect.any(String),
         updated_at: expect.any(String),
         id: expect.any(Number),
+        username: expect.any(String),
+        password_hash: expect.any(String),
+      })
+      
+    });
+  })
+  
+  describe("POST /api/users password security", () => {
+    it("status: 400 should respond with a bcrypt matched password", async () => {
+
+      const test_password = "febiPass123";
+      const response = await request(app).post("/api/users").send({
+        first_name: "Adams",
+        last_name: "amy",
+        email: "amy",
+        age: 28,
+        gender: "Female",
+        access_type: "Admin",
+        avatar: "febi_avataer.img",
+        password: test_password,
+        username: "febiBuffay"
       });
+      expect(response.status).toBe(201);
+      
+      const { password_hash } = response.body.newUser;  
+      const isMatch = await bcrypt.compare(test_password, password_hash);
+      expect(isMatch).toBe(true)
+      ;
     });
   });
 
@@ -131,6 +179,7 @@ describe("POST /api/users", () => {
       });
       expect(response.status).toBe(400);
       expect(response.body.error).toBe("Bad Request");
+
     });
     it("status: 400 should respond with an error message (Invalid Access Type)", async () => {
       const response = await request(app).post("/api/users").send({
@@ -221,7 +270,7 @@ describe("PATCH /api/users ", () => {
   });
 });
 
-describe.only("DELETE /api/users/:id", () => {
+describe("DELETE /api/users/:id", () => {
   describe("Should delete user by User ID", () => {
     it("status: 200 should respond with a deleted user", async () => {
       const response = await request(app).delete("/api/users/2");

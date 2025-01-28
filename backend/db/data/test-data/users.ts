@@ -8,6 +8,8 @@ export const users: Array<{
   avatar: string;
   created_at: string;
   updated_at: string;
+  username: string;
+  password: string;
 }> = [
   {
     first_name: "Alice",
@@ -18,7 +20,9 @@ export const users: Array<{
     access_type: "Admin",
     avatar: "https://example.com/avatars/alice.jpg",
     created_at: "2025-01-01 10:00:00",
-    updated_at: "2025-01-01 10:00:00"
+    updated_at: "2025-01-01 10:00:00",
+    username: "alicejohnson",
+    password: "securepassword123"
   },
   {
     first_name: "Bob",
@@ -29,7 +33,9 @@ export const users: Array<{
     access_type: "Moderator",
     avatar: "https://example.com/avatars/bob.jpg",
     created_at: "2025-01-02 11:00:00",
-    updated_at: "2025-01-02 11:00:00"
+    updated_at: "2025-01-02 11:00:00",
+    username: "bobsmith",
+    password: "password456"
   },
   {
     first_name: "Charlie",
@@ -40,7 +46,9 @@ export const users: Array<{
     access_type: "User",
     avatar: "https://example.com/avatars/charlie.jpg",
     created_at: "2025-01-03 12:00:00",
-    updated_at: "2025-01-03 12:00:00"
+    updated_at: "2025-01-03 12:00:00",
+    username: "charliebrown",
+    password: "charlie123!"
   },
   {
     first_name: "Diana",
@@ -51,7 +59,9 @@ export const users: Array<{
     access_type: "User",
     avatar: "https://example.com/avatars/diana.jpg",
     created_at: "2025-01-04 13:00:00",
-    updated_at: "2025-01-04 13:00:00"
+    updated_at: "2025-01-04 13:00:00",
+    username: "dianalopez",
+    password: "dianaSecure!"
   },
   {
     first_name: "Ethan",
@@ -62,7 +72,9 @@ export const users: Array<{
     access_type: "Admin",
     avatar: "https://example.com/avatars/ethan.jpg",
     created_at: "2025-01-05 14:00:00",
-    updated_at: "2025-01-05 14:00:00"
+    updated_at: "2025-01-05 14:00:00",
+    username: "ethanwright",
+    password: "ethanPass456"
   },
   {
     first_name: "Fiona",
@@ -73,7 +85,9 @@ export const users: Array<{
     access_type: "Moderator",
     avatar: "https://example.com/avatars/fiona.jpg",
     created_at: "2025-01-06 15:00:00",
-    updated_at: "2025-01-06 15:00:00"
+    updated_at: "2025-01-06 15:00:00",
+    username: "fionanguyen",
+    password: "fionaMod123"
   },
   {
     first_name: "George",
@@ -84,7 +98,9 @@ export const users: Array<{
     access_type: "User",
     avatar: "https://example.com/avatars/george.jpg",
     created_at: "2025-01-07 16:00:00",
-    updated_at: "2025-01-07 16:00:00"
+    updated_at: "2025-01-07 16:00:00",
+    username: "georgetaylor",
+    password: "george19!"
   },
   {
     first_name: "Hannah",
@@ -95,7 +111,9 @@ export const users: Array<{
     access_type: "User",
     avatar: "https://example.com/avatars/hannah.jpg",
     created_at: "2025-01-08 17:00:00",
-    updated_at: "2025-01-08 17:00:00"
+    updated_at: "2025-01-08 17:00:00",
+    username: "hannahwilliams",
+    password: "hannahPW!"
   },
   {
     first_name: "Isaac",
@@ -106,7 +124,9 @@ export const users: Array<{
     access_type: "Admin",
     avatar: "https://example.com/avatars/isaac.jpg",
     created_at: "2025-01-09 18:00:00",
-    updated_at: "2025-01-09 18:00:00"
+    updated_at: "2025-01-09 18:00:00",
+    username: "isaachernandez",
+    password: "isaacSecure"
   },
   {
     first_name: "Julia",
@@ -117,8 +137,10 @@ export const users: Array<{
     access_type: "Moderator",
     avatar: "https://example.com/avatars/julia.jpg",
     created_at: "2025-01-10 19:00:00",
-    updated_at: "2025-01-10 19:00:00"
+    updated_at: "2025-01-10 19:00:00",
+    username: "juliamartinez",
+    password: "juliaPW456"
   }
-]
+];
 
-export default users
+export default users;

@@ -24,11 +24,11 @@ export const fetchUserById = async (id: string): Promise<any> => {
   }
 };
 
-export const postUser = async (userDetails: any): Promise<any> => {
+export const createUser = async (userDetails: any): Promise<any> => {
   try {
     const result = await client.query(
-      `INSERT INTO Users (first_name, last_name, email, age, gender, access_type, avatar) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *`,
-      [
+      `INSERT INTO Users (username, first_name, last_name, email, age, gender, access_type, avatar, password_hash) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *`,
+      [ userDetails.username,
         userDetails.first_name,
         userDetails.last_name,
         userDetails.email,
@@ -36,12 +36,14 @@ export const postUser = async (userDetails: any): Promise<any> => {
         userDetails.gender,
         userDetails.access_type,
         userDetails.avatar,
+        userDetails.password_hash
       ]
     );
 
     return result.rows[0];
   } catch (error: any) {
-    throw { status: 400, msg: "Bad Request" };
+    console.log(error)
+    throw { status: 500, msg: `PSQL error: ${error.code} found in "${error.column}"` };
   }
 };
 
@@ -95,6 +97,17 @@ export const eraseUserById = async (id: string): Promise<any> => {
     if (result.rows.length === 0) {
       throw { msg: "User not found", status: 404 };
     }
+
+    return result.rows[0];
+  } catch (error: any) {
+    throw error;
+  }
+};
+
+export const fetchUserByEmail = async (email: string) => {
+  try {
+    const result = await client.query(`SELECT * FROM Users WHERE email = $1`, [email]);
+    console.log(result.rows[0])
 
     return result.rows[0];
   } catch (error: any) {
