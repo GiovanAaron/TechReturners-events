@@ -148,5 +148,109 @@ describe("POST /api/users", () => {
   });
 });
 describe("PATCH /api/users ", () => {
-  describe("Should patch user details", () => {});
+  describe("Should patch user details", () => {
+    it("status: 200 should respond with patched user details", async () => {
+      const response = await request(app)
+        .patch("/api/users/2")
+        .send({ first_name: "Dereck" });
+
+      expect(response.status).toBe(200);
+      expect(response.body.updatedUser).toMatchObject({
+        first_name: "Dereck",
+        last_name: expect.any(String),
+        email: expect.any(String),
+        age: expect.any(Number),
+        gender: expect.any(String),
+        access_type: expect.any(String),
+        avatar: expect.any(String),
+        created_at: expect.any(String),
+        updated_at: expect.any(String),
+        id: expect.any(Number),
+      });
+    });
+    it("Should patch multiple details in one query", async () => {
+      const response = await request(app).patch("/api/users/3").send({
+        last_name: "Hannah",
+        avatar: "new_updated_avatar.png",
+      });
+      expect(response.status).toBe(200);
+      expect(response.body.updatedUser).toMatchObject({
+        first_name: expect.any(String),
+        last_name: "Hannah",
+        email: expect.any(String),
+        age: expect.any(Number),
+        gender: expect.any(String),
+        access_type: expect.any(String),
+        avatar: "new_updated_avatar.png",
+        created_at: expect.any(String),
+        updated_at: expect.any(String),
+        id: expect.any(Number),
+      });
+    });
+  });
+
+  describe("PATCH /api/users Error Handling", () => {
+    it("status: 500 should respond with an PSQL error message (invalid column name)", async () => {
+      const response = await request(app)
+        .patch("/api/users/3")
+        .send({ last_name: "Anthony", profile_Pic: "new_updated_avatar.png" });
+      expect(response.status).toBe(500);
+      expect(response.body.error).toBe("PSQL error: 42703");
+    });
+  });
+  describe("PATCH /api/users Error Handling", () => {
+    it("status: 500 should respond with an PSQL error message (2 invalid column names)", async () => {
+      const response = await request(app)
+        .patch("/api/users/5")
+        .send({
+          middle_name: "Anthony",
+          profile_Pic: "new_updated_avatar.png",
+        });
+      expect(response.status).toBe(500);
+      expect(response.body.error).toBe("PSQL error: 42703");
+    });
+  });
+  describe("PATCH /api/users Error Handling", () => {
+    it("status: 500 should respond with an PSQL error message (invalid value for column)", async () => {
+      const response = await request(app)
+        .patch("/api/users/5")
+        .send({ first_name: "Boris", access_type: "Godmother" });
+      expect(response.status).toBe(500);
+      expect(response.body.error).toBe("PSQL error: 23514");
+    });
+  });
+});
+
+describe.only("DELETE /api/users/:id", () => {
+  describe("Should delete user by User ID", () => {
+    it("status: 200 should respond with a deleted user", async () => {
+      const response = await request(app).delete("/api/users/2");
+      expect(response.status).toBe(200);
+      expect(response.body.erasedUser).toBeInstanceOf(Object);
+      expect(response.body.erasedUser).toMatchObject({
+        first_name: expect.any(String),
+        last_name: expect.any(String),
+        email: expect.any(String),
+        age: expect.any(Number),
+        gender: expect.any(String),
+        access_type: expect.any(String),
+        avatar: expect.any(String),
+        created_at: expect.any(String),
+        updated_at: expect.any(String),
+        id: expect.any(Number),
+      });
+    });
+    describe("DELETE /api/users/:id Error Handling", () => {
+      it("status: 404 should respond with an error message", async () => {
+        const response = await request(app).delete("/api/users/100");
+        expect(response.status).toBe(404);
+        expect(response.body.error).toBe("User not found");
+      });
+      test("status: 400 should respond with an error message", async () => {
+        const response = await request(app).delete("/api/users/a2c");
+        expect(response.status).toBe(400);
+        expect(response.body.error).toBe("Bad Request");
+      });
+    });
+  });
 });

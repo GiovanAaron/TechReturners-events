@@ -44,3 +44,60 @@ export const postUser = async (userDetails: any): Promise<any> => {
     throw { status: 400, msg: "Bad Request" };
   }
 };
+
+export const updateUser = async (
+  id: string,
+  userUpdates: object
+): Promise<any> => {
+  try {
+    const fields = Object.keys(userUpdates);
+    const values = Object.values(userUpdates);
+
+    if (fields.length === 0) {
+      throw {
+        status: 400,
+        msg: "No fields provided to update.",
+      };
+    }
+
+    const setClause = fields
+      .map((field, index) => `${field} = $${index + 1}`)
+      .join(", ");
+
+    values.push(id);
+
+    const query = `
+      UPDATE users
+      SET ${setClause}
+      WHERE id = $${fields.length + 1}
+      RETURNING *;`;
+
+    const result = await client.query(query, values);
+
+    if (result.rows.length === 0) {
+      throw { msg: "User not found", status: 404 };
+    }
+
+    return result.rows[0];
+  } catch (error: any) {
+    throw error;
+  }
+};
+
+export const eraseUserById = async (id: string): Promise<any> => {
+  try {
+    if (isNaN(parseInt(id))) {
+      throw { msg: "Bad Request", status: 400 };
+    }
+
+    const result = await client.query(`DELETE FROM Users WHERE id = $1 RETURNING *`, [id]);
+
+    if (result.rows.length === 0) {
+      throw { msg: "User not found", status: 404 };
+    }
+
+    return result.rows[0];
+  } catch (error: any) {
+    throw error;
+  }
+};
