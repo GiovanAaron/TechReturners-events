@@ -1,5 +1,5 @@
 import express, { Request, Response } from "express";
-import { getAllUsers, getUserById, createUser } from "../controller/api.controller";
+import { getAllUsers, getUserById, createUser, patchUser, deleteUser } from "../controller/api.controller";
 
 const app = express();
 
@@ -12,8 +12,8 @@ app.use(express.json());
 app.get("/api/users", (req: Request, res: Response) => getAllUsers(req, res));
 app.get('/api/users/:id', getUserById);
 app.post('/api/users', createUser);
-// app.patch('/api/users/:id', updateUser);
-// app.delete('/api/users/:id', deleteUser);
+app.patch('/api/users/:id', patchUser);
+app.delete('/api/users/:id', deleteUser);
 
 //Events
 // app.get('/api/events', getAllEvents);
