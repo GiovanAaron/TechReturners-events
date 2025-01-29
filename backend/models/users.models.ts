@@ -107,7 +107,7 @@ export const eraseUserById = async (id: string): Promise<any> => {
 export const fetchUserByEmail = async (email: string) => {
   try {
     const result = await client.query(`SELECT * FROM Users WHERE email = $1`, [email]);
-    console.log(result.rows[0])
+    
 
     return result.rows[0];
   } catch (error: any) {

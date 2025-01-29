@@ -9,12 +9,17 @@ const JWT_EXPIRATION = "1h"; // Token expiration (e.g., 1 hour)
 export const loginUser = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { email, password } = req.body;
-    console.log(email)
 
     // Fetch the user by email
+    if (!email || !password) {
+       res.status(400).send({ error: "Email and password are required" });
+       return
+    }
+
     const user = await fetchUserByEmail(email);
     if (!user) {
        res.status(404).send({ error: "User not found" });
+       return
     }
 
     // Compare passwords using bcrypt
@@ -22,9 +27,8 @@ export const loginUser = async (req: Request, res: Response, next: NextFunction)
 
     const isPasswordValid = await bcrypt.compare(password, user.password_hash);
     if (!isPasswordValid) {
-
-        console.log("invalid password")
-       res.status(401).send({ error: "Invalid credentials" });
+       res.status(401).send({ error: "Invalid password" });
+       return
     }
 
     // Generate JWT
@@ -41,7 +45,6 @@ export const loginUser = async (req: Request, res: Response, next: NextFunction)
     // Send token to the client
     res.status(200).send({ token, message: "Login successful" });
   } catch (error) {
-    console.error(error);
     res.status(500).send({ error: "Server error" });
   }
 };
