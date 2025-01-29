@@ -156,6 +156,7 @@ describe("POST /api/users", () => {
   describe("POST /api/users Error Handling", () => {
     it("status: 400 should respond with an error message (Invalid Gender)", async () => {
       const response = await request(app).post("/api/users").send({
+        username: "AmyBuffay",
         first_name: "Adams",
         last_name: "amy",
         email: "amy@gmail.com",
@@ -163,12 +164,14 @@ describe("POST /api/users", () => {
         gender: "Dog",
         access_type: "Admin",
         avatar: "febi_avataer.img",
+        password: "febiPass123"
       });
       expect(response.status).toBe(400);
-      expect(response.body.error).toBe("Bad Request");
+      expect(response.body.error).toBe("PSQL error(23514) found in constraint 'users_gender_check'");
     });
     it("status: 400 should respond with an error message (Invalid Age)", async () => {
       const response = await request(app).post("/api/users").send({
+        username: "DerekJohnson",
         first_name: "derek",
         last_name: "Johnson",
         email: "dude@yahoo.com",
@@ -176,9 +179,10 @@ describe("POST /api/users", () => {
         gender: "Male",
         access_type: "Admin",
         avatar: "febi_avataer.img",
+        password: "febiPass123"
       });
       expect(response.status).toBe(400);
-      expect(response.body.error).toBe("Bad Request");
+      expect(response.body.error).toBe("PSQL error(22P02)");
 
     });
     it("status: 400 should respond with an error message (Invalid Access Type)", async () => {
@@ -190,9 +194,10 @@ describe("POST /api/users", () => {
         gender: "Male",
         access_type: "Doctor",
         avatar: "febi_avataer.img",
+        password: "febiPass123"
       });
       expect(response.status).toBe(400);
-      expect(response.body.error).toBe("Bad Request");
+      expect(response.body.error).toBe("PSQL error(23502) found in 'username' column");
     });
   });
 });
@@ -205,6 +210,7 @@ describe("PATCH /api/users ", () => {
 
       expect(response.status).toBe(200);
       expect(response.body.updatedUser).toMatchObject({
+        username: expect.any(String),
         first_name: "Dereck",
         last_name: expect.any(String),
         email: expect.any(String),
@@ -224,6 +230,7 @@ describe("PATCH /api/users ", () => {
       });
       expect(response.status).toBe(200);
       expect(response.body.updatedUser).toMatchObject({
+        username: expect.any(String),
         first_name: expect.any(String),
         last_name: "Hannah",
         email: expect.any(String),

@@ -42,8 +42,18 @@ export const createUser = async (userDetails: any): Promise<any> => {
 
     return result.rows[0];
   } catch (error: any) {
-    console.log(error)
-    throw { status: 500, msg: `PSQL error: ${error.code} found in "${error.column}"` };
+    if (error.column && error.constraint) {
+
+      throw { status: 400, msg: `PSQL error(${error.code}) found in '${error.column}' column or constraint '${error.constraint}'` };
+    } else if (error.column) {
+      throw { status: 400, msg: `PSQL error(${error.code}) found in '${error.column}' column` };
+    } else if (error.constraint) {
+      throw { status: 400, msg: `PSQL error(${error.code}) found in constraint '${error.constraint}'` };
+    } else if (error.detail) {
+      throw { status: 400, msg: `PSQL error(${error.code}): ${error.detail}` };
+    } else {
+      throw { status: 400, msg: `PSQL error(${error.code})` };
+    }
   }
 };
 
