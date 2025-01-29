@@ -1,0 +1,93 @@
+import client from "../db/connection";
+import app from "../src/app";
+import seed from "../db/seeds/seed";
+import request from "supertest";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+import {
+  attendanceData,
+  userData,
+  eventsData,
+} from "../db/data/test-data/index";
+
+const JWT_SECRET = process.env.JWT_SECRET || "your-secret-key";
+
+beforeEach(async () => {
+  try {
+    await seed(userData, eventsData, attendanceData);
+  } catch (error: any) {
+    console.error(error);
+  }
+});
+
+afterAll(async () => {
+  await client.end();
+});
+
+describe("POST /api/users/login", () => {
+  describe("POST /api/users/login", () => {
+    it("status: 200 should respond with a token", async () => {
+
+      const response = await request(app)
+        .post("/api/users/login")
+        .send({
+          email: "isaac.hernandez@example.com",
+          password: "isaacSecure",
+        });
+
+      expect(response.status).toBe(200);
+      expect(response.body).toHaveProperty("token");
+      expect(response.body.token).toBeDefined();
+    });
+    describe("POST /api/login error handling", () => {
+      test("status: 401, wrong password", async () => {
+        const response = await request(app)
+          .post("/api/users/login")
+          .send({
+            email: "isaac.hernandez@example.com",
+            password: "wrongPassword",
+          });
+
+        expect(response.status).toBe(401);
+        expect(response.body).toHaveProperty("error");
+        expect(response.body.error).toBe("Invalid password");
+      });
+    });
+    describe("POST /api/login error handling", () => {
+      test("status: 404, wrong email", async () => {
+        const response = await request(app)
+          .post("/api/users/login")
+          .send({ email: "wrongemail@example.com", password: "wrongPassword" });
+
+        expect(response.status).toBe(404);
+        expect(response.body).toHaveProperty("error");
+        expect(response.body.error).toBe("User not found");
+      });
+    })
+    describe("POST /api/login error handling", () => {
+        test("status: 400 should respond with an error when email or password is missing", async () => {
+            const response = await request(app).post("/api/users/login").send({
+              email: "julia.martinez@example.com",
+            });
+            expect(response.status).toBe(400);
+            expect(response.body.error).toBe("Email and password are required");
+          })
+    });
+  });
+
+  describe("POST /api/login JWT Session Verification", () => {
+    test("should return a valid JWT for valid credentials", async () => {
+      const response = await request(app)
+        .post("/api/users/login")
+        .send({ email: "julia.martinez@example.com", password: "juliaPW456" });
+
+      expect(response.status).toBe(200);
+      const decoded = jwt.verify(response.body.token, JWT_SECRET);
+      expect(decoded).toMatchObject({
+        id: expect.any(Number),
+        email: "julia.martinez@example.com",
+        access_type: "Moderator",
+      });
+    });
+  });
+});

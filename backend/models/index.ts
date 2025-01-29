@@ -1,4 +1,4 @@
 import { fetchAllUsers } from "./users.models";
-import { fetchUserById, postUser, updateUser , eraseUserById} from "./users.models";
+import { fetchUserById, createUser, updateUser , eraseUserById, fetchUserByEmail} from "./users.models";
 
-export { fetchAllUsers, fetchUserById, postUser, updateUser, eraseUserById };
+export { fetchAllUsers, fetchUserById, createUser, updateUser, eraseUserById, fetchUserByEmail};
