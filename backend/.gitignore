@@ -2,3 +2,5 @@
 .env.test
 node_modules
 
+.googleauth.env
+output.txt

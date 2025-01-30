@@ -1,12 +1,18 @@
 import express, { Request, Response } from "express";
+
 import {
   getAllUsers,
   getUserById,
   postUser,
   patchUser,
   deleteUser,
-} from "../controller/api.user.controller";
-import { loginUser } from "../controller/api.login.controller";
+  loginUser,
+  getAllEvents,
+  getEventById,
+  postEvent,
+  patchEvent,
+  deleteEvent
+} from "./controller/api.controller.index";
 
 const app = express();
 
@@ -25,11 +31,11 @@ app.delete("/api/users/:id", deleteUser);
 app.post("/api/users/login", loginUser);
 
 //Events
-// app.get('/api/events', getAllEvents);
-// app.get('/api/events/:id', getEventById);
-// app.post('/api/events', createEvent);
-// app.put('/api/events/:id', updateEvent);
-// app.delete('/api/events/:id', deleteEvent);
+app.get("/api/events", getAllEvents);
+app.get("/api/events/:id", getEventById);
+app.post("/api/events", postEvent);
+app.patch('/api/events/:id', patchEvent);
+app.delete('/api/events/:id', deleteEvent);
 
 // app.get('/api/events/category:type', getEventsByCategory);
 // app.get('/api/events/region:region', getEventsByRegion);
