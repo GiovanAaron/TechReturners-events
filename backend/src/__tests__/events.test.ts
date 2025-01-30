@@ -2,8 +2,7 @@ import client from "../db/connection";
 import app from "../app";
 import seed from "../db/seeds/seed";
 import request from "supertest";
-import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
+
 import {
   attendanceData,
   userData,

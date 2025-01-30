@@ -11,7 +11,8 @@ import {
   getEventById,
   postEvent,
   patchEvent,
-  deleteEvent
+  deleteEvent, getAttendanceByEventId,
+  postAttendanceByEventId
 } from "./controller/api.controller.index";
 
 const app = express();
@@ -44,9 +45,10 @@ app.delete('/api/events/:id', deleteEvent);
 // app.get('/api/events/:id/attendees', getEventAttendees);
 
 //Attendance
+app.get('/api/events/:id/attendances', getAttendanceByEventId);
 // app.get('/api/attendances', getAllAttendances);
 // app.get('/api/attendances/:id', getAttendanceById);
-// app.post('/api/attendances', createAttendance);
+app.post('/api/events/:id/attendances', postAttendanceByEventId);
 // app.put('/api/attendances/:id', updateAttendance);
 // app.delete('/api/attendances/:id', deleteAttendance);
 
