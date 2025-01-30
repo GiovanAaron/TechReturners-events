@@ -8,9 +8,11 @@ import {
   deleteUser,
   loginUser,
   getAllEvents,
-  getEventById
-} from "../controller/api.controller.index";
-
+  getEventById,
+  postEvent,
+  patchEvent,
+  deleteEvent
+} from "./controller/api.controller.index";
 
 const app = express();
 
@@ -29,11 +31,11 @@ app.delete("/api/users/:id", deleteUser);
 app.post("/api/users/login", loginUser);
 
 //Events
-app.get('/api/events', getAllEvents);
-app.get('/api/events/:id', getEventById);
-// app.post('/api/events', createEvent);
-// app.put('/api/events/:id', updateEvent);
-// app.delete('/api/events/:id', deleteEvent);
+app.get("/api/events", getAllEvents);
+app.get("/api/events/:id", getEventById);
+app.post("/api/events", postEvent);
+app.patch('/api/events/:id', patchEvent);
+app.delete('/api/events/:id', deleteEvent);
 
 // app.get('/api/events/category:type', getEventsByCategory);
 // app.get('/api/events/region:region', getEventsByRegion);

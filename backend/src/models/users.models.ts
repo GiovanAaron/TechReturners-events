@@ -28,7 +28,8 @@ export const createUser = async (userDetails: any): Promise<any> => {
   try {
     const result = await client.query(
       `INSERT INTO Users (username, first_name, last_name, email, age, gender, access_type, avatar, password_hash) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *`,
-      [ userDetails.username,
+      [
+        userDetails.username,
         userDetails.first_name,
         userDetails.last_name,
         userDetails.email,
@@ -36,19 +37,27 @@ export const createUser = async (userDetails: any): Promise<any> => {
         userDetails.gender,
         userDetails.access_type,
         userDetails.avatar,
-        userDetails.password_hash
+        userDetails.password_hash,
       ]
     );
 
     return result.rows[0];
   } catch (error: any) {
     if (error.column && error.constraint) {
-
-      throw { status: 400, msg: `PSQL error(${error.code}) found in '${error.column}' column or constraint '${error.constraint}'` };
+      throw {
+        status: 400,
+        msg: `PSQL error(${error.code}) found in '${error.column}' column or constraint '${error.constraint}'`,
+      };
     } else if (error.column) {
-      throw { status: 400, msg: `PSQL error(${error.code}) found in '${error.column}' column` };
+      throw {
+        status: 400,
+        msg: `PSQL error(${error.code}) found in '${error.column}' column`,
+      };
     } else if (error.constraint) {
-      throw { status: 400, msg: `PSQL error(${error.code}) found in constraint '${error.constraint}'` };
+      throw {
+        status: 400,
+        msg: `PSQL error(${error.code}) found in constraint '${error.constraint}'`,
+      };
     } else if (error.detail) {
       throw { status: 400, msg: `PSQL error(${error.code}): ${error.detail}` };
     } else {
@@ -102,7 +111,10 @@ export const eraseUserById = async (id: string): Promise<any> => {
       throw { msg: "Bad Request", status: 400 };
     }
 
-    const result = await client.query(`DELETE FROM Users WHERE id = $1 RETURNING *`, [id]);
+    const result = await client.query(
+      `DELETE FROM Users WHERE id = $1 RETURNING *`,
+      [id]
+    );
 
     if (result.rows.length === 0) {
       throw { msg: "User not found", status: 404 };
@@ -116,8 +128,9 @@ export const eraseUserById = async (id: string): Promise<any> => {
 
 export const fetchUserByEmail = async (email: string) => {
   try {
-    const result = await client.query(`SELECT * FROM Users WHERE email = $1`, [email]);
-    
+    const result = await client.query(`SELECT * FROM Users WHERE email = $1`, [
+      email,
+    ]);
 
     return result.rows[0];
   } catch (error: any) {

@@ -6,7 +6,7 @@ import {
     deleteUser,
   } from "./api.user.controller";
 
-  import { getAllEvents, getEventById } from "./api.events.controller";
+  import { getAllEvents, getEventById, postEvent, patchEvent, deleteEvent } from "./api.events.controller";
   import { loginUser } from "./api.login.controller";
 
   export {
@@ -17,5 +17,9 @@ import {
     deleteUser,
     getAllEvents,
     loginUser,
-    getEventById
+    getEventById,
+    postEvent,
+    patchEvent,
+    deleteEvent
+    
   };

@@ -1,5 +1,5 @@
 import client from "../db/connection";
-import app from "../src/app";
+import app from "../app";
 import seed from "../db/seeds/seed";
 import request from "supertest";
 import bcrypt from "bcrypt";
@@ -27,13 +27,10 @@ afterAll(async () => {
 describe("POST /api/users/login", () => {
   describe("POST /api/users/login", () => {
     it("status: 200 should respond with a token", async () => {
-
-      const response = await request(app)
-        .post("/api/users/login")
-        .send({
-          email: "isaac.hernandez@example.com",
-          password: "isaacSecure",
-        });
+      const response = await request(app).post("/api/users/login").send({
+        email: "isaac.hernandez@example.com",
+        password: "isaacSecure",
+      });
 
       expect(response.status).toBe(200);
       expect(response.body).toHaveProperty("token");
@@ -41,12 +38,10 @@ describe("POST /api/users/login", () => {
     });
     describe("POST /api/login error handling", () => {
       test("status: 401, wrong password", async () => {
-        const response = await request(app)
-          .post("/api/users/login")
-          .send({
-            email: "isaac.hernandez@example.com",
-            password: "wrongPassword",
-          });
+        const response = await request(app).post("/api/users/login").send({
+          email: "isaac.hernandez@example.com",
+          password: "wrongPassword",
+        });
 
         expect(response.status).toBe(401);
         expect(response.body).toHaveProperty("error");
@@ -63,15 +58,15 @@ describe("POST /api/users/login", () => {
         expect(response.body).toHaveProperty("error");
         expect(response.body.error).toBe("User not found");
       });
-    })
+    });
     describe("POST /api/login error handling", () => {
-        test("status: 400 should respond with an error when email or password is missing", async () => {
-            const response = await request(app).post("/api/users/login").send({
-              email: "julia.martinez@example.com",
-            });
-            expect(response.status).toBe(400);
-            expect(response.body.error).toBe("Email and password are required");
-          })
+      test("status: 400 should respond with an error when email or password is missing", async () => {
+        const response = await request(app).post("/api/users/login").send({
+          email: "julia.martinez@example.com",
+        });
+        expect(response.status).toBe(400);
+        expect(response.body.error).toBe("Email and password are required");
+      });
     });
   });
 
