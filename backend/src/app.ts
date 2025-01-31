@@ -1,18 +1,13 @@
 import express, { Request, Response } from "express";
 
 import {
-  getAllUsers,
-  getUserById,
-  postUser,
-  patchUser,
-  deleteUser,
+  getAllUsers, getUserById, postUser, patchUser, deleteUser,
   loginUser,
-  getAllEvents,
-  getEventById,
-  postEvent,
-  patchEvent,
-  deleteEvent
+  getAllEvents, getEventById, postEvent, patchEvent, deleteEvent, 
+  getAttendanceByEventId, postAttendanceByEventId, patchAttendanceByEventId
+
 } from "./controller/api.controller.index";
+import { deleteAttendanceByEventId } from "./controller/api.attendance.controller";
 
 const app = express();
 
@@ -44,11 +39,12 @@ app.delete('/api/events/:id', deleteEvent);
 // app.get('/api/events/:id/attendees', getEventAttendees);
 
 //Attendance
+app.get('/api/events/:id/attendances', getAttendanceByEventId);
 // app.get('/api/attendances', getAllAttendances);
 // app.get('/api/attendances/:id', getAttendanceById);
-// app.post('/api/attendances', createAttendance);
-// app.put('/api/attendances/:id', updateAttendance);
-// app.delete('/api/attendances/:id', deleteAttendance);
+app.post('/api/events/:id/attendances', postAttendanceByEventId);
+app.patch('/api/events/:id/attendances', patchAttendanceByEventId);
+app.delete('/api/events/:id/attendances/', deleteAttendanceByEventId);
 
 app.use((err: any, req: any, res: any, next: any) => {
   // console.log("hello")

@@ -44,7 +44,7 @@ interface Event {
 interface Attendance {
   event_id: number;
   user_id: number;
-  status: "Registered" | "Attended" | "Cancelled";
+  status: "Interested" | "Registered" | "Cancelled";
   registered_at: string;
 }
 
@@ -129,7 +129,7 @@ async function seed(userdata: User[], eventsdata: Event[], attendancedata: Atten
           id SERIAL PRIMARY KEY,
           event_id INT NOT NULL,
           user_id INT NOT NULL,
-          status VARCHAR(50) NOT NULL CHECK (status IN ('Registered', 'Attended', 'Cancelled')),
+          status VARCHAR(50) NOT NULL CHECK (status IN ('Interested', 'Registered', 'Cancelled')),
           registered_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
           CONSTRAINT fk_event FOREIGN KEY (event_id) REFERENCES event(id) ON DELETE CASCADE,
           CONSTRAINT fk_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE

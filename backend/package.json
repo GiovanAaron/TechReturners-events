@@ -12,7 +12,8 @@
     "test": "PGDATABASE=tr_events_test jest --detectOpenHandles __tests__",
     "dev": "nodemon listen.js",
     "build": "tsc",
-    "jest": "jest "
+    "jest": "jest ",
+    "seed": "ts-node src/db/seeds/run-seed.ts"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",

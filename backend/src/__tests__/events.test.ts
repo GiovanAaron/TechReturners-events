@@ -2,8 +2,7 @@ import client from "../db/connection";
 import app from "../app";
 import seed from "../db/seeds/seed";
 import request from "supertest";
-import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
+
 import {
   attendanceData,
   userData,
@@ -372,7 +371,7 @@ describe("PATCH api/events", () => {
   });
 });
 
-describe.only("Delete api/events", () => {
+describe("Delete api/events", () => {
   describe("Delete Event by ID", () => {});
 
     test("should respond with 204 for a valid delete request", async () => {
@@ -383,7 +382,7 @@ describe.only("Delete api/events", () => {
     });
 
 
-  describe("POST events error handling", () => {
+  describe("Delete events error handling", () => {
 
     test("should respond with 404 for an invalid event ID (Number)", async () => {
       const response = await request(app).delete("/api/events/999999");
