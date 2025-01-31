@@ -4,3 +4,5 @@ node_modules
 
 .googleauth.env
 output.txt
+
+db_playground.sql

@@ -157,7 +157,7 @@ xdescribe("POST /api/events/:id/attendances", () => {
 
 });
 
-describe.only("PATCH /api/events/:id/attendance", () => {
+describe("PATCH /api/events/:id/attendance", () => {
     xdescribe("Valid Attendance Update", () => {
     test("should respond with 200 for a valid attendance update", async () => {
       const response = await request(app)
@@ -176,7 +176,7 @@ describe.only("PATCH /api/events/:id/attendance", () => {
     describe("Error Handling", () => {
       test("should respond with 400 for invalid status", async () => {
         const response = await request(app)
-          .patch("/api/events/2/attendances")
+          .patch("/api/events/1/attendances")
           .send({
             user_id: 1,
             status: "InvalidStatus",
@@ -186,7 +186,7 @@ describe.only("PATCH /api/events/:id/attendance", () => {
         expect(response.body.error).toBe("Bad Request: status must be 'Interested', 'Registered' or 'Cancelled'");
       });
   
-      xtest("should respond with 404 for non-existent event", async () => {
+      test("should respond with 404 for non-existent event", async () => {
         const response = await request(app)
           .patch("/api/events/999999/attendances")
           .send({
@@ -195,9 +195,69 @@ describe.only("PATCH /api/events/:id/attendance", () => {
           });
   
         expect(response.status).toBe(400);
-        expect(response.body.error).toBe("event not found");
+        expect(response.body.error).toBe("No record of Attendance between the user and event provided");
       });
+  
+      test("should respond with 404 for non-existent user", async () => {
+        const response = await request(app)
+          .patch("/api/events/1/attendances")
+          .send({
+            user_id: 999999,
+            status: 'Registered',
+          });
+  
+        expect(response.status).toBe(400);
+        expect(response.body.error).toBe("No record of Attendance between the user and event provided");
+      });
+
     });
   });
   
+
+describe("DELETE /api/events/:id/attendances/", () => {
+  describe("DELETE /api/events/:id/attendances/", () => {
+    it("should delete an attendance record by ID", async () => {
+      const response = await request(app)
+      .delete("/api/events/1/attendances/")
+      .send({
+        user_id: 1
+      });
+      expect(response.status).toBe(200);
+      expect(response.body.msg).toBe("Attendance Deleted");
+      
+    });
+  });
+
+  describe("Error Handling", () => {
+    test("should respond with 400 for non-existent event", async () => {
+      const response = await request(app)
+      .delete("/api/events/999999/attendances/")
+      .send({
+        user_id: 1
+      });
+      expect(response.status).toBe(400);
+      expect(response.body.error).toBe("No record of Attendance between the user and event provided");
+    });
+    test("should respond with 400 for non-existent user", async () => {
+      const response = await request(app)
+      .delete("/api/events/1/attendances/")
+      .send({
+        user_id: 999999
+      })
+      expect(response.status).toBe(400);
+      expect(response.body.error).toBe("No record of Attendance between the user and event provided");
+    });
+
+    test("should respond with 400 if user_id hasn't been provided", async () => {
+      const response = await request(app)
+      .delete("/api/events/1/attendances/")
+      .send({});
+
+      expect(response.status).toBe(400);
+      expect(response.body.error).toBe("Bad Request: user_id must be provided");
+    });
+    
+  });
+
+});
 

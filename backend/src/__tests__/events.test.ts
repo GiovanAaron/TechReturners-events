@@ -305,7 +305,7 @@ describe("POST api/events", () => {
   });
 });
 
-describe.only("PATCH api/events", () => {
+describe("PATCH api/events", () => {
   describe("Patch api/events", () => {
     test("should respond with 200 for a valid patch request", async () => {
       const response = await request(app)

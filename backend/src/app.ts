@@ -7,6 +7,7 @@ import {
   getAttendanceByEventId, postAttendanceByEventId, patchAttendanceByEventId
 
 } from "./controller/api.controller.index";
+import { deleteAttendanceByEventId } from "./controller/api.attendance.controller";
 
 const app = express();
 
@@ -43,7 +44,7 @@ app.get('/api/events/:id/attendances', getAttendanceByEventId);
 // app.get('/api/attendances/:id', getAttendanceById);
 app.post('/api/events/:id/attendances', postAttendanceByEventId);
 app.patch('/api/events/:id/attendances', patchAttendanceByEventId);
-// app.delete('/api/attendances/:id', deleteAttendance);
+app.delete('/api/events/:id/attendances/', deleteAttendanceByEventId);
 
 app.use((err: any, req: any, res: any, next: any) => {
   // console.log("hello")

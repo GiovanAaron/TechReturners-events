@@ -4,6 +4,7 @@ import {
   fetchAttendanceByEventId,
   createAttendanceByEventId,
   updateAttendanceByEventId,
+  eraseAttendanceByEventId
 } from "../models/attendance.models";
 
 export const getAttendanceByEventId = async (
@@ -76,13 +77,11 @@ export const patchAttendanceByEventId = async (req: Request, res: Response, next
     const id = req.params.id;
     const { user_id, status } = req.body;
 
-    
-    // if (status !== "Interested" && status !== "Registered" && status !== "Cancelled") {
-    //   next({ status: 400, msg: "Bad Request: status must be 'Interested', 'Registered' or 'Cancelled'" });
+    if (status !== "Interested" && status !== "Registered" && status !== "Cancelled") {
+      next({ status: 400, msg: "Bad Request: status must be 'Interested', 'Registered' or 'Cancelled'" });
         
-    // }
+    }
     
-
     if (!id) {
       res.status(400).json({ msg: "Missing event id" });
     }
@@ -108,3 +107,27 @@ export const patchAttendanceByEventId = async (req: Request, res: Response, next
     next(error);
   }
 }
+
+export const deleteAttendanceByEventId = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const id = req.params.id; 
+    const user_id = req.body.user_id;  
+
+    if (!id) {
+      res.status(400).json({ msg: "Missing event id" });
+    }
+
+    if (!user_id) {
+      next({ status: 400, msg: "Bad Request: user_id must be provided" });
+    }
+
+    if (isNaN(Number(id))) {
+      next({ status: 400, msg: "Bad Request: id must be a number" });
+    } 
+
+    await eraseAttendanceByEventId(id, user_id);
+    res.status(200).send({msg: "Attendance Deleted"});
+  } catch (error: any) {
+    next(error);
+  }
+};

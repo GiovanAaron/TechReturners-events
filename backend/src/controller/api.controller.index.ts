@@ -7,7 +7,7 @@ import {
   } from "./api.user.controller";
 
   import { getAllEvents, getEventById, postEvent, patchEvent, deleteEvent } from "./api.events.controller";
-  import { getAttendanceByEventId, postAttendanceByEventId, patchAttendanceByEventId } from "./api.attendance.controller";
+  import { getAttendanceByEventId, postAttendanceByEventId, patchAttendanceByEventId, deleteAttendanceByEventId } from "./api.attendance.controller";
   import { loginUser } from "./api.login.controller";
 
   export {

@@ -27,12 +27,31 @@ export const createAttendanceByEventId = async (eventId: string, userId: string,
 export const updateAttendanceByEventId = async (eventId: string, userId: string, status: string) => {
     
     try {
-      const result = await client.query("UPDATE Attendance SET status = $3 WHERE event_id = $1 AND user_id = $2 RETURNING *", [eventId, userId, status]);
-    //   
-   
+        const result = await client.query(
+            "UPDATE attendance SET status = $1 WHERE event_id = $2 AND user_id = $3 RETURNING *", 
+            [status, eventId, userId]
+          );
+
+        if (result.rows.length === 0) {
+            throw { msg: "No record of Attendance between the user and event provided", status: 400 };
+          }
+       
       return result.rows[0]
     } catch (error) {
-        console.log(error)
+        
+      handlePsqlError(error);
+    }
+}
+
+export const eraseAttendanceByEventId = async (eventId: string, userId: string) => {
+    
+    try {
+      const result = await client.query("DELETE FROM Attendance WHERE event_id = $1 AND user_id = $2 RETURNING *", [eventId, userId]);
+      if (result.rows.length === 0) {
+        throw { msg: "No record of Attendance between the user and event provided", status: 400 };
+      }
+      return result.rows[0]
+    } catch (error) {
       handlePsqlError(error);
     }
 }
