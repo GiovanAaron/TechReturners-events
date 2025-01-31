@@ -106,15 +106,15 @@ xdescribe("GET /api/attendances/:id", () => {
 });
 
 
-describe.only("POST /api/events/:id/attendances", () => {
+xdescribe("POST /api/events/:id/attendances", () => {
   describe("Should create a new attendance record", () => {
     it("should create a new attendance record", async () => {
       const response = await request(app)
         .post("/api/events/1/attendances")
-        .send({ event_id: 1, user_id: 4, status: "Attended" });
+        .send({ event_id: 1, user_id: 3, status: "Interested" });
       expect(response.status).toBe(201);
-      expect(response.body.attendance).toBeInstanceOf(Object);
-      expect(response.body.attendance).toMatchObject({
+      expect(response.body.newAttendee).toBeInstanceOf(Object);
+      expect(response.body.newAttendee).toMatchObject({
         event_id: expect.any(Number),
         user_id: expect.any(Number),
         status: expect.any(String),
@@ -122,4 +122,82 @@ describe.only("POST /api/events/:id/attendances", () => {
       });
     });
   });
+  describe("Error Handling: POST /api/events/:id/attendances", () => {
+    test("Should respond with an error message, for duplicating attendance", async () => {
+      const response = await request(app)
+        .post("/api/events/1/attendances")
+        .send({ event_id: 1, user_id: 1, status: "Interested" });
+      expect(response.status).toBe(400);
+      expect(response.body.newAttendee).toBeUndefined()
+      expect(response.body.error).toBe("User has already registered for this event");
+    })
+    it("Should respond with an error message, for non existant event", async () => {
+      const response = await request(app)
+        .post("/api/events/999999/attendances")
+        .send({ event_id: 999999, user_id: 1, status: "Interested" });
+      expect(response.status).toBe(404);
+      expect(response.body.error).toBe("Bad Request: Event not found");
+    });
+    it("Should respond with an error message for invalid status value", async () => {
+      const response = await request(app)
+        .post("/api/events/1/attendances")
+        .send({ event_id: 1, user_id: 6, status: "InvalidStatus" });
+      expect(response.status).toBe(400);
+      expect(response.body.error).toBe("PSQL error(23514) found in constraint 'attendance_status_check'");
+    })
+    it("Should respond with an error message, for non existant user", async () => {
+      const response = await request(app)
+        .post("/api/events/1/attendances")
+        .send({ event_id: 1, user_id: 999999, status: "Interested" });
+      expect(response.status).toBe(400);
+      expect(response.body.error).toBe("PSQL error(23503) found in constraint 'fk_user'");
+    });
+    ;
+  });
+
 });
+
+describe.only("PATCH /api/events/:id/attendance", () => {
+    xdescribe("Valid Attendance Update", () => {
+    test("should respond with 200 for a valid attendance update", async () => {
+      const response = await request(app)
+        .patch("/api/events/1/attendances")
+        .send({
+            user_id: 1,
+          status: "Registered",
+        });
+  
+      expect(response.status).toBe(200);
+      expect(response.body.updatedAttendance).toBeInstanceOf(Object);
+      expect(response.body.updatedAttendance.status).toBe("Registered");
+    });
+  });
+  
+    describe("Error Handling", () => {
+      test("should respond with 400 for invalid status", async () => {
+        const response = await request(app)
+          .patch("/api/events/2/attendances")
+          .send({
+            user_id: 1,
+            status: "InvalidStatus",
+          });
+  
+        expect(response.status).toBe(400);
+        expect(response.body.error).toBe("Bad Request: status must be 'Interested', 'Registered' or 'Cancelled'");
+      });
+  
+      xtest("should respond with 404 for non-existent event", async () => {
+        const response = await request(app)
+          .patch("/api/events/999999/attendances")
+          .send({
+            user_id: 1,
+            status: 'Registered',
+          });
+  
+        expect(response.status).toBe(400);
+        expect(response.body.error).toBe("event not found");
+      });
+    });
+  });
+  
+

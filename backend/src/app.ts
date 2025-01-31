@@ -1,18 +1,11 @@
 import express, { Request, Response } from "express";
 
 import {
-  getAllUsers,
-  getUserById,
-  postUser,
-  patchUser,
-  deleteUser,
+  getAllUsers, getUserById, postUser, patchUser, deleteUser,
   loginUser,
-  getAllEvents,
-  getEventById,
-  postEvent,
-  patchEvent,
-  deleteEvent, getAttendanceByEventId,
-  postAttendanceByEventId
+  getAllEvents, getEventById, postEvent, patchEvent, deleteEvent, 
+  getAttendanceByEventId, postAttendanceByEventId, patchAttendanceByEventId
+
 } from "./controller/api.controller.index";
 
 const app = express();
@@ -49,7 +42,7 @@ app.get('/api/events/:id/attendances', getAttendanceByEventId);
 // app.get('/api/attendances', getAllAttendances);
 // app.get('/api/attendances/:id', getAttendanceById);
 app.post('/api/events/:id/attendances', postAttendanceByEventId);
-// app.put('/api/attendances/:id', updateAttendance);
+app.patch('/api/events/:id/attendances', patchAttendanceByEventId);
 // app.delete('/api/attendances/:id', deleteAttendance);
 
 app.use((err: any, req: any, res: any, next: any) => {

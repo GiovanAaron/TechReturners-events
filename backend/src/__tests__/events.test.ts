@@ -305,7 +305,7 @@ describe("POST api/events", () => {
   });
 });
 
-describe("PATCH api/events", () => {
+describe.only("PATCH api/events", () => {
   describe("Patch api/events", () => {
     test("should respond with 200 for a valid patch request", async () => {
       const response = await request(app)
@@ -371,7 +371,7 @@ describe("PATCH api/events", () => {
   });
 });
 
-describe.only("Delete api/events", () => {
+describe("Delete api/events", () => {
   describe("Delete Event by ID", () => {});
 
     test("should respond with 204 for a valid delete request", async () => {
@@ -382,7 +382,7 @@ describe.only("Delete api/events", () => {
     });
 
 
-  describe("POST events error handling", () => {
+  describe("Delete events error handling", () => {
 
     test("should respond with 404 for an invalid event ID (Number)", async () => {
       const response = await request(app).delete("/api/events/999999");

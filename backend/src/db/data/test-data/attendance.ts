@@ -1,37 +1,37 @@
 const attendance: Array<{
   event_id: number;
   user_id: number;
-  status: "Registered" | "Attended" | "Cancelled";
+  status: "Interested" | "Registered" | "Cancelled";
   registered_at: string;
 }> = [
     {
       event_id: 1,
       user_id: 1,
-      status: "Registered",
+      status: "Interested",
       registered_at: "2025-01-10 09:00:00"
     },
     {
       event_id: 1,
       user_id: 2,
-      status: "Attended",
+      status: "Registered",
       registered_at: "2025-01-10 10:00:00"
     },
     {
       event_id: 2,
       user_id: 3,
-      status: "Registered",
+      status: "Interested",
       registered_at: "2025-01-15 11:00:00"
     },
     {
       event_id: 2,
       user_id: 4,
-      status: "Attended",
+      status: "Registered",
       registered_at: "2025-01-15 11:30:00"
     },
     {
       event_id: 3,
       user_id: 5,
-      status: "Registered",
+      status: "Interested",
       registered_at: "2025-01-20 12:00:00"
     },
     {
@@ -49,7 +49,7 @@ const attendance: Array<{
     {
       event_id: 4,
       user_id: 8,
-      status: "Attended",
+      status: "Interested",
       registered_at: "2025-01-22 15:00:00"
     },
     {
@@ -79,19 +79,19 @@ const attendance: Array<{
     {
       event_id: 7,
       user_id: 5,
-      status: "Registered",
+      status: "Interested",
       registered_at: "2025-02-01 20:00:00"
     },
     {
       event_id: 7,
       user_id: 6,
-      status: "Attended",
+      status: "Registered",
       registered_at: "2025-02-02 21:00:00"
     },
     {
       event_id: 7,
       user_id: 8,
-      status: "Registered",
+      status: "Interested",
       registered_at: "2025-02-02 22:00:00"
     }
   ];
