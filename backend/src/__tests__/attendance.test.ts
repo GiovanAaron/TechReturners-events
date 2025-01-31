@@ -24,24 +24,6 @@ beforeEach(async () => {
 
 
 
-xdescribe("GET /api/attendances", () => {
-  it("should return a list of all attendance records", async () => {
-    const response = await request(app).get("/api/attendances");
-    expect(response.status).toBe(200);
-    expect(response.body.attendances).toBeInstanceOf(Array);
-    expect(response.body.attendances.length).toBe(2);
-    response.body.attendances.forEach((attendance: any) => {
-      expect(attendance).toMatchObject({
-        event_id: expect.any(Number),
-        user_id: expect.any(Number),
-        status: expect.any(String),
-        registered_at: expect.any(String),
-      });
-    });
-  });
-});
-
-
 
 describe("GET /api/events/:eventId/attendees", () => {
   test("should return a list of attendees for a specific event", async () => {
@@ -78,87 +60,61 @@ describe("GET /api/events/:eventId/attendees", () => {
 });
 
 
-xdescribe("GET /api/attendances/:id", () => {
-  it("should return a single attendance record by ID", async () => {
-    const response = await request(app).get("/api/attendances/1");
-    expect(response.status).toBe(200);
-    expect(response.body.attendance).toBeInstanceOf(Object);
-    expect(response.body.attendance).toMatchObject({
-      event_id: expect.any(Number),
-      user_id: expect.any(Number),
-      status: expect.any(String),
-      registered_at: expect.any(String),
-    });
-  });
-
-  describe("GET /api/attendances/:id Error Handling", () => {
-    it("status: 404 should respond with an error message", async () => {
-      const response = await request(app).get("/api/attendances/100");
-      expect(response.status).toBe(404);
-      expect(response.body.error).toBe("Attendance not found");
-    });
-    it("status: 400 should respond with an error message", async () => {
-      const response = await request(app).get("/api/attendances/abc");
-      expect(response.status).toBe(400);
-      expect(response.body.error).toBe("Bad Request");
-    });
-  });
-});
-
-
-xdescribe("POST /api/events/:id/attendances", () => {
-  describe("Should create a new attendance record", () => {
-    it("should create a new attendance record", async () => {
-      const response = await request(app)
-        .post("/api/events/1/attendances")
-        .send({ event_id: 1, user_id: 3, status: "Interested" });
-      expect(response.status).toBe(201);
-      expect(response.body.newAttendee).toBeInstanceOf(Object);
-      expect(response.body.newAttendee).toMatchObject({
-        event_id: expect.any(Number),
-        user_id: expect.any(Number),
-        status: expect.any(String),
-        registered_at: expect.any(String),
+describe("POST /api/events/:id/attendances", () => {
+    describe("Should create a new attendance record", () => {
+      it("should create a new attendance record", async () => {
+        const response = await request(app)
+          .post("/api/events/1/attendances")
+          .send({ event_id: 1, user_id: 3, status: "Interested" });
+        expect(response.status).toBe(201);
+        expect(response.body.newAttendee).toBeInstanceOf(Object);
+        expect(response.body.newAttendee).toMatchObject({
+          event_id: expect.any(Number),
+          user_id: expect.any(Number),
+          status: expect.any(String),
+          registered_at: expect.any(String),
+        });
       });
     });
-  });
-  describe("Error Handling: POST /api/events/:id/attendances", () => {
-    test("Should respond with an error message, for duplicating attendance", async () => {
-      const response = await request(app)
-        .post("/api/events/1/attendances")
-        .send({ event_id: 1, user_id: 1, status: "Interested" });
-      expect(response.status).toBe(400);
-      expect(response.body.newAttendee).toBeUndefined()
-      expect(response.body.error).toBe("User has already registered for this event");
-    })
-    it("Should respond with an error message, for non existant event", async () => {
-      const response = await request(app)
-        .post("/api/events/999999/attendances")
-        .send({ event_id: 999999, user_id: 1, status: "Interested" });
-      expect(response.status).toBe(404);
-      expect(response.body.error).toBe("Bad Request: Event not found");
+    describe("Error Handling: POST /api/events/:id/attendances", () => {
+      test("Should respond with an error message, for duplicating attendance", async () => {
+        const response = await request(app)
+          .post("/api/events/1/attendances")
+          .send({ event_id: 1, user_id: 1, status: "Interested" });
+        expect(response.status).toBe(400);
+        expect(response.body.newAttendee).toBeUndefined()
+        expect(response.body.error).toBe("User has already registered for this event");
+      })
+      it("Should respond with an error message, for non existant event", async () => {
+        const response = await request(app)
+          .post("/api/events/999999/attendances")
+          .send({ event_id: 999999, user_id: 1, status: "Interested" });
+        expect(response.status).toBe(404);
+        expect(response.body.error).toBe("Bad Request: Event not found");
+      });
+      it("Should respond with an error message for invalid status value", async () => {
+        const response = await request(app)
+          .post("/api/events/1/attendances")
+          .send({ event_id: 1, user_id: 6, status: "InvalidStatus" });
+        expect(response.status).toBe(400);
+        expect(response.body.error).toBe("PSQL error(23514) found in constraint 'attendance_status_check'");
+      })
+      it("Should respond with an error message, for non existant user", async () => {
+        const response = await request(app)
+          .post("/api/events/1/attendances")
+          .send({ event_id: 1, user_id: 999999, status: "Interested" });
+        expect(response.status).toBe(400);
+        expect(response.body.error).toBe("PSQL error(23503) found in constraint 'fk_user'");
+      });
+      ;
     });
-    it("Should respond with an error message for invalid status value", async () => {
-      const response = await request(app)
-        .post("/api/events/1/attendances")
-        .send({ event_id: 1, user_id: 6, status: "InvalidStatus" });
-      expect(response.status).toBe(400);
-      expect(response.body.error).toBe("PSQL error(23514) found in constraint 'attendance_status_check'");
-    })
-    it("Should respond with an error message, for non existant user", async () => {
-      const response = await request(app)
-        .post("/api/events/1/attendances")
-        .send({ event_id: 1, user_id: 999999, status: "Interested" });
-      expect(response.status).toBe(400);
-      expect(response.body.error).toBe("PSQL error(23503) found in constraint 'fk_user'");
-    });
-    ;
+  
   });
 
-});
+
 
 describe("PATCH /api/events/:id/attendance", () => {
-    xdescribe("Valid Attendance Update", () => {
+    describe("Valid Attendance Update", () => {
     test("should respond with 200 for a valid attendance update", async () => {
       const response = await request(app)
         .patch("/api/events/1/attendances")
@@ -261,3 +217,51 @@ describe("DELETE /api/events/:id/attendances/", () => {
 
 });
 
+
+//These EndPoints will be restricted Access to Admins
+
+xdescribe("GET /api/attendances", () => {
+    it("should return a list of all attendance records", async () => {
+      const response = await request(app).get("/api/attendances");
+      expect(response.status).toBe(200);
+      expect(response.body.attendances).toBeInstanceOf(Array);
+      expect(response.body.attendances.length).toBe(2);
+      response.body.attendances.forEach((attendance: any) => {
+        expect(attendance).toMatchObject({
+          event_id: expect.any(Number),
+          user_id: expect.any(Number),
+          status: expect.any(String),
+          registered_at: expect.any(String),
+        });
+      });
+    });
+  });
+
+
+  xdescribe("GET /api/attendances/:id", () => {
+    it("should return a single attendance record by ID", async () => {
+      const response = await request(app).get("/api/attendances/1");
+      expect(response.status).toBe(200);
+      expect(response.body.attendance).toBeInstanceOf(Object);
+      expect(response.body.attendance).toMatchObject({
+        event_id: expect.any(Number),
+        user_id: expect.any(Number),
+        status: expect.any(String),
+        registered_at: expect.any(String),
+      });
+    });
+  
+    describe("GET /api/attendances/:id Error Handling", () => {
+      it("status: 404 should respond with an error message", async () => {
+        const response = await request(app).get("/api/attendances/100");
+        expect(response.status).toBe(404);
+        expect(response.body.error).toBe("Attendance not found");
+      });
+      it("status: 400 should respond with an error message", async () => {
+        const response = await request(app).get("/api/attendances/abc");
+        expect(response.status).toBe(400);
+        expect(response.body.error).toBe("Bad Request");
+      });
+    });
+  });
+  

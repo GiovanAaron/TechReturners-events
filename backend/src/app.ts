@@ -7,6 +7,9 @@ import {
   getAttendanceByEventId, postAttendanceByEventId, patchAttendanceByEventId
 
 } from "./controller/api.controller.index";
+
+import { authenticateAndAuthorize } from "./middleware/authMiddleware";
+
 import { deleteAttendanceByEventId } from "./controller/api.attendance.controller";
 
 const app = express();
@@ -17,7 +20,7 @@ app.use(express.json());
 
 //Route Handlers:
 //Users
-app.get("/api/users", (req: Request, res: Response) => getAllUsers(req, res));
+app.get("/api/users", authenticateAndAuthorize(['Admin']), getAllUsers);
 app.get("/api/users/:id", getUserById);
 app.post("/api/users", postUser);
 app.patch("/api/users/:id", patchUser);
@@ -47,7 +50,7 @@ app.patch('/api/events/:id/attendances', patchAttendanceByEventId);
 app.delete('/api/events/:id/attendances/', deleteAttendanceByEventId);
 
 app.use((err: any, req: any, res: any, next: any) => {
-  // console.log("hello")
+
   if (err.msg) {
     return res.status(err.status).send({ error: err.msg });
   } else {
@@ -55,9 +58,9 @@ app.use((err: any, req: any, res: any, next: any) => {
   }
 });
 //server errors
-//   app.use((err:any, req:any, res:any, next:any) => {
-//     console.log(err, "<<------ from our 500");
-//     return res.status(500).send({ msg: "Internal Server Error" });
-//   });
+  // app.use((err:any, req:any, res:any, next:any) => {
+  //   console.log(err, "<<------ from our 500");
+  //   return res.status(500).send({ msg: "Internal Server Error" });
+  // });
 
 export default app;

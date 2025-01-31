@@ -3,6 +3,7 @@ import app from "../app";
 import seed from "../db/seeds/seed";
 import request from "supertest";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 import {
   attendanceData,
   userData,
@@ -21,10 +22,22 @@ afterAll(async () => {
   await client.end();
 });
 
+// Fake JWT secret
+const JWT_SECRET = 'your-secret-key';
+
+// Helper to generate a test JWT token
+const generateToken = (userId: number) => {
+  return jwt.sign({ user_id: userId }, JWT_SECRET);
+};
+
+
 describe("Get Users", () => {
   describe("GET /api/users", () => {
     it("status: 200 responds with an array of all Users", async () => {
-      const response = await request(app).get("/api/users");
+      const token = generateToken(4);
+      const response = await request(app)
+      .get("/api/users")
+      .set('Authorization', `Bearer ${token}`)
 
       expect(response.status).toBe(200);
       expect(response.body.users).toBeInstanceOf(Array);
@@ -47,7 +60,10 @@ describe("Get Users", () => {
   });
   describe("GET /api/users password security", () => {
     it("status: 200 responds with an array of all Users without password", async () => {
-      const response = await request(app).get("/api/users");
+      const token = generateToken(4);
+      const response = await request(app)
+      .get("/api/users")
+      .set('Authorization', `Bearer ${token}`)
 
       expect(response.status).toBe(200);
       expect(response.body.users).toBeInstanceOf(Array);
