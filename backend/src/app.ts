@@ -21,19 +21,19 @@ app.use(express.json());
 //Route Handlers:
 //Users
 app.get("/api/users", authenticateAndAuthorize(['Admin']), getAllUsers);
-app.get("/api/users/:id", getUserById);
+app.get("/api/users/:id", authenticateAndAuthorize(['Admin', 'Moderator', 'User'], true),getUserById);//self and admin
 app.post("/api/users", postUser);
-app.patch("/api/users/:id", patchUser);
-app.delete("/api/users/:id", deleteUser);
+app.patch("/api/users/:id", patchUser);//self and admin
+app.delete("/api/users/:id", deleteUser); //self and admin
 
 app.post("/api/users/login", loginUser);
 
 //Events
-app.get("/api/events", getAllEvents);
+app.get("/api/events", getAllEvents); 
 app.get("/api/events/:id", getEventById);
-app.post("/api/events", postEvent);
-app.patch('/api/events/:id', patchEvent);
-app.delete('/api/events/:id', deleteEvent);
+app.post("/api/events", postEvent);//admin and mod
+app.patch('/api/events/:id', patchEvent);//admin and mod
+app.delete('/api/events/:id', deleteEvent);//admin and mod
 
 // app.get('/api/events/category:type', getEventsByCategory);
 // app.get('/api/events/region:region', getEventsByRegion);
@@ -42,12 +42,12 @@ app.delete('/api/events/:id', deleteEvent);
 // app.get('/api/events/:id/attendees', getEventAttendees);
 
 //Attendance
-app.get('/api/events/:id/attendances', getAttendanceByEventId);
+app.get('/api/events/:id/attendances', getAttendanceByEventId); //admin
 // app.get('/api/attendances', getAllAttendances);
 // app.get('/api/attendances/:id', getAttendanceById);
-app.post('/api/events/:id/attendances', postAttendanceByEventId);
-app.patch('/api/events/:id/attendances', patchAttendanceByEventId);
-app.delete('/api/events/:id/attendances/', deleteAttendanceByEventId);
+app.post('/api/events/:id/attendances', postAttendanceByEventId)//admin, user, mod
+app.patch('/api/events/:id/attendances', patchAttendanceByEventId)//admin, self
+app.delete('/api/events/:id/attendances/', deleteAttendanceByEventId);//admin, self
 
 app.use((err: any, req: any, res: any, next: any) => {
 

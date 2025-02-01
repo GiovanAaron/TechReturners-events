@@ -10,9 +10,19 @@ import {
   eventsData,
 } from "../db/data/test-data/index";
 
+const getUserByRole = (users: any, role: string) => {
+  return users.find((user: any)  => user.access_type === role);
+};
+
+let unorderedUsers: any[] | undefined = []
+
 beforeEach(async () => {
   try {
-    await seed(userData, eventsData, attendanceData);
+    const result = await seed(userData, eventsData, attendanceData);
+  
+    unorderedUsers = result
+   
+    // await new Promise(resolve => setTimeout(resolve, 500))
   } catch (error: any) {
     console.error(error);
   }
@@ -25,6 +35,9 @@ afterAll(async () => {
 // Fake JWT secret
 const JWT_SECRET = 'your-secret-key';
 
+
+
+
 // Helper to generate a test JWT token
 const generateToken = (userId: number) => {
   return jwt.sign({ user_id: userId }, JWT_SECRET);
@@ -34,7 +47,11 @@ const generateToken = (userId: number) => {
 describe("Get Users", () => {
   describe("GET /api/users", () => {
     it("status: 200 responds with an array of all Users", async () => {
-      const token = generateToken(4);
+      
+     
+      const admin = getUserByRole(unorderedUsers,'Admin');
+
+      const token = generateToken(admin.id);
       const response = await request(app)
       .get("/api/users")
       .set('Authorization', `Bearer ${token}`)
@@ -60,7 +77,10 @@ describe("Get Users", () => {
   });
   describe("GET /api/users password security", () => {
     it("status: 200 responds with an array of all Users without password", async () => {
-      const token = generateToken(4);
+      const admin = getUserByRole(unorderedUsers,'Admin');
+
+      const token = generateToken(admin.id);
+
       const response = await request(app)
       .get("/api/users")
       .set('Authorization', `Bearer ${token}`)
@@ -73,38 +93,54 @@ describe("Get Users", () => {
       });
     });
   });
-  describe("GET /api/users/:id", () => {
-    it("status: 200 should respond with a single user", async () => {
-      const response = await request(app).get("/api/users/2");
-      expect(response.status).toBe(200);
-      expect(response.body.user).toBeInstanceOf(Object);
-      expect(response.body.user).toMatchObject({
-        username: expect.any(String),
-        first_name: expect.any(String),
-        last_name: expect.any(String),
-        email: expect.any(String),
-        age: expect.any(Number),
-        gender: expect.any(String),
-        access_type: expect.any(String),
-        avatar: expect.any(String),
-        created_at: expect.any(String),
-        updated_at: expect.any(String),
-        id: expect.any(Number),
-      });
-      expect(response.body.user.password).toBe(undefined);
-    });
 
-    describe("GET /api/users/:id Error Handling", () => {
-      it("status: 404 should respond with an error message", async () => {
-        const response = await request(app).get("/api/users/100");
-        expect(response.status).toBe(404);
-        expect(response.body.error).toBe("User not found");
-      });
-      it("status: 400 should respond with an error message", async () => {
-        const response = await request(app).get("/api/users/abc");
-        expect(response.status).toBe(400);
-        expect(response.body.error).toBe("Bad Request");
-      });
+  describe("GET /api/users Error Handling", () => {
+    it("status: 401 should respond with an error message (No Token)", async () => {
+      const response = await request(app).get("/api/users");
+      expect(response.status).toBe(401);
+      expect(response.body.error).toBe("Token missing");
+    });
+  })
+});
+describe.only("GET /api/users/:id", () => {
+
+
+
+  it("status: 200 should respond with a single user", async () => {
+    const basicUser = getUserByRole(unorderedUsers,'User');
+    
+    console.log("the userid at test is", basicUser.id)
+    const response = await request(app)
+    .get(`/api/users/${basicUser.id}`)
+    .set('Authorization', `Bearer ${generateToken(basicUser.id)}`)
+    expect(response.status).toBe(200);
+    expect(response.body.user).toBeInstanceOf(Object);
+    expect(response.body.user).toMatchObject({
+      username: expect.any(String),
+      first_name: expect.any(String),
+      last_name: expect.any(String),
+      email: expect.any(String),
+      age: expect.any(Number),
+      gender: expect.any(String),
+      access_type: expect.any(String),
+      avatar: expect.any(String),
+      created_at: expect.any(String),
+      updated_at: expect.any(String),
+      id: expect.any(Number),
+    });
+    expect(response.body.user.password).toBe(undefined);
+  });
+
+  describe("GET /api/users/:id Error Handling", () => {
+    it("status: 404 should respond with an error message", async () => {
+      const response = await request(app).get("/api/users/100");
+      expect(response.status).toBe(404);
+      expect(response.body.error).toBe("User not found");
+    });
+    it("status: 400 should respond with an error message", async () => {
+      const response = await request(app).get("/api/users/abc");
+      expect(response.status).toBe(400);
+      expect(response.body.error).toBe("Bad Request");
     });
   });
 });

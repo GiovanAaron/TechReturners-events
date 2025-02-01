@@ -160,10 +160,10 @@ async function seed(userdata: User[], eventsdata: Event[], attendancedata: Atten
     
       const query = `
             INSERT INTO users (first_name, last_name, email, username, password_hash, age, gender, access_type, avatar, created_at, updated_at)
-            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *
         `;
     
-      await client.query(query, [
+      const result = await client.query(query, [
         first_name,
         last_name,
         email,
@@ -176,11 +176,12 @@ async function seed(userdata: User[], eventsdata: Event[], attendancedata: Atten
         created_at,
         updated_at,
       ]);
+      return result.rows[0]
     });
     
 
     // Wait for all user data to be inserted
-    await Promise.all(userInsertPromises);
+    const seededUsers = await Promise.all(userInsertPromises);
 
     // Insert event data into 'event' table (assuming eventsdata structure)
     const eventInsertPromises = eventsdata.map(async (event) => {
@@ -250,6 +251,8 @@ async function seed(userdata: User[], eventsdata: Event[], attendancedata: Atten
     // Wait for all attendance data to be inserted
     await Promise.all(attendanceInsertPromises);
     // console.log("Data inserted successfully.");
+
+    return seededUsers
   } catch (err) {
     console.error("Error creating tables:", err);
   } finally{

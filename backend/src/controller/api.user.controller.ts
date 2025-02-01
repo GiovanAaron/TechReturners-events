@@ -27,6 +27,17 @@ export const getAllUsers = async (req: Request, res: Response) => {
 
 export const getUserById = async (req: Request, res: Response) => {
   try {
+
+    const userAuth = (req as any).user;
+    // console.log("userAuth",userAuth)
+    console.log ("req.params.id",req.params.id)
+
+    if (userAuth.id !== parseInt(req.params.id) && userAuth.role !== "Admin") {
+      console.log("unauthorized")
+      res.status(401).send({ error: "Unauthorized" });
+      return;
+    }
+
     const { id } = req.params;
 
     if (isNaN(parseInt(id))) {
