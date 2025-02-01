@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from "express";
+import { checkAuthorization } from "../utils/auth_utils";
 import bcrypt from "bcrypt";
 import {
   fetchAllUsers,
@@ -27,18 +28,14 @@ export const getAllUsers = async (req: Request, res: Response) => {
 
 export const getUserById = async (req: Request, res: Response) => {
   try {
-
+    
+    const { id } = req.params;
     const userAuth = (req as any).user;
-    // console.log("userAuth",userAuth)
-    console.log ("req.params.id",req.params.id)
 
-    if (userAuth.id !== parseInt(req.params.id) && userAuth.role !== "Admin") {
-      console.log("unauthorized")
-      res.status(401).send({ error: "Unauthorized" });
+    if (checkAuthorization(userAuth, id)) {
+      res.status(401).send({ error: "User has no access or is Unauthorized to make this request" });
       return;
     }
-
-    const { id } = req.params;
 
     if (isNaN(parseInt(id))) {
       res.status(400).send({ error: "Bad Request" });
@@ -84,7 +81,14 @@ export const postUser = async (
 
 export const patchUser = async (req: Request, res: Response, next: any) => {
   try {
+    
+    const userAuth = (req as any).user;
     const { id } = req.params;
+    
+    if (checkAuthorization(userAuth, id)) {
+      res.status(401).send({ error: "User has no access or is Unauthorized to make this request" });
+      return;
+    }
 
     const updatedRequest = req.body;
 
@@ -99,6 +103,13 @@ export const patchUser = async (req: Request, res: Response, next: any) => {
 export const deleteUser = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
+
+    const userAuth = (req as any).user;
+    if (checkAuthorization(userAuth, id)) {
+      console.log("UNAUTHORIZED");
+      res.status(401).send({ error: "User has no access or is Unauthorized to make this request" });
+      return;
+    }
     const erasedUser = await eraseUserById(id);
     res.status(200).send({ erasedUser });
   } catch (error: any) {

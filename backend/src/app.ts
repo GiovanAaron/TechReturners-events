@@ -23,8 +23,8 @@ app.use(express.json());
 app.get("/api/users", authenticateAndAuthorize(['Admin']), getAllUsers);
 app.get("/api/users/:id", authenticateAndAuthorize(['Admin', 'Moderator', 'User'], true),getUserById);//self and admin
 app.post("/api/users", postUser);
-app.patch("/api/users/:id", patchUser);//self and admin
-app.delete("/api/users/:id", deleteUser); //self and admin
+app.patch("/api/users/:id",authenticateAndAuthorize(['User', 'Admin'], true), patchUser);//self and admin
+app.delete("/api/users/:id",authenticateAndAuthorize(['User', 'Admin'], true), deleteUser); //self and admin
 
 app.post("/api/users/login", loginUser);
 
