@@ -2,17 +2,19 @@ import { Client } from "pg";
 import seed from "./seed";
 
 import { userData, eventsData, attendanceData } from "../data/test-data/index";
+import { userDevData, eventsDevData, attendanceDevData } from "../data/dev-data/index";
 
 
-// console.log(userdata)
+if (!process.env.NODE_ENV) {
+   process.env.NODE_ENV = 'development'; // Or 'test' if it's for testing
+ }
 
 
 const runseed = () => {
 
-   const client = new Client({
-      connectionString: process.env.DATABASE_URL,
-    });
-   return seed(userData, eventsData, attendanceData).then(()=> client.end())}
+   if (process.env.NODE_ENV === 'development') {
+      return seed(userDevData, eventsDevData, attendanceDevData);
+   } else return seed(userData, eventsData, attendanceData)}
 
 
    runseed();
