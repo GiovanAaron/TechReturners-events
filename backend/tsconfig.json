@@ -6,7 +6,7 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "outDir": "./dist",
-    "typeRoots": ["./node_modules/@types"], // Specify where to find type definitions
+    "typeRoots": ["./node_modules/@types"], /// Specify where to find type definitions
     "types": ["node", "jest", "supertest", "express", "bcrypt", "jsonwebtoken", "pg"] // Include specific types
   },
   "include": ["src", "tests"]
