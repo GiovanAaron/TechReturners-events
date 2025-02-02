@@ -22,9 +22,8 @@ beforeEach(async () => {
   try {
     const result = await seed(userData, eventsData, attendanceData);
   
-    unorderedUsers = result
+    unorderedUsers = result?.seededUsers
    
-    // await new Promise(resolve => setTimeout(resolve, 500))
   } catch (error: any) {
     console.error(error);
   }

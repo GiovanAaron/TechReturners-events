@@ -31,9 +31,9 @@ app.post("/api/users/login", loginUser);
 //Events
 app.get("/api/events", getAllEvents); 
 app.get("/api/events/:id", getEventById);
-app.post("/api/events", postEvent);//admin and mod
-app.patch('/api/events/:id', patchEvent);//admin and mod
-app.delete('/api/events/:id', deleteEvent);//admin and mod
+app.post("/api/events", authenticateAndAuthorize(['Admin', 'Moderator']),postEvent);//admin and mod
+app.patch('/api/events/:id', authenticateAndAuthorize(['Admin', 'Moderator']),patchEvent);//admin and mod
+app.delete('/api/events/:id', authenticateAndAuthorize(['Admin', 'Moderator']), deleteEvent);//admin and mod
 
 // app.get('/api/events/category:type', getEventsByCategory);
 // app.get('/api/events/region:region', getEventsByRegion);
@@ -42,12 +42,12 @@ app.delete('/api/events/:id', deleteEvent);//admin and mod
 // app.get('/api/events/:id/attendees', getEventAttendees);
 
 //Attendance
-app.get('/api/events/:id/attendances', getAttendanceByEventId); //admin
+app.get('/api/events/:id/attendances', authenticateAndAuthorize(['Admin']),getAttendanceByEventId); //admin
 // app.get('/api/attendances', getAllAttendances);
 // app.get('/api/attendances/:id', getAttendanceById);
-app.post('/api/events/:id/attendances', postAttendanceByEventId)//admin, user, mod
-app.patch('/api/events/:id/attendances', patchAttendanceByEventId)//admin, self
-app.delete('/api/events/:id/attendances/', deleteAttendanceByEventId);//admin, self
+app.post('/api/events/:id/attendances', authenticateAndAuthorize(['Admin', 'Moderator', 'User']),postAttendanceByEventId)//admin, user, mod
+app.patch('/api/events/:id/attendances', authenticateAndAuthorize(['Admin'], true),patchAttendanceByEventId)//admin, self
+app.delete('/api/events/:id/attendances/', authenticateAndAuthorize(['Admin'], true),deleteAttendanceByEventId);//admin, self
 
 app.use((err: any, req: any, res: any, next: any) => {
 
