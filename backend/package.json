@@ -10,12 +10,12 @@
   },
   "scripts": {
     "test": "jest --detectOpenHandles",
-    "dev": "nodemon listen.js",
+    "dev": "nodemon -r ts-node/register src/listen.ts",
     "build": "tsc",
     "jest": "jest ",
     "seed": "ts-node src/db/seeds/run-seed.ts",
     "main": "listen.js",
-    "start": "node listen.ts",
+    "start": "node dist/listen.js",
     "seed-prod": "NODE_ENV=production npm run seed"
   },
   "devDependencies": {
