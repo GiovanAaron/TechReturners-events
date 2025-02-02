@@ -32,3 +32,22 @@ export const getUserByRole = (users: any, role: string) => {
     // Return only the first matching event, or null if no events are found
     return matchingEvents?.length > 0 ? matchingEvents[0] : null;
   }
+
+
+  export const getRandomAttendance = (unorderedAttendance: any) => {
+    if (!Array.isArray(unorderedAttendance) || unorderedAttendance.length === 0) {
+        return null; // Return null if the input is not a valid array or is empty
+    }
+    
+    const randomIndex = Math.floor(Math.random() * unorderedAttendance.length);
+    return unorderedAttendance[randomIndex];
+}
+
+
+export const findAttendanceByUserId = (unorderedAttendance: any , userId: number) => {
+  // Find the first attendance where user_id matches the provided userId
+  const foundAttendance = unorderedAttendance.find((attendance : any) => attendance.user_id === userId);
+  
+  // Return the found registration or null if no match is found
+  return foundAttendance ;
+}

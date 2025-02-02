@@ -46,8 +46,8 @@ app.get('/api/events/:id/attendances', authenticateAndAuthorize(['Admin']),getAt
 // app.get('/api/attendances', getAllAttendances);
 // app.get('/api/attendances/:id', getAttendanceById);
 app.post('/api/events/:id/attendances', authenticateAndAuthorize(['Admin', 'Moderator', 'User']),postAttendanceByEventId)//admin, user, mod
-app.patch('/api/events/:id/attendances', authenticateAndAuthorize(['Admin'], true),patchAttendanceByEventId)//admin, self
-app.delete('/api/events/:id/attendances/', authenticateAndAuthorize(['Admin'], true),deleteAttendanceByEventId);//admin, self
+app.patch('/api/events/:id/attendances', authenticateAndAuthorize(['Admin', 'Moderator', 'User'], true),patchAttendanceByEventId)//admin, self
+app.delete('/api/events/:id/attendances/', authenticateAndAuthorize(['Admin', 'User'], true), deleteAttendanceByEventId);//admin, self
 
 app.use((err: any, req: any, res: any, next: any) => {
 
