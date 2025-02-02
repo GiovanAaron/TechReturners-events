@@ -55,3 +55,13 @@ export const eraseAttendanceByEventId = async (eventId: string, userId: string) 
       handlePsqlError(error);
     }
 }
+
+export const fetchAttendanceByUserId = async (userId: string) => {    
+    const result = await client.query("SELECT * FROM Attendance WHERE user_id = $1", [userId]); //
+    
+    if (result.rows.length === 0) {
+        throw { msg: "Bad Request: User not found", status: 404 };
+      }
+
+    return result.rows
+}

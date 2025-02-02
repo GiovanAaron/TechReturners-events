@@ -160,10 +160,10 @@ async function seed(userdata: User[], eventsdata: Event[], attendancedata: Atten
     
       const query = `
             INSERT INTO users (first_name, last_name, email, username, password_hash, age, gender, access_type, avatar, created_at, updated_at)
-            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *
         `;
     
-      await client.query(query, [
+      const result = await client.query(query, [
         first_name,
         last_name,
         email,
@@ -176,11 +176,12 @@ async function seed(userdata: User[], eventsdata: Event[], attendancedata: Atten
         created_at,
         updated_at,
       ]);
+      return result.rows[0]
     });
     
 
     // Wait for all user data to be inserted
-    await Promise.all(userInsertPromises);
+    const seededUsers = await Promise.all(userInsertPromises);
 
     // Insert event data into 'event' table (assuming eventsdata structure)
     const eventInsertPromises = eventsdata.map(async (event) => {
@@ -209,9 +210,9 @@ async function seed(userdata: User[], eventsdata: Event[], attendancedata: Atten
             INSERT INTO event (owner_id, title, tickets_remaining, capacity, description, category, start_datetime, end_datetime, 
             location_type, address, city, region, price, photo_1_url, photo_2_url, photo_3_url, google_event_id, 
             visibility, recurrence_rule)
-            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19)
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19) RETURNING *
         `;
-      await client.query(query, [
+      const result = await client.query(query, [
         owner_id,
         title,
         tickets_remaining,
@@ -232,24 +233,29 @@ async function seed(userdata: User[], eventsdata: Event[], attendancedata: Atten
         visibility,
         recurrence_rule,
       ]);
-    });
+    return result.rows[0]
+  });
 
     // Wait for all event data to be inserted
-    await Promise.all(eventInsertPromises);
+    const seededEvents = await Promise.all(eventInsertPromises);
 
     // Insert attendance data into 'attendance' table (assuming attendancedata structure)
     const attendanceInsertPromises = attendancedata.map(async (attendance) => {
       const { event_id, user_id, status, registered_at } = attendance;
       const query = `
             INSERT INTO attendance (event_id, user_id, status, registered_at)
-            VALUES ($1, $2, $3, $4)
+            VALUES ($1, $2, $3, $4) RETURNING *
         `;
-      await client.query(query, [event_id, user_id, status, registered_at]);
+      const result = await client.query(query, [event_id, user_id, status, registered_at]);
+
+      return result.rows[0]
     });
 
     // Wait for all attendance data to be inserted
-    await Promise.all(attendanceInsertPromises);
+    const seededAttendance = await Promise.all(attendanceInsertPromises);
     // console.log("Data inserted successfully.");
+    
+    return { seededEvents, seededUsers, seededAttendance}
   } catch (err) {
     console.error("Error creating tables:", err);
   } finally{

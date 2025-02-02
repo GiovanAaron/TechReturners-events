@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from "express";
+import { checkAuthorization } from "../utils/auth_utils";
 import bcrypt from "bcrypt";
 import {
   fetchAllUsers,
@@ -7,6 +8,8 @@ import {
   updateUser,
   eraseUserById,
 } from "../models/index";
+
+import { fetchUserByEmail } from "../models/users.models";
 
 const saltRounds = 10;
 export const getAllUsers = async (req: Request, res: Response) => {
@@ -27,7 +30,14 @@ export const getAllUsers = async (req: Request, res: Response) => {
 
 export const getUserById = async (req: Request, res: Response) => {
   try {
+    
     const { id } = req.params;
+    const userAuth = (req as any).user;
+
+    if (checkAuthorization(userAuth, id)) {
+      res.status(401).send({ error: "User has no access or is Unauthorized to make this request" });
+      return;
+    }
 
     if (isNaN(parseInt(id))) {
       res.status(400).send({ error: "Bad Request" });
@@ -58,6 +68,13 @@ export const postUser = async (
 
     const hashedPassword = await bcrypt.hash(password, saltRounds);
 
+    const existingUser = await fetchUserByEmail(userDetails.email);
+    if (existingUser) {
+      res.status(400).send({ error: "Email is already in use" });
+      return;
+    }
+
+
     // console.log(hashedPassword); // hashedPassword
     // Create a new user with hashed password
     const newUser = await createUser({
@@ -73,7 +90,14 @@ export const postUser = async (
 
 export const patchUser = async (req: Request, res: Response, next: any) => {
   try {
+    
+    const userAuth = (req as any).user;
     const { id } = req.params;
+    
+    if (checkAuthorization(userAuth, id)) {
+      res.status(401).send({ error: "User has no access or is Unauthorized to make this request" });
+      return;
+    }
 
     const updatedRequest = req.body;
 
@@ -88,6 +112,13 @@ export const patchUser = async (req: Request, res: Response, next: any) => {
 export const deleteUser = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
+
+    const userAuth = (req as any).user;
+    if (checkAuthorization(userAuth, id)) {
+      console.log("UNAUTHORIZED");
+      res.status(401).send({ error: "User has no access or is Unauthorized to make this request" });
+      return;
+    }
     const erasedUser = await eraseUserById(id);
     res.status(200).send({ erasedUser });
   } catch (error: any) {

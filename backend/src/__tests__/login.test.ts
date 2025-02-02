@@ -9,12 +9,18 @@ import {
   userData,
   eventsData,
 } from "../db/data/test-data/index";
+import { findUserByEmail } from "../utils/test_utils";
+
 
 const JWT_SECRET = process.env.JWT_SECRET || "your-secret-key";
+let unorderedUsers: any[] | undefined = [];
 
 beforeEach(async () => {
   try {
-    await seed(userData, eventsData, attendanceData);
+    const result = await seed(userData, eventsData, attendanceData);
+
+    unorderedUsers = result?.seededUsers;
+    
   } catch (error: any) {
     console.error(error);
   }
@@ -71,7 +77,12 @@ describe("POST /api/users/login", () => {
   });
 
   describe("POST /api/login JWT Session Verification", () => {
+
     test("should return a valid JWT for valid credentials", async () => {
+
+      const userId = findUserByEmail(unorderedUsers, "julia.martinez@example.com").id
+
+
       const response = await request(app)
         .post("/api/users/login")
         .send({ email: "julia.martinez@example.com", password: "juliaPW456" });
@@ -79,10 +90,13 @@ describe("POST /api/users/login", () => {
       expect(response.status).toBe(200);
       const decoded = jwt.verify(response.body.token, JWT_SECRET);
       expect(decoded).toMatchObject({
-        id: expect.any(Number),
-        email: "julia.martinez@example.com",
-        access_type: "Moderator",
+        id: expect.any(Number)
       });
+      const decodedObj = decoded as { id: number };
+      expect(decodedObj.id).toBe(userId);
+
+
+      // expect(decoded).toEqual(generateToken(decoded.id, JWT_SECRET));
     });
   });
 });

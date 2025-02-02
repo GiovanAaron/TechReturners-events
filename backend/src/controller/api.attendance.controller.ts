@@ -4,8 +4,10 @@ import {
   fetchAttendanceByEventId,
   createAttendanceByEventId,
   updateAttendanceByEventId,
-  eraseAttendanceByEventId
+  eraseAttendanceByEventId,
+  fetchAttendanceByUserId
 } from "../models/attendance.models";
+import { checkAuthorization } from "../utils/auth_utils";
 
 export const getAttendanceByEventId = async (
   req: Request,
@@ -33,11 +35,17 @@ export const getAttendanceByEventId = async (
 
 export const postAttendanceByEventId = async ( req: Request, res: Response, next: NextFunction) => {
   try {
+    
+    const userAuth = (req as any).user
+    const user_id = userAuth.id
    
+    const event_id = req.params.id
+    
+    const { status } = req.body;
+  
+    
 
-    const { event_id, user_id, status } = req.body;
-
-    if (!event_id || !user_id) {
+    if (!event_id || !userAuth.id) {
       next({ status: 400, msg: "Missing event or user id" });
     }
 
@@ -52,13 +60,14 @@ export const postAttendanceByEventId = async ( req: Request, res: Response, next
 
     const newAttendance = await createAttendanceByEventId(
       event_id,
-      user_id,
+      userAuth.id,
       status
     );
+
     
 
     const newAttendee = {
-      event_id,
+      event_id: Number(event_id),
       user_id,
       status: "Registered",
       registered_at: new Date().toISOString(),
@@ -74,19 +83,21 @@ export const postAttendanceByEventId = async ( req: Request, res: Response, next
 export const patchAttendanceByEventId = async (req: Request, res: Response, next: NextFunction) => {
     
   try {
-    const id = req.params.id;
-    const { user_id, status } = req.body;
+    const event_id = req.params.id;
+    const {  status } = req.body;
+    const userAuth = (req as any).user
+    const user_id = userAuth.id
 
     if (status !== "Interested" && status !== "Registered" && status !== "Cancelled") {
       next({ status: 400, msg: "Bad Request: status must be 'Interested', 'Registered' or 'Cancelled'" });
         
     }
     
-    if (!id) {
+    if (!event_id) {
       res.status(400).json({ msg: "Missing event id" });
     }
 
-    if (isNaN(Number(id))) {
+    if (isNaN(Number(event_id))) {
       next({ status: 400, msg: "Bad Request: id must be a number" }); 
     }
 
@@ -98,7 +109,9 @@ export const patchAttendanceByEventId = async (req: Request, res: Response, next
       next({ status: 400, msg: "Bad Request: user id must be a number" });
     }
 
-    const updatedAttendance = await updateAttendanceByEventId(id, user_id, status);
+    
+
+    const updatedAttendance = await updateAttendanceByEventId(event_id, user_id, status);
 
     
     res.status(200).json({ updatedAttendance });
@@ -110,10 +123,17 @@ export const patchAttendanceByEventId = async (req: Request, res: Response, next
 
 export const deleteAttendanceByEventId = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const id = req.params.id; 
-    const user_id = req.body.user_id;  
 
-    if (!id) {
+    const event_id = req.params.id; 
+    const user_id = req.body.user_id;  
+    const token_user = (req as any).user
+    
+    
+    if (token_user.id !== user_id && token_user.access_type == "User") {
+      next({ status: 401, msg: "Unauthorized: You are not authorized to delete this attendance" });
+    }
+
+    if (!event_id) {
       res.status(400).json({ msg: "Missing event id" });
     }
 
@@ -121,13 +141,41 @@ export const deleteAttendanceByEventId = async (req: Request, res: Response, nex
       next({ status: 400, msg: "Bad Request: user_id must be provided" });
     }
 
-    if (isNaN(Number(id))) {
+    if (isNaN(Number(event_id))) {
       next({ status: 400, msg: "Bad Request: id must be a number" });
     } 
 
-    await eraseAttendanceByEventId(id, user_id);
+    await eraseAttendanceByEventId(event_id, user_id);
     res.status(200).send({msg: "Attendance Deleted"});
   } catch (error: any) {
     next(error);
   }
+};
+
+
+export const getAttendanceByUserId = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    
+    const user_id = req.params.id;
+    const token_user = (req as any).user
+
+    if (token_user.id.toString() !== user_id && token_user.access_type.toString() == "User") {
+      next({ status: 401, msg: "Unauthorized: You are not authorized to get attendances for this account" });
+    }
+
+    if (!user_id) {
+      res.status(400).json({ msg: "Missing user id" }); 
+    }
+
+    if (isNaN(Number(user_id))) {
+      next({ status: 400, msg: "Bad Request: id must be a number" });
+    }
+
+    const attendances = await fetchAttendanceByUserId(user_id);
+
+    
+    res.status(200).json({ attendances });
+  } catch (error) {
+    next(error);
+  } 
 };

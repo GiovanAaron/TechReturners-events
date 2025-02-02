@@ -9,7 +9,7 @@
     "pg": "^8.13.1"
   },
   "scripts": {
-    "test": "PGDATABASE=tr_events_test jest --detectOpenHandles __tests__",
+    "test": "jest --detectOpenHandles",
     "dev": "nodemon listen.js",
     "build": "tsc",
     "jest": "jest ",
