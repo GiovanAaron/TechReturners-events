@@ -15,7 +15,7 @@
     "jest": "jest ",
     "seed": "ts-node src/db/seeds/run-seed.ts",
     "main": "listen.js",
-    "start": "node listen.js",
+    "start": "node listen.ts",
      "seed-prod": "NODE_ENV=production npm run seed"
   },
   "devDependencies": {
@@ -30,5 +30,6 @@
     "ts-jest": "^29.2.5",
     "ts-node": "^10.9.2",
     "typescript": "^5.7.3"
-  }
+  },
+  "license": "MIT"
 }
