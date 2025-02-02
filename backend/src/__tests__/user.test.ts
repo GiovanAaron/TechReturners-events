@@ -27,7 +27,7 @@ beforeEach(async () => {
   try {
     const result = await seed(userData, eventsData, attendanceData);
   
-    unorderedUsers = result
+    unorderedUsers = result?.seededUsers
    
     // await new Promise(resolve => setTimeout(resolve, 500))
   } catch (error: any) {
@@ -154,3 +154,26 @@ describe("POST /api/users", () => {
 
 
 
+  describe("POST /api/users Error Handling", () => {
+    it("status: 400 should respond with an error message (username already exists)", async () => {
+      const existingUser = unorderedUsers?.find(
+        (user) => user.access_type === "Admin"
+      );
+
+      const response = await request(app).post("/api/users").send({
+        username: existingUser?.username,
+        first_name: "Adams",
+        last_name: "amy",
+        email: existingUser?.email,
+        age: 28,
+        gender: "Male",
+        access_type: "Admin",
+        avatar: "febi_avataer.img",
+        password: "febiPass123",
+      });
+      expect(response.status).toBe(400);
+      expect(response.body.error).toBe(
+        "Email is already in use"
+      );
+    });
+  });

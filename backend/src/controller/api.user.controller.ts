@@ -9,6 +9,8 @@ import {
   eraseUserById,
 } from "../models/index";
 
+import { fetchUserByEmail } from "../models/users.models";
+
 const saltRounds = 10;
 export const getAllUsers = async (req: Request, res: Response) => {
   try {
@@ -65,6 +67,13 @@ export const postUser = async (
     }
 
     const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+    const existingUser = await fetchUserByEmail(userDetails.email);
+    if (existingUser) {
+      res.status(400).send({ error: "Email is already in use" });
+      return;
+    }
+
 
     // console.log(hashedPassword); // hashedPassword
     // Create a new user with hashed password

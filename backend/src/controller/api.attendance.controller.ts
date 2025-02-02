@@ -4,7 +4,8 @@ import {
   fetchAttendanceByEventId,
   createAttendanceByEventId,
   updateAttendanceByEventId,
-  eraseAttendanceByEventId
+  eraseAttendanceByEventId,
+  fetchAttendanceByUserId
 } from "../models/attendance.models";
 import { checkAuthorization } from "../utils/auth_utils";
 
@@ -149,4 +150,32 @@ export const deleteAttendanceByEventId = async (req: Request, res: Response, nex
   } catch (error: any) {
     next(error);
   }
+};
+
+
+export const getAttendanceByUserId = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    
+    const user_id = req.params.id;
+    const token_user = (req as any).user
+
+    if (token_user.id.toString() !== user_id && token_user.access_type.toString() == "User") {
+      next({ status: 401, msg: "Unauthorized: You are not authorized to get attendances for this account" });
+    }
+
+    if (!user_id) {
+      res.status(400).json({ msg: "Missing user id" }); 
+    }
+
+    if (isNaN(Number(user_id))) {
+      next({ status: 400, msg: "Bad Request: id must be a number" });
+    }
+
+    const attendances = await fetchAttendanceByUserId(user_id);
+
+    
+    res.status(200).json({ attendances });
+  } catch (error) {
+    next(error);
+  } 
 };

@@ -341,48 +341,96 @@ describe("Access Error Handling", () => {
   });
 });
 
-//These EndPoints will be restricted Access to Admins
 
-xdescribe("GET /api/attendances", () => {
-  it("should return a list of all attendance records", async () => {
-    const response = await request(app).get("/api/attendances");
+describe("GET /api/attendances/user/:id", () => {
+  test("should return a list of attendance records by user ID", async () => {
+    const randomAtd = getRandomAttendance(unorderedAttendance);
+    
+    const user = getUserByRole(unorderedUsers, "User");
+    const response = await request(app)
+      .get(`/api/users/${randomAtd.user_id}/attendances`)
+      .set("Authorization", `Bearer ${generateToken(randomAtd.user_id, JWT_SECRET)}`);
+     
     expect(response.status).toBe(200);
     expect(response.body.attendances).toBeInstanceOf(Array);
-    expect(response.body.attendances.length).toBe(2);
-    response.body.attendances.forEach((attendance: any) => {
-      expect(attendance).toMatchObject({
-        event_id: expect.any(Number),
-        user_id: expect.any(Number),
-        status: expect.any(String),
-        registered_at: expect.any(String),
-      });
-    });
+    expect(response.body.attendances.length).toBeGreaterThan(0);
   });
-});
 
-xdescribe("GET /api/attendances/:id", () => {
-  it("should return a single attendance record by ID", async () => {
-    const response = await request(app).get("/api/attendances/1");
+describe("Admin Access", () => {
+  test("Admin can get all attendances from any account", async () => {
+    const admin = getUserByRole(unorderedUsers, "Admin");
+    const randomUser = getUserByRole(unorderedUsers, "User");
+
+    const response = await request(app)
+      .get(`/api/users/${randomUser.id}/attendances`)
+      .set("Authorization", `Bearer ${generateToken(admin.id, JWT_SECRET)}`);
+
     expect(response.status).toBe(200);
-    expect(response.body.attendance).toBeInstanceOf(Object);
-    expect(response.body.attendance).toMatchObject({
-      event_id: expect.any(Number),
-      user_id: expect.any(Number),
-      status: expect.any(String),
-      registered_at: expect.any(String),
-    });
-  });
+    expect(response.body.attendances).toBeInstanceOf(Array);
+    expect(response.body.attendances.length).toBeGreaterThan(0);
+  })
+  
+  test("should respond with 401 if user is trying to access attendances from another user's account", async () => {
+   
+    const user = getUserByRole(unorderedUsers, "User");
+    const response = await request(app)
+      .get(`/api/users/${user.id + 1}/attendances`)
+      .set("Authorization", `Bearer ${generateToken(user.id, JWT_SECRET)}`);
 
-  describe("GET /api/attendances/:id Error Handling", () => {
-    it("status: 404 should respond with an error message", async () => {
-      const response = await request(app).get("/api/attendances/100");
-      expect(response.status).toBe(404);
-      expect(response.body.error).toBe("Attendance not found");
-    });
-    it("status: 400 should respond with an error message", async () => {
-      const response = await request(app).get("/api/attendances/abc");
-      expect(response.status).toBe(400);
-      expect(response.body.error).toBe("Bad Request");
-    });
+    expect(response.status).toBe(401);
+    expect(response.body.error).toBe(
+      "Unauthorized: You are not authorized to get attendances for this account"
+    );
   });
 });
+
+});
+
+//These EndPoints will be restricted Access to Admins
+
+
+
+
+// xdescribe("GET /api/attendances", () => {
+//   it("should return a list of all attendance records", async () => {
+//     const response = await request(app).get("/api/attendances");
+//     expect(response.status).toBe(200);
+//     expect(response.body.attendances).toBeInstanceOf(Array);
+//     expect(response.body.attendances.length).toBe(2);
+//     response.body.attendances.forEach((attendance: any) => {
+//       expect(attendance).toMatchObject({
+//         event_id: expect.any(Number),
+//         user_id: expect.any(Number),
+//         status: expect.any(String),
+//         registered_at: expect.any(String),
+//       });
+//     });
+//   });
+// });
+
+// xdescribe("GET /api/attendances/:id", () => {
+//   it("should return a single attendance record by ID", async () => {
+//     const response = await request(app).get("/api/attendances/1");
+//     expect(response.status).toBe(200);
+//     expect(response.body.attendance).toBeInstanceOf(Object);
+//     expect(response.body.attendance).toMatchObject({
+//       event_id: expect.any(Number),
+//       user_id: expect.any(Number),
+//       status: expect.any(String),
+//       registered_at: expect.any(String),
+//     });
+//   });
+
+//   describe("GET /api/attendances/:id Error Handling", () => {
+//     it("status: 404 should respond with an error message", async () => {
+//       const response = await request(app).get("/api/attendances/100");
+//       expect(response.status).toBe(404);
+//       expect(response.body.error).toBe("Attendance not found");
+//     });
+//     it("status: 400 should respond with an error message", async () => {
+//       const response = await request(app).get("/api/attendances/abc");
+//       expect(response.status).toBe(400);
+//       expect(response.body.error).toBe("Bad Request");
+//     });
+//   });
+// });

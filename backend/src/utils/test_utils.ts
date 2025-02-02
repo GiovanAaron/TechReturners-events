@@ -51,3 +51,11 @@ export const findAttendanceByUserId = (unorderedAttendance: any , userId: number
   // Return the found registration or null if no match is found
   return foundAttendance ;
 }
+
+export const findUserByEmail = (users:any, email: any) => {
+  // Find the user with the matching email
+  const foundUser = users.find((user : any ) => user.email === email);
+  
+  // Return the user if found, otherwise return null
+  return foundUser || null;
+}

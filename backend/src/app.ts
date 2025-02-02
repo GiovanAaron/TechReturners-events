@@ -4,13 +4,15 @@ import {
   getAllUsers, getUserById, postUser, patchUser, deleteUser,
   loginUser,
   getAllEvents, getEventById, postEvent, patchEvent, deleteEvent, 
-  getAttendanceByEventId, postAttendanceByEventId, patchAttendanceByEventId
+  getAttendanceByEventId, postAttendanceByEventId, patchAttendanceByEventId,
+  deleteAttendanceByEventId, getAttendanceByUserId
+  
 
 } from "./controller/api.controller.index";
 
 import { authenticateAndAuthorize } from "./middleware/authMiddleware";
 
-import { deleteAttendanceByEventId } from "./controller/api.attendance.controller";
+
 
 const app = express();
 
@@ -48,6 +50,8 @@ app.get('/api/events/:id/attendances', authenticateAndAuthorize(['Admin']),getAt
 app.post('/api/events/:id/attendances', authenticateAndAuthorize(['Admin', 'Moderator', 'User']),postAttendanceByEventId)//admin, user, mod
 app.patch('/api/events/:id/attendances', authenticateAndAuthorize(['Admin', 'Moderator', 'User'], true),patchAttendanceByEventId)//admin, self
 app.delete('/api/events/:id/attendances/', authenticateAndAuthorize(['Admin', 'User'], true), deleteAttendanceByEventId);//admin, self
+
+app.get('/api/users/:id/attendances', authenticateAndAuthorize(['Admin', 'Moderator', 'User']), getAttendanceByUserId);//  admin, user, mod
 
 app.use((err: any, req: any, res: any, next: any) => {
 
