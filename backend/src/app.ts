@@ -1,4 +1,5 @@
 import express, { Request, Response } from "express";
+import cors from "cors";
 
 import {
   getAllUsers, getUserById, postUser, patchUser, deleteUser,
@@ -17,6 +18,7 @@ import { authenticateAndAuthorize } from "./middleware/authMiddleware";
 const app = express();
 
 //Middleware
+app.use(cors())
 app.use(express.static("public"));
 app.use(express.json());
 
