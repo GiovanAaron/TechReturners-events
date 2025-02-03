@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 import { Request, Response, NextFunction } from "express";
 import { fetchUserByEmail } from "../models/index"; // Adjust to your actual model function
 
-const JWT_SECRET = process.env.JWT_SECRET || "your-secret-key"; // Store securely in .env file
+const JWT_SECRET = process.env.RENDER_JWT_SECRET || "your-secret-key"; // Store securely in .env file
 const JWT_EXPIRATION = "1h"; // Token expiration (e.g., 1 hour)
 
 export const loginUser = async (
