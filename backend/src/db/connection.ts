@@ -1,23 +1,27 @@
-import { Pool, PoolConfig } from 'pg';
+import { Pool} from 'pg';
 import dotenv from 'dotenv';
 
 const ENV = process.env.NODE_ENV || 'development';
 
 
 
-// dotenv.config({
-//   path: `${__dirname}/../../.env.${ENV}`,
-// });
+dotenv.config({
+  path: `${__dirname}/../../.env.${ENV}`,
+});
 
 
 if (!process.env.PGDATABASE) {
   throw new Error('PGDATABASE not set');
 }
 
-const config: PoolConfig = {};
+interface Config {
+  connectionString?: string;
+  max?: number;
+}
+const config: Config = {};
 
 if (ENV === 'production') {
-  config.connectionString = process.env.DATABASE_URL;
+  config.connectionString = process.env.PGDATABASE;
   config.max = 2;
 }
 

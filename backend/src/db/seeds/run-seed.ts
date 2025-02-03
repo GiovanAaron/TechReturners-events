@@ -1,4 +1,4 @@
-import { Client } from "pg";
+
 import seed from "./seed";
 
 import { userData, eventsData, attendanceData } from "../data/test-data/index";
