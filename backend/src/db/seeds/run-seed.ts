@@ -11,9 +11,11 @@ if (!process.env.NODE_ENV) {
  }
 
 
+
  const runseed = async () => {
      try {
          console.log(`Running seed in ${process.env.NODE_ENV} environment`);
+         console.log('pgdatabase secret is: ', process.env.PGDATABASE);
          if (process.env.NODE_ENV === 'development') {
              await seed(userDevData, eventsDevData, attendanceDevData);
          } else {
