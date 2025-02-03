@@ -50,9 +50,11 @@ interface Attendance {
 
 async function seed(userdata: User[], eventsdata: Event[], attendancedata: Attendance[]) {
   
-  // console.log( "inside environment: ", process.env.NODE_ENV);
+  console.log( "inside environment: ", process.env.NODE_ENV);
+  console.log("seeding data")
   try {
     await client.connect();
+    console.log("Connected to the database");
 
     // Drop tables in reverse order to handle dependencies
     await client.query(`DROP TABLE IF EXISTS attendance CASCADE;`);
