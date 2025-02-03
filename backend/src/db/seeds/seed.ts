@@ -3,7 +3,7 @@ import Pool from "../connection";
 import bcrypt from "bcrypt";
 
 const saltRounds = 10; // Recommended number of salt rounds for bcrypt
-const client = Pool;
+// const client = Pool;
 
 interface User {
   first_name: string;
@@ -53,7 +53,7 @@ async function seed(userdata: User[], eventsdata: Event[], attendancedata: Atten
   console.log( "inside environment: ", process.env.NODE_ENV);
  
   try {
-    await client.connect();
+    const client = await Pool.connect();
     console.log("Connected to the database");
 
     await client.query('BEGIN')
