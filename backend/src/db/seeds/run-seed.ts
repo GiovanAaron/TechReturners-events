@@ -11,7 +11,7 @@ if (!process.env.NODE_ENV) {
 
 
 const runseed = () => {
-
+   console.log("inside environment: ", process.env.NODE_ENV);
    if (process.env.NODE_ENV === 'development') {
       return seed(userDevData, eventsDevData, attendanceDevData);
    } else return seed(userData, eventsData, attendanceData)}
