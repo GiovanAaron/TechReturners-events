@@ -262,7 +262,6 @@ async function seed(userdata: User[], eventsdata: Event[], attendancedata: Atten
   } catch (err) {
     console.error("Error creating tables:", err);
   } finally{
-    await client.end();
     return
   }
 }
