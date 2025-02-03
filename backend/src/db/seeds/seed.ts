@@ -51,11 +51,14 @@ interface Attendance {
 async function seed(userdata: User[], eventsdata: Event[], attendancedata: Attendance[]) {
   
   console.log( "inside environment: ", process.env.NODE_ENV);
-  console.log("seeding data")
+ 
   try {
     await client.connect();
     console.log("Connected to the database");
 
+    await client.query('BEGIN')
+
+    console.log("seeding data")
     // Drop tables in reverse order to handle dependencies
     await client.query(`DROP TABLE IF EXISTS attendance CASCADE;`);
     await client.query(`DROP TABLE IF EXISTS event CASCADE;`);
@@ -254,7 +257,7 @@ async function seed(userdata: User[], eventsdata: Event[], attendancedata: Atten
     // Wait for all attendance data to be inserted
     const seededAttendance = await Promise.all(attendanceInsertPromises);
     // console.log("Data inserted successfully.");
-    
+    await client.query('COMMIT');
     return { seededEvents, seededUsers, seededAttendance}
   } catch (err) {
     console.error("Error creating tables:", err);
