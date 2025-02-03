@@ -20,7 +20,7 @@ interface Config {
 }
 const config: Config = {};
 
-if (ENV === 'production') {
+if (ENV === 'development') {
   config.connectionString = process.env.PGDATABASE;
   config.max = 2;
 }
