@@ -22,6 +22,7 @@ interface Config {
   database?: string;
   password?: string;
   port?: number;
+  ssl?: boolean | { rejectUnauthorized: boolean; };
 }
 const config: Config = {};
 
@@ -32,7 +33,8 @@ if (ENV === 'production') {
   config.host = process.env.DB_HOST || 'db.yourproject.supabase.co', // Supabase host
   config.database= process.env.DB_NAME || 'postgres', // Supabase database name
   config.password = process.env.DB_PASSWORD, // Supabase database password
-  config.port = parseInt(process.env.DB_PORT || '5432') // Supabase port
+  config.port = parseInt(process.env.DB_PORT || '5432'), // Supabase port
+  config.ssl = process.env.NODE_ENV === "production" ? { rejectUnauthorized: false } : false 
 }
 
 export default new Pool(config);
