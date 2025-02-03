@@ -1,9 +1,9 @@
-import { Client } from "pg";
+import Pool from "../connection";
 
 import bcrypt from "bcrypt";
 
 const saltRounds = 10; // Recommended number of salt rounds for bcrypt
-
+const client = Pool;
 
 interface User {
   first_name: string;
@@ -49,9 +49,7 @@ interface Attendance {
 }
 
 async function seed(userdata: User[], eventsdata: Event[], attendancedata: Attendance[]) {
-  const client = new Client({
-    connectionString: process.env.DATABASE_URL,
-  });
+  
   // console.log( "inside environment: ", process.env.NODE_ENV);
   try {
     await client.connect();
