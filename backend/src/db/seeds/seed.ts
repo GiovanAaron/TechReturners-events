@@ -53,7 +53,7 @@ async function seed(userdata: User[], eventsdata: Event[], attendancedata: Atten
   console.log( "inside environment: ", process.env.NODE_ENV);
  
   try {
-    client.connect();
+    await client.connect();
     console.log("Connected to the database");
 
     await client.query('BEGIN')
