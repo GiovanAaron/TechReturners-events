@@ -11,3 +11,5 @@ playground.ts
 .env.*
 
 dist
+package-lock.json
+

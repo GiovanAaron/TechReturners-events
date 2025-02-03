@@ -1,4 +1,4 @@
-import Pool from "../connection";
+import client from "../connection";
 
 import bcrypt from "bcrypt";
 
@@ -52,7 +52,7 @@ async function seed(userdata: User[], eventsdata: Event[], attendancedata: Atten
   
   console.log( "inside environment: ", process.env.NODE_ENV);
  
-  const client = await Pool.connect();
+  client.connect();
   try {
     console.log("Connected to the database");
 
@@ -256,13 +256,14 @@ async function seed(userdata: User[], eventsdata: Event[], attendancedata: Atten
 
     // Wait for all attendance data to be inserted
     const seededAttendance = await Promise.all(attendanceInsertPromises);
-    // console.log("Data inserted successfully.");
+    console.log("Data inserted successfully.");
     await client.query('COMMIT');
     return { seededEvents, seededUsers, seededAttendance}
   } catch (err) {
     console.error("Error creating tables:", err);
   } finally{
-    await client.release();
+    await client.end();
+    return
   }
 }
 
