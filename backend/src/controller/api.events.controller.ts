@@ -20,6 +20,7 @@ export const getAllEvents = async (req: Request, res: Response) => {
 
     res.status(200).send({ events });
   } catch (error: any) {
+    console.log(error)
     res.status(500).send({ error: "Error fetching events" });
   }
 };
