@@ -5,7 +5,7 @@ import env from 'dotenv';
 
 env.config();
 
-const SUPABASE_JWT_SECRET = process.env.SUPABASE_JWT_SECRET || 'your-secret-key';
+const RENDER_JWT_SECRET = process.env.RENDER_JWT_SECRET || 'your-secret-key';
 
 // Middleware for authentication and authorization
 export const authenticateAndAuthorize = (requiredRoles: string[], allowSelf: boolean = false) => {
@@ -19,7 +19,7 @@ export const authenticateAndAuthorize = (requiredRoles: string[], allowSelf: boo
         }
   
         // Decode JWT - No need to include "role" in the payload
-        const decoded = jwt.verify(token!, SUPABASE_JWT_SECRET) as { user_id?: number };
+        const decoded = jwt.verify(token!, RENDER_JWT_SECRET) as { user_id?: number };
 
         if (!decoded.user_id) {
           res.status(401).send({error:'Invalid token'});
