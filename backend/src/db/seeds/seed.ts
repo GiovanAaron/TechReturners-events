@@ -52,8 +52,8 @@ async function seed(userdata: User[], eventsdata: Event[], attendancedata: Atten
   
   console.log( "inside environment: ", process.env.NODE_ENV);
  
+  const client = await Pool.connect();
   try {
-    const client = await Pool.connect();
     console.log("Connected to the database");
 
     await client.query('BEGIN')
