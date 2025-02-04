@@ -1,0 +1,126 @@
+
+/* === Global Typography === */
+h1 {
+    font-size: 3rem;  /* 48px */
+    font-weight: bold;
+    color: #222; /* Dark Gray */
+    margin-bottom: 16px;
+  }
+  
+  h2 {
+    font-size: 2.5rem;  /* 40px */
+    font-weight: bold;
+    color: #333; /* Slightly Lighter Gray */
+    margin-bottom: 14px;
+  }
+  
+  h3 {
+    font-size: 2rem;  /* 32px */
+    font-weight: 600;
+    color: #444;
+    margin-bottom: 12px;
+  }
+  
+
+  /* === Header NavBar ===
+  .headerNavBar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 24px;
+    background-color: #1e1e1e;
+    color: white;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+  }
+  
+  .navOptions {
+    display: flex;
+    gap: 24px;
+  }
+  
+  .navOptions a {
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    transition: 0.3s ease-in-out;
+  }
+  
+  .navOptions a:hover {
+    color: #ff4081; /* Highlight Color */
+  }
+  
+  /* === Event Card Base (Reusable) === */
+  .eventCard {
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+    background: white;
+  }
+  
+  .eventCard:hover {
+    transform: translateY(-5px);
+  }
+  
+  /* === Small Event Card === */
+  .smallEvent {
+    width: 200px;
+    height: 150px;
+    font-size: 14px;
+  }
+  
+  /* === Medium Event Card === */
+  .mediumEvent {
+    width: 300px;
+    height: 200px;
+    font-size: 16px;
+  }
+  
+  /* === Big Event Card === */
+  .bigEvent {
+    width: 500px;
+    height: 300px;
+    font-size: 18px;
+  }
+  
+  /* === Responsive Design === */
+  @media (max-width: 1024px) {
+    .headerNavBar {
+      flex-direction: column;
+      padding: 12px;
+    }
+  
+    .navOptions {
+      flex-direction: column;
+      gap: 12px;
+    }
+  
+    .bigEvent {
+      width: 100%;
+      height: auto;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    h1 {
+      font-size: 2.5rem;
+    }
+  
+    h2 {
+      font-size: 2rem;
+    }
+  
+    h3 {
+      font-size: 1.75rem;
+    }
+  
+    .smallEvent, .mediumEvent, .bigEvent {
+      width: 100%;
+    }
+  }
+   */
