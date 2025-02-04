@@ -26,7 +26,7 @@ interface Config {
 }
 const config: Config = {};
 
-if (ENV === 'production' || ENV === 'development') {
+if (ENV === 'production' ) {
   config.connectionString = process.env.PGDATABASE;
   config.max = 2,
   config.user = process.env.DB_USER || 'postgres', // Supabase database user
