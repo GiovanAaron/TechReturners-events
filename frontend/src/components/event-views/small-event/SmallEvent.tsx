@@ -3,19 +3,20 @@ import styles from "./SmallEvent.module.css";
 import calendarvector from "../../../assets/small_calendar.svg"
 import { getRandomImageAll } from "../../../utils/randomImageGenerator";
 import randomImages from "../../../assets/loremipsum/random_event_image";
-
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 
 
 interface SmallEventProps {
-    region: string;
+    city: string;
     date: string;
-    eventType: string;
+    category: string;
     title: string
+    location_type : string
   }
 
 
 
-const SmallEvent:FunctionComponent<SmallEventProps> = ({region, date, eventType, title}) => {
+const SmallEvent:FunctionComponent<SmallEventProps> = ({city, date, category, title, location_type}) => {
 
     const randomImage = getRandomImageAll(randomImages.imagesFlat);
     
@@ -26,22 +27,23 @@ const SmallEvent:FunctionComponent<SmallEventProps> = ({region, date, eventType,
     <img className={styles.eventImage} alt="" src={randomImage} />
     <div className={styles.gradientOveraly} />
     <div className={styles.dateAndLocation}>
-    <div className={styles.region}>{region}</div>
+    <div className={styles.city}>{city !== null ? city + "," : <span>&nbsp;</span>}</div>
     <div className={styles.date}>
-    <img className={styles.calendarVectorIcon} alt="" src={calendarvector} />
-    <div className={styles.dateText}>17th Mar 2025</div>
+    <CalendarMonthIcon sx={{ color: "#FEF175", maxHeight: "1.15rem" }} />
+    <div className={styles.dateText}>{date}</div>
     </div>
     </div>
     <div className={styles.eventTypeTags}>
     <div className={styles.EventType}>
-    <div className={styles.EventTypeTxt}>{eventType}</div>
+    {category !== null && <div className={styles.EventTypeTxt}>{category}</div>}
     </div>
-    <div className={styles.virtual}>
+    {location_type === "Virtual" && <div className={styles.virtual}>
     <div className={styles.virtual1}>VIRTUAL</div>
+    </div>}
     </div>
     </div>
-    </div>
-    <div className={styles.titleOfEvent}>Title of Event</div>
+    <div className={styles.titleOfEvent}>{title}
+        </div> 
     </div>
     
 
