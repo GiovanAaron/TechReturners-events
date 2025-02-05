@@ -1,9 +1,9 @@
 import { FunctionComponent } from "react";
-import { Link } from "react-router-dom";  // Import Link from react-router-dom
+import { Link } from "react-router-dom"; // Import Link from react-router-dom
 import styles from "./SmallEvent.module.css";
-import { getRandomImageAll } from "../../../utils/randomImageGenerator";
+import { arrayRandomizer } from "../../../utils/arrayRandomizer";
 import randomImages from "../../../assets/loremipsum/random_event_image";
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 
 interface SmallEventProps {
   city: string;
@@ -22,7 +22,7 @@ const SmallEvent: FunctionComponent<SmallEventProps> = ({
   location_type,
   id, // Receive the id as a prop
 }) => {
-  const randomImage = getRandomImageAll(randomImages.imagesFlat);
+  const randomImage = arrayRandomizer(randomImages.imagesFlat);
 
   return (
     // Wrap the entire component with a Link to make it clickable
@@ -35,7 +35,9 @@ const SmallEvent: FunctionComponent<SmallEventProps> = ({
             {city !== null ? city + "," : <span>&nbsp;</span>}
           </div>
           <div className={styles.date}>
-            <CalendarMonthIcon sx={{ color: "#FEF175", maxHeight: "1.15rem" }} />
+            <CalendarMonthIcon
+              sx={{ color: "#FEF175", maxHeight: "1.15rem" }}
+            />
             <div className={styles.dateText}>{date}</div>
           </div>
         </div>

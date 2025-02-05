@@ -6,8 +6,9 @@
   flex-direction: row;
   width: 100vw;
   justify-content: space-between;
-  min-width: 70rem
-  
+  min-width: 70rem;
+  z-index: 1000; /* Ensure it's on top of other elements */
+   
 
 }
 

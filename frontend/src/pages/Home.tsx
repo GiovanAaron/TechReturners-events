@@ -16,7 +16,7 @@ const Home: React.FC = () => {
   console.log("error", error);
   console.log("events", events);
   
-  const renderSmallEvents = (events: any[]) => {
+  const renderSmallEvents = (events: any["events"]) => {
     // Shuffle the array randomly
     const shuffledEvents = events["events"].sort(() => Math.random() - 0.5);
   

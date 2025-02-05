@@ -1,9 +1,11 @@
 import { FunctionComponent } from "react";
-import { Link } from "react-router-dom";  // Import Link from react-router-dom
+import { Link } from "react-router-dom"; // Import Link from react-router-dom
 import styles from "./LargeEvent.module.css";
-import { getRandomImageAll } from "../../../utils/randomImageGenerator";
+import { arrayRandomizer } from "../../../utils/arrayRandomizer";
 import randomImages from "../../../assets/loremipsum/random_event_image";
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import subheadings from "../../../assets/loremipsum/random_event_subheading";
+import randomEventDesc from "../../../assets/loremipsum/random_event_desc"
+import { genGoogleCalLink } from "../../../utils/googleCalFormat";
 
 interface LargeEventProps {
   city: string;
@@ -12,11 +14,12 @@ interface LargeEventProps {
   title: string;
   location_type: string;
   id: string;
-  googleformat: string;
   description: string;
   address: string;
   region: string;
-  price: number;
+  price: number | string;
+  startTime: string;
+  endTime: string;
 }
 
 const LargeEvent: FunctionComponent<LargeEventProps> = ({
@@ -27,14 +30,29 @@ const LargeEvent: FunctionComponent<LargeEventProps> = ({
   title,
   location_type,
   id,
-  googleformat,
+  startTime,
   description,
   address,
-  region
+  region,
+  endTime,
 }) => {
-  const randomImage = getRandomImageAll(randomImages.imagesFlat);
+  const randomImage = arrayRandomizer(randomImages.imagesFlat);
+  const randomSubheading = arrayRandomizer(subheadings.flattened)
 
-  console.log("LargeEvent Props:", { city, date, price, category, title, location_type, id, googleformat, description, address, region });
+  console.log("LargeEvent Props:", {
+    city,
+    date,
+    price,
+    category,
+    title,
+    location_type,
+    id,
+    startTime,
+    description,
+    address,
+    region,
+    endTime,
+  });
 
   return (
     // Wrap the entire component with a Link to make it clickable
@@ -42,20 +60,31 @@ const LargeEvent: FunctionComponent<LargeEventProps> = ({
       <div className={styles.detailsLeft}>
         <div className={styles.titleSubhead}>
           <div className={styles.title}>{title}</div>
-          <div className={styles.subeading}>{title}</div>
+          <div className={styles.subeading}>{randomSubheading}</div>
         </div>
-        <div className={styles.description}>{description}</div>
+        <div className={styles.description}>{description} {arrayRandomizer(randomEventDesc)} {arrayRandomizer(randomEventDesc)}</div>
         <div className={styles.dateTag}>
           <div className={styles.date}>Date:</div>
           <div className={styles.date}>{date}</div>
         </div>
         <div className={styles.dateTag}>
           <div className={styles.date}>Price:</div>
-          <div className={styles.date}>{price}</div>
+          <div className={styles.date}>{price !== "Free" ? `£${price}` : price }</div>
         </div>
-        <div className={styles.getTickets}>
+        <a
+          href={genGoogleCalLink(
+            startTime,
+            endTime,
+            title,
+            description,
+            address
+          )}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={styles.getTickets}
+        >
           <div className={styles.date}>Get Tickets</div>
-        </div>
+        </a>
       </div>
       <div className={styles.detailsRight}>
         <div className={styles.eventImageParent}>
@@ -65,9 +94,13 @@ const LargeEvent: FunctionComponent<LargeEventProps> = ({
             <div className={styles.eventTypeTag}>
               <div className={styles.eventType}>{category}</div>
             </div>
-            <div className={styles.virtual}>
-              <div className={styles.date}>VIRTUAL</div>
-            </div>
+            {location_type === "Remote" ? (
+              <div className={styles.virtual}>
+                <div className={styles.date}>VIRTUAL</div>
+              </div>
+            ) : (
+              null
+            )}
           </div>
         </div>
         <div className={styles.location}>
@@ -80,4 +113,3 @@ const LargeEvent: FunctionComponent<LargeEventProps> = ({
 };
 
 export default LargeEvent;
-

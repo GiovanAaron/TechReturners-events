@@ -37,10 +37,12 @@ const EventbyID: React.FC = () => {
         location_type={fetchedEvent.location_type}
         id={fetchedEvent.id}
         description={fetchedEvent.description}
-        address={fetchedEvent.address }
+        address={fetchedEvent.address}
         region={fetchedEvent.region}
         price={fetchedEvent.price == 0 ? "Free" : fetchedEvent.price}
-        googleformat="asd"
+        startTime={fetchedEvent.start_datetime}
+        endTime={fetchedEvent.end_datetime}
+        
       />
     </div>
   );
