@@ -16,7 +16,7 @@ export const useApiReq = (
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    console.log("useApiReq useEffect triggered"); // Log when useEffect runs
+    // console.log("useApiReq useEffect triggered"); // Log when useEffect runs
 
     const makeRequest = async () => {
       const url = `${BASE_API_URL}${endpoint}`;
@@ -49,7 +49,7 @@ export const useApiReq = (
             throw new Error('Unsupported HTTP method');
         }
 
-        console.log("API response:", result.data); // Log the API response
+        // console.log("API response:", result.data); // Log the API response
         setResponseData(result.data);
       } catch (err) {
         console.error("API error:", err); // Log any errors

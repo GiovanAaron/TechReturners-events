@@ -11,9 +11,19 @@
 
 }
 
+/* Default styling */
 .headerNavBar h4, .headerNavBar h3 {
   color: white;
+  transition: color 1.2s ease, text-decoration 9.3s ease; /* Transition for smooth effect */
 }
+
+/* On hover */
+.headerNavBar h4:hover, .headerNavBar h3:hover {
+  color: #FEF175; /* Change text color */
+  text-decoration: underline; /* Add underline */
+  text-underline-offset: .7rem;
+}
+
 
 .headerNavBar button {
   background-color: #9747ff;

@@ -11,13 +11,13 @@ const HeaderNavBar: FunctionComponent = () => {
   return (
     <header >
       <div className={styles.headerNavBar}>
-        <img src={TRElogoVector} alt="Tech Returners" style={{ marginLeft: '6em', transform: 'scale(0.7)' }} />
+        <Link to="/"><img src={TRElogoVector} alt="Tech Returners" style={{ marginLeft: '6em', transform: 'scale(0.7)' }} /></Link>
         
-        <h4>Exhibitors</h4>
-        <h4>Partners</h4>
-        <h4>Events</h4>
-        <h4>Blog</h4>
-        <h4>Contact Us</h4>
+        <Link to="/exhibitors"><h4>Exhibitors</h4></Link>
+        <Link to="/partners"><h4>Partners</h4></Link>
+        <Link to="/events"><h4>Events</h4></Link>
+        <Link to="/blog"><h4>Blog</h4></Link>
+        <Link to="/contact-us"><h4>Contact Us</h4></Link>
         <button style={{marginRight: '6em'}} >Sign In/Register</button>
       </div>
     </header>
