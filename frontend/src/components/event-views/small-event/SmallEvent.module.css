@@ -55,10 +55,10 @@
 
 .city {
     
-    width: 5.375rem; /* 86px / 16 */
+    max-width: 9.375rem; /* 86px / 16 */
     position: relative;
     display: inline-block;
-    height: 1.1875rem; /* 19px / 16 */
+    height: auto; /* 19px / 16 */
     flex-shrink: 0;
     text-shadow: 0.09375rem 0 0 #300334, 0 0.09375rem 0 #300334, -0.09375rem 0 0 #300334, 0 -0.09375rem 0 #300334; 
 }
@@ -84,11 +84,12 @@
 
 .dateAndLocation {
     position: absolute;
-    top: 5.375rem; /* 86px / 16 */
+    bottom: .475rem; /* 86px / 16 */
     left: 1.0625rem; /* 17px / 16 */
     filter: drop-shadow(0rem 0.375rem 0.375rem rgba(0, 0, 0, 0.25)); /* 6px / 16 */
     display: flex;
     flex-direction: column;
+    overflow-y: auto;
     align-items: flex-start;
     justify-content: center;
 }

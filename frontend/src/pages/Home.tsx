@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { Button } from "@mui/material";
-import HeaderNavBar from "../components/header-nav-bar/HeaderNavBar";
+import React from "react";
+
 import SmallEvent from "../components/event-views/small-event/SmallEvent";
 import  useApiReq  from "../hooks/useApiReq";  // Import the API hook
 import styles from "./pages.module.css";
@@ -22,7 +21,7 @@ const Home: React.FC = () => {
     const shuffledEvents = events["events"].sort(() => Math.random() - 0.5);
   
     // Select the first 5 events after shuffle
-    return shuffledEvents.slice(0, 5).map((event, index) => (
+    return shuffledEvents.slice(0, 5).map((event :any, index: number) => (
       <SmallEvent
         key={index}
         city={event.city}
@@ -30,6 +29,7 @@ const Home: React.FC = () => {
         category={event.category}
         title={event.title}
         location_type={event.location_type}
+        id={event.id}
       />
     ));
   };
