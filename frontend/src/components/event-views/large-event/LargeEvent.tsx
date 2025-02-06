@@ -1,5 +1,4 @@
 import { FunctionComponent } from "react";
-import { Link } from "react-router-dom"; // Import Link from react-router-dom
 import styles from "./LargeEvent.module.css";
 import { arrayRandomizer } from "../../../utils/arrayRandomizer";
 import randomImages from "../../../assets/loremipsum/random_event_image";

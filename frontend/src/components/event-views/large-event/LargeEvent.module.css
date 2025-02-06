@@ -51,6 +51,7 @@
 }
 
 .getTickets {
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     align-self: stretch;
     border-radius: 0.625rem; /* 10px / 16 */
     background: linear-gradient(99.25deg, rgba(253, 246, 253, 0.2), rgba(128, 26, 136, 0.2)), #a76eab;
@@ -60,7 +61,17 @@
     justify-content: center;
     padding: 1rem 1.25rem; /* 16px / 16, 20px / 16 */
     color: #fff;
+    transition: background 0.8s ease, box-shadow 0.8s ease; /* Smooth transition for background and shadow */
 }
+
+/* Hover state */
+.getTickets:hover {
+    background: linear-gradient(99.25deg, rgba(253, 246, 253, 0.4), rgba(128, 26, 136, 0.4)), #7c4d9d; /* Darker and richer gradient */
+    box-shadow: 0px 6px 6px rgba(0, 0, 0, 0.35); /* Add a deeper shadow on hover */
+    color:white
+}
+
+
 
 .detailsLeft {
     width: 32rem; /* 512px / 16 */
@@ -181,3 +192,4 @@
     color: #232323;
     font-family: 'Product Sans Black';
 }
+

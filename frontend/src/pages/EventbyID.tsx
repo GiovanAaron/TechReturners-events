@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useMemo} from "react";
 import { useParams } from "react-router-dom";
 import useApiReq from "../hooks/useApiReq"; // Import the API hook
 import styles from "./pages.module.css";
@@ -6,6 +6,8 @@ import formatDateWithSuffix from "../utils/formatdatesuffix";
 import LargeEvent from "../components/event-views/large-event/LargeEvent";
 
 const EventbyID: React.FC = () => {
+
+  const headers = useMemo(() => ({}), []);
   const { eventId } = useParams<{ eventId: string }>();
 
   const {
@@ -15,7 +17,10 @@ const EventbyID: React.FC = () => {
   } = useApiReq(
     `/events/${eventId}`, // Endpoint to fetch event by ID
     null, // No token required for public events
-    "GET"
+    "GET",
+    null,
+    headers,
+    true
   );
 
   console.log("Fetched event data:", event);

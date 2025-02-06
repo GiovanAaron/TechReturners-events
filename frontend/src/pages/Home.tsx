@@ -1,27 +1,36 @@
-import React from "react";
-
+import React, { useMemo } from "react";
 import SmallEvent from "../components/event-views/small-event/SmallEvent";
-import  useApiReq  from "../hooks/useApiReq";  // Import the API hook
+import useApiReq from "../hooks/useApiReq";  // Import the API hook
 import styles from "./pages.module.css";
 import formatDateWithSuffix from "../utils/formatdatesuffix";
 
 const Home: React.FC = () => {
-  const { responseData : events, loading, error } = useApiReq(
+  // Use useMemo to stabilize the headers object
+  const headers = useMemo(() => ({}), []);
+
+  const { responseData: events, loading, error } = useApiReq(
     "/events", // Endpoint to fetch events
     null, // No token required for public events
-    "GET"
+    "GET", // Method
+    null, // No data for GET requests
+    headers, // Stable headers object
+    true // Automatically fetch data when the component mounts
   );
 
   console.log("loading", loading);
   console.log("error", error);
   console.log("events", events);
-  
-  const renderSmallEvents = (events: any["events"]) => {
+
+  const renderSmallEvents = (events: any) => {
+    if (!events || !events.events) {
+      return null; // Return null if events data is not available
+    }
+
     // Shuffle the array randomly
-    const shuffledEvents = events["events"].sort(() => Math.random() - 0.5);
-  
+    const shuffledEvents = events.events.sort(() => Math.random() - 0.5);
+
     // Select the first 5 events after shuffle
-    return shuffledEvents.slice(0, 5).map((event :any, index: number) => (
+    return shuffledEvents.slice(0, 5).map((event: any, index: number) => (
       <SmallEvent
         key={index}
         city={event.city}
