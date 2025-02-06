@@ -15,7 +15,9 @@
 /* Default styling */
 .headerNavBar h4, .headerNavBar h3 {
   color: white;
-  transition: color 1.2s ease, text-decoration 9.3s ease; /* Transition for smooth effect */
+  transition: color 1.2s ease, text-decoration 9.3s ease;
+  font-family: 'Product Sans';
+   /* Transition for smooth effect */
 }
 
 /* On hover */
@@ -26,8 +28,8 @@
 }
 
 
-.headerNavBar button {
-  background-color: #9747ff;
+.headerNavBar button{
+  background-color: #a42fb1;
   color: white;
   padding: 0.5em 1em;
   border: none;
@@ -35,6 +37,7 @@
   cursor: pointer;
   height: auto;
   align-self: center;
+  font-family: 'Product Sans Black';
 
 }
 
@@ -42,4 +45,15 @@
 .signedIn {
   background-color: #ffffff;
   color: #6c5ce7;
+  
+}
+
+.headerNavBar a {
+  text-decoration: none; /* Remove underline */
+  color: inherit; /* Inherit text color from parent element */
+}
+
+.headerNavBar a:hover {
+  text-decoration: none; 
+  color:#FEF175/* Remove underline on hover */
 }
