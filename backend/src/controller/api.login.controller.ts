@@ -45,7 +45,7 @@ export const loginUser = async (
     );
 
     // Send token to the client
-    res.status(200).send({ token, message: "Login successful" });
+    res.status(200).send({ token, message: "Login successful", access_type: user.access_type });
   } catch (error) {
     res.status(500).send({ error: "Server error" });
   }
