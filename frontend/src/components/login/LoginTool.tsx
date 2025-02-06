@@ -5,33 +5,34 @@ import { Link } from "react-router-dom"; // Assuming you are using React Router
 import TRElogoVector from "../../assets/TR_events_logo.svg";
 import { useApiReq } from "../../hooks/useApiReq";
 
-
 const LoginTool: FunctionComponent = () => {
-  
-   
-  
-
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState(null);
+  // const [error, setError] = useState<string | null>(null);
 
-  
-
-
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    // TO DO: Add authentication logic here
+  // Use the useApiReq hook with autoReq: false
+  const { makeRequest } = useApiReq(
    
-    const { responseData : token, loading, error } = useApiReq(
-      "/login", // Endpoint to fetch events
-      null, // No token required for public events
-      "POST",
-      {email: email, password: password}
-    );
+  );
 
-    console.log(token)
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
 
+    try {
+      // Manually trigger the POST request using makeRequest
+      const {authToken} = await makeRequest(
+        "/users/login", // Use the default endpoint
+        "POST", // Use the default method
+        { email: email, password : password} // Data to send
+      )
+
+      localStorage.setItem("authToken", authToken);
+      // console.log("failed to login",error)
+    
+    } catch (err) {
+      console.error("Login failed:", err);
+      // setError(apiError || "Something went wrong. Please try again.");
+    }
   };
 
 

@@ -3,9 +3,14 @@ import styles from "./HeaderNavBar.module.css";
 import { useAuth } from "../../contexts/AuthContext";
 import { Link } from "react-router-dom"; // Assuming you are using React Router
 import TRElogoVector from "../../assets/TR_events_logo.svg"
+import useApiReq from "../../hooks/useApiReq";
 
 const HeaderNavBar: FunctionComponent = () => {
-  const { isAuthenticated, logout } = useAuth(); // Get authentication status & logout function
+  const { isAuthenticated, logout } = useAuth();
+
+  const token = localStorage.getItem("authToken");
+  
+  useApiReq("/users/id", token, "GET"); // Get authentication status & logout function
 
   return (
     <header >
