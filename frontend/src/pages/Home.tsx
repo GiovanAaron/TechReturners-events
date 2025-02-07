@@ -7,7 +7,7 @@ import CreateEventBtn from "../components/buttons/create-event-btn/CreateEventBt
 
 const Home: React.FC = () => {
 
-  const token = localStorage.getItem("authToken");
+  // const token = localStorage.getItem("authToken");
   const access_type = localStorage.getItem("accessType");
 
   // Use useMemo to stabilize the headers object

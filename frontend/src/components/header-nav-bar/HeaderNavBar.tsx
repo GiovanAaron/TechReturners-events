@@ -1,6 +1,6 @@
 
 import { Link } from "react-router-dom"; // Assuming you are using React Router
-import React, { FunctionComponent } from "react";
+import { FunctionComponent } from "react";
 import styles from "./HeaderNavBar.module.css";
 import TRElogoVector from "../../assets/TR_events_logo.svg"
 
