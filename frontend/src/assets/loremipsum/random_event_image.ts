@@ -44,7 +44,7 @@ const images = {
     "https://www.brightidea.com/wp-content/uploads/Who_Participates_in_a_Hackathon.png",
     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSh__4GPCZA7kJH4oWVoEhDX651vwijsS1-Xg&s",
     "https://cdn.prod.website-files.com/646caab5700fe0d1824a61b9/65170c1e01c86d489de784dd_hackathon.png",
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdloA73AncZuQ8pFiR6PayFrRvjQo6Q5M-0Q&s",
+    "https://news.cs.washington.edu/wp-content/uploads/2023/04/impact-hackathon-social-1.jpg",
     "https://cdn.prod.website-files.com/6305a54ddc68ad7fc38e4f8b/656fbaaa1da0c5abd861e76a_Let%E2%80%99s%20Talk%20Collaboration%20(6).png",
     "https://img.freepik.com/free-vector/gradient-halftone-technology-webinar_23-2149022339.jpg",
     "https://cdn.asp.events/CLIENT_CloserSt_D86EA381_5056_B739_5482D50A1A831DDD/sites/LT-2022/media/Elearningforce-1-archive.png",

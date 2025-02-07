@@ -28,7 +28,7 @@
 }
 
 
-.headerNavBar button{
+.signedOut {
   background-color: #a42fb1;
   color: white;
   padding: 0.5em 1em;
@@ -38,14 +38,27 @@
   height: auto;
   align-self: center;
   font-family: 'Product Sans Black';
+  
+  transition: text-shadow 6.8s ease, box-shadow 0.8s ease; /* Smooth transition for background and shadow */
 
 }
 
 /* Style applied when user is signed in */
-.signedIn {
+.signedIn  {
   background-color: #ffffff;
   color: #6c5ce7;
+  padding: 0.5em 1em;
+  border: none;
+  border-radius: 0.5em;
+  cursor: pointer;
+  height: auto;
+  align-self: center;
+  font-family: 'Product Sans Black';
   
+}
+
+.signedIn button {
+  background-color: linear-gradient(99.25deg, rgba(253, 246, 253, 0.4), rgba(250, 245, 251, 0.4)), #d5d0d9
 }
 
 .headerNavBar a {
@@ -53,7 +66,33 @@
   color: inherit; /* Inherit text color from parent element */
 }
 
-.headerNavBar a:hover {
+/* .headerNavBar a:hover {
   text-decoration: none; 
-  color:#FEF175/* Remove underline on hover */
+  color:#afa11f
+} */
+
+.signedIn :hover {
+  text-shadow: 0em .3em .3em rgba(37, 11, 69, 0.3); /* Add text shadow */
+  transition: text-shadow 3.8s ease, color 0.8s ease;
+  
+  /* color: linear-gradient(99.25deg, rgba(253, 246, 253, 0.4), rgba(250, 245, 251, 0.4)), #d5d0d9; */
+  color:#2d0b4a;
+
+}
+
+.signedIn :not(:hover) {
+  text-shadow: none;
+  color:inherit;
+  transition: text-shadow 3.8s ease, color 0.8s ease;
+}
+
+.signedOut :hover {
+  text-shadow: 0em .3em .3em rgba(37, 11, 69, 0.3); /* Add text shadow */
+  transition: text-shadow 3.8s ease, box-shadow 0.8s ease;
+  color: rgb(236, 236, 165)
+}
+.signedOut :not(:hover) {
+  text-shadow: none;
+  color:inherit;
+  transition: text-shadow 3.8s ease, color 0.8s ease;
 }
