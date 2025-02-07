@@ -1,6 +1,6 @@
 
 import { Link } from "react-router-dom"; // Assuming you are using React Router
-import { FunctionComponent } from "react";
+import React, { FunctionComponent } from "react";
 import styles from "./HeaderNavBar.module.css";
 import TRElogoVector from "../../assets/TR_events_logo.svg"
 
@@ -17,9 +17,12 @@ const HeaderNavBar: FunctionComponent = () => {
   const handleLogout = () => {
     localStorage.removeItem("authToken");
     localStorage.removeItem("accessType");
-  
+    window.location.href = "/";
   };
 
+    const handleLogin = () => {
+    window.location.href = "/signin";
+  };
 
    // Get authentication status & logout function
   
@@ -35,7 +38,7 @@ const HeaderNavBar: FunctionComponent = () => {
           <Link to="/events"><h4>Events</h4></Link>
           <Link to="/blog"><h4>Blog</h4></Link>
           <Link to="/contact-us"><h4>Contact Us</h4></Link>
-          <button className={styles.signedOut} style={{marginRight: '6em'}} ><Link to="/signin">Sign In/Register</Link></button>
+          <button onClick={handleLogin}className={styles.signedOut} style={{marginRight: '6em'}} ><Link to="/signin">Sign In/Register</Link></button>
         </div>
       </header>
     );

@@ -1,6 +1,6 @@
 
 import styles from "./pages.module.css";
-import CreateEventTool from "../components/event-administration/create-event/createEventTool";
+import CreateEventTool from "../components/event-administration/create-event/CreateEventTool";
 
 
 const CreateEvent: React.FC = () => {
