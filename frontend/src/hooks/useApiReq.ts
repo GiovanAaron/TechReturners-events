@@ -37,29 +37,31 @@ export const useApiReq = (
       },
     };
 
+    console.log("config", config);  
+
     try {
-      let result;
+      let res;
 
       switch (customMethod || method) {
         case 'GET':
-          result = await axios.get(url, config);
+          res = await axios.get(url, config);
           break;
         case 'POST':
-          result = await axios.post(url, customData || data, config);
+          res = await axios.post(url, customData || data, config.headers);
           break;
         case 'PATCH':
-          result = await axios.patch(url, customData || data, config);
+          res = await axios.patch(url, customData || data, config);
           break;
         case 'DELETE':
-          result = await axios.delete(url, config);
+          res = await axios.delete(url, config);
           break;
         default:
           throw new Error('Unsupported HTTP method');
       }
 
-      // console.log("API response:", result.data); // Log the API response
-      setResponseData(result.data);
-      return result.data;
+      // console.log("API response:", res.data); // Log the API response
+      setResponseData(res.data);
+      return res.data;
     } catch (err) {
       console.error("API error:", err); // Log any errors
       setError(err instanceof Error ? err.message : 'Something went wrong');

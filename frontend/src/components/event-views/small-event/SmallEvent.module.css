@@ -19,18 +19,20 @@
     display: inline-block;
     width: 12.9375rem;
     height: 1.125rem; 
+    opacity: 0;
+    animation: fadeIn 6.5s forwards;
    
 }
 
-/* .Parent {
-    width: 100%;
-    position: relative;
-    height: 162px;
-    text-align: left;
-    font-size: 15.35px;
-    background-color: #a76eab;
-    font-family: 'Product Sans Black';
-    } */
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
 
 
 .eventImage {
@@ -147,4 +149,6 @@
     font-size: 0.959375rem; /* 15.35px / 16 */
     color: #fff;
     font-family: 'Product Sans Black';
+    opacity: 0;
+    animation: fadeIn 6.5s forwards;
 }

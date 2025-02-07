@@ -1,0 +1,104 @@
+.helmet {
+    align-self: stretch;
+    background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), linear-gradient(90deg, rgba(183, 104, 189, 0.46), rgba(144, 8, 154, 0.46) 47.05%, rgba(211, 137, 217, 0.46));
+    height: 22px;
+}
+.emailInsert {
+    width: 400px;
+    position: relative;
+    display: inline-block;
+    flex-shrink: 0;
+}
+.alert {
+    align-self: stretch;
+    border-radius: 0px 0px 7px 7px;
+    background-color: #cbcbcb;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: 13px 0px;
+}
+.avisory {
+    align-self: stretch;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+.detailsRight {
+    width: 512px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+.eventName {
+    position: relative;
+}
+.eventTitle {
+    align-self: stretch;
+    border-radius: 7px;
+    background-color: #cbcbcb;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: 13px 0px;
+}
+.startDate {
+    flex: 1;
+    border-radius: 7px;
+    background-color: #cbcbcb;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: 13px 0px;
+}
+.setDateDropdowns {
+    align-self: stretch;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 32px;
+}
+.signInBtn {
+    width: 176px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    background: linear-gradient(99.25deg, rgba(253, 246, 253, 0.2), rgba(128, 26, 136, 0.2)), #a76eab;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: 16px 20px;
+    box-sizing: border-box;
+    color: #fff;
+    font-family: 'Product Sans Black';
+}
+.detailsRight1 {
+    width: 512px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 32px;
+}
+.loginRender {
+    position: relative;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    gap: 87px;
+    text-align: left;
+    font-size: 17.06px;
+    color: #696969;
+    font-family: 'Product Sans';
+}
+

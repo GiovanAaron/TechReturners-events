@@ -3,8 +3,13 @@ import SmallEvent from "../components/event-views/small-event/SmallEvent";
 import useApiReq from "../hooks/useApiReq";  // Import the API hook
 import styles from "./pages.module.css";
 import formatDateWithSuffix from "../utils/formatdatesuffix";
+import CreateEventBtn from "../components/buttons/create-event-btn/CreateEventBtn";
 
 const Home: React.FC = () => {
+
+  const token = localStorage.getItem("authToken");
+  const access_type = localStorage.getItem("accessType");
+
   // Use useMemo to stabilize the headers object
   const headers = useMemo(() => ({}), []);
 
@@ -70,6 +75,9 @@ const Home: React.FC = () => {
             renderSmallEvents(events) // Render the events if fetched successfully
           )}
         </div>
+
+          {access_type === "Admin" || access_type === "Moderator" ? <CreateEventBtn /> : null}
+
       </div>
     </>
   );
