@@ -9,11 +9,16 @@ const RENDER_JWT_SECRET = process.env.RENDER_JWT_SECRET || 'your-secret-key';
 
 // Middleware for authentication and authorization
 export const authenticateAndAuthorize = (requiredRoles: string[], allowSelf: boolean = false) => {
-    return async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-      try {
+  
+  
+  return async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+   
+    try {
+
+      console.log('Inside the try block');
         const token = req.get('Authorization')?.replace('Bearer ', '');
         if (!token) {
-            
+            console.log("No token in this request")
           res.status(401).send({error:'Token missing'});
           return
         }
@@ -22,6 +27,7 @@ export const authenticateAndAuthorize = (requiredRoles: string[], allowSelf: boo
         const decoded = jwt.verify(token!, RENDER_JWT_SECRET) as { user_id?: number };
 
         if (!decoded.user_id) {
+          console.log("No user_id in this request")
           res.status(401).send({error:'Invalid token'});
           return
         }
@@ -34,6 +40,7 @@ export const authenticateAndAuthorize = (requiredRoles: string[], allowSelf: boo
         }
   
         const user = result.rows[0];
+        
         
         if (requiredRoles.length > 0 && requiredRoles.includes("Admin")) {
             
@@ -56,6 +63,7 @@ export const authenticateAndAuthorize = (requiredRoles: string[], allowSelf: boo
         // console.log('User set:', (req as any).user); // Add this line
         next();
       } catch (error) {
+        console.error('Error occurred:', error);
         res.status(401).send('Authentication failed');
         return
       }

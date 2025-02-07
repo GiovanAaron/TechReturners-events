@@ -1,6 +1,6 @@
-import React, {useMemo} from "react";
+
 import styles from "./pages.module.css";
-import CreateEventTool from "../components/event-administration/create-event/CreateEventTool";
+import CreateEventTool from "../components/event-administration/create-event/createEventTool";
 
 
 const CreateEvent: React.FC = () => {

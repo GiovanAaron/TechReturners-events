@@ -47,7 +47,7 @@ export const useApiReq = (
           res = await axios.get(url, config);
           break;
         case 'POST':
-          res = await axios.post(url, customData || data, config.headers);
+          res = await axios.post(url, customData || data, config);
           break;
         case 'PATCH':
           res = await axios.patch(url, customData || data, config);

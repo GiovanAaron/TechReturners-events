@@ -33,6 +33,9 @@ afterAll(async () => {
 describe("POST /api/users/login", () => {
   describe("POST /api/users/login", () => {
     it("status: 200 should respond with a token", async () => {
+
+      console.log("unorderedUsers: ", unorderedUsers)
+
       const response = await request(app).post("/api/users/login").send({
         email: "isaac.hernandez@example.com",
         password: "isaacSecure",
@@ -76,10 +79,11 @@ describe("POST /api/users/login", () => {
     });
   });
 
-  describe("POST /api/login JWT Session Verification", () => {
+  describe.only("POST /api/login JWT Session Verification", () => {
 
     test("should return a valid JWT for valid credentials", async () => {
-
+      
+   
       const userId = findUserByEmail(unorderedUsers, "julia.martinez@example.com").id
 
 
@@ -90,10 +94,14 @@ describe("POST /api/users/login", () => {
       expect(response.status).toBe(200);
       const decoded = jwt.verify(response.body.token, JWT_SECRET);
       expect(decoded).toMatchObject({
-        id: expect.any(Number)
+        user_id: expect.any(Number),
+        exp: expect.any(Number),
+        iat: expect.any(Number),
+
       });
-      const decodedObj = decoded as { id: number };
-      expect(decodedObj.id).toBe(userId);
+      const decodedObj = decoded as { user_id: number };
+      console.log("deconded obj: ", decodedObj)
+      expect(decodedObj.user_id).toBe(userId);
 
 
       // expect(decoded).toEqual(generateToken(decoded.id, JWT_SECRET));

@@ -7,20 +7,14 @@ import EventbyID from './pages/EventbyID';
 import SignIn from './pages/SignIn';
 import CreateEvent from './pages/CreateEvent';
 
-export const loginContext = createContext(null);
+
 
 const App: React.FC = () => {
   console.log("App component re-rendered");
 
-  const [userState, setUserState] = useState({
-    isAuthenticated: false, 
-    access_type: null
-  });
-
-
 
   return (
-    <loginContext.Provider value={[userState, setUserState]}>
+    
       <Router>
         <HeaderNavBar/>
         <Routes>
@@ -30,7 +24,7 @@ const App: React.FC = () => {
           <Route path="/create-event" element={<CreateEvent />} />
         </Routes>
       </Router>
-    </loginContext.Provider>
+    
   );
 };
 

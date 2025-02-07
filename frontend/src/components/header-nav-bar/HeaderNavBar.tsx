@@ -1,10 +1,9 @@
-import { useState, useContext } from "react";
+
 import { Link } from "react-router-dom"; // Assuming you are using React Router
 import { FunctionComponent } from "react";
 import styles from "./HeaderNavBar.module.css";
 import TRElogoVector from "../../assets/TR_events_logo.svg"
-import useApiReq from "../../hooks/useApiReq";
-import { loginContext } from "../../App";
+
 
 
 const HeaderNavBar: FunctionComponent = () => {
@@ -12,7 +11,7 @@ const HeaderNavBar: FunctionComponent = () => {
  
 
   const token = localStorage.getItem("authToken");
-  const access_type = localStorage.getItem("accessType");
+  // const access_type = localStorage.getItem("accessType");
   console.log("token from head nav bar", token)
 
   const handleLogout = () => {

@@ -1,15 +1,13 @@
-import { FunctionComponent, useState , useContext} from "react";
+import { FunctionComponent, useState } from "react";
 import styles from "./LoginTool.module.css";
-import { useAuth } from "../../contexts/AuthContext";
-import { Link } from "react-router-dom"; // Assuming you are using React Router
-import TRElogoVector from "../../assets/TR_events_logo.svg";
-import { useApiReq } from "../../hooks/useApiReq";
-import {loginContext} from "../../App";
 
-interface UserState {
-  isAuthenticated: boolean;
-  access_type: string;
-}
+import { useApiReq } from "../../hooks/useApiReq";
+
+
+// interface UserState {
+//   isAuthenticated: boolean;
+//   access_type: string;
+// }
 
 const LoginTool: FunctionComponent = () => {
 
