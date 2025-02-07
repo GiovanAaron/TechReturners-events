@@ -9,18 +9,16 @@ import { loginContext } from "../../App";
 
 const HeaderNavBar: FunctionComponent = () => {
  
-  const [userState, setUserState]= useContext(loginContext)
-
-  console.log(userState)
+ 
 
   const token = localStorage.getItem("authToken");
   const access_type = localStorage.getItem("accessType");
+  console.log("token from head nav bar", token)
 
   const handleLogout = () => {
     localStorage.removeItem("authToken");
     localStorage.removeItem("accessType");
-    setUserState({isAuthenticated: false, access_type: null})
-
+  
   };
 
 

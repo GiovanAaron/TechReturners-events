@@ -28,15 +28,15 @@ const LoginTool: FunctionComponent = () => {
 
     try {
       // Manually trigger the POST request using makeRequest
-      const {authToken, access_type} = await makeRequest(
+      const res = await makeRequest(
         "/users/login", // Use the default endpoint
         "POST", // Use the default method
         { email: email, password : password} // Data to send
       )
-
-      
-      localStorage.setItem("authToken", authToken);
-      localStorage.setItem("accessType", access_type)
+     
+      console.log("token", res);
+      localStorage.setItem("authToken", res.token );
+      localStorage.setItem("accessType", res.access_type)
       
       
       
@@ -72,7 +72,7 @@ const LoginTool: FunctionComponent = () => {
         </div>
         <div className={styles.testEmail}>
           <div className={styles.accesstype}>Password:</div>
-          <div className={styles.accesstype}>{`Password `}</div>
+          <div className={styles.accesstype}>{`password `}</div>
         </div>
       </div>
       <form onSubmit={handleSubmit}>
