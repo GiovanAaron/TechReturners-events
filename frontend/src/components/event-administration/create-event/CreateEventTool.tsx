@@ -1,6 +1,6 @@
 import { FunctionComponent, useState } from "react";
 import styles from "./CreateEventTool.module.css";
-import createDateString from "../../../utils/createSQLdate";
+import createDateString from "../../../utils/createSQLDate";
 import useApiReq from "../../../hooks/useApiReq";
 
 const CreateEventTool: FunctionComponent = () => {

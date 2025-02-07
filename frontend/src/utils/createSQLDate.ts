@@ -1,4 +1,4 @@
-export default function createDateString(date :string, time :string) {
+const createDateString = (date :string, time :string) => {
     // Combine the date and time into a single string
     const dateTimeString = `${date}T${time}:00Z`;
 
@@ -15,3 +15,4 @@ export default function createDateString(date :string, time :string) {
 }
 
 
+export default createDateString
