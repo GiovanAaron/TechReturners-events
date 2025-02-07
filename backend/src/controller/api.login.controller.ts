@@ -21,6 +21,8 @@ export const loginUser = async (
     }
 
     const user = await fetchUserByEmail(email);
+
+    console.log(user)
     if (!user) {
       res.status(404).send({ error: "User not found" });
       return;
@@ -37,7 +39,7 @@ export const loginUser = async (
     // Generate JWT
     const token = jwt.sign(
       {
-        id: user.id,
+        user_id: user.id,
        
       },
       JWT_SECRET,
