@@ -4,6 +4,7 @@ import useApiReq from "../hooks/useApiReq";  // Import the API hook
 import styles from "./pages.module.css";
 import formatDateWithSuffix from "../utils/formatdatesuffix";
 import CreateEventBtn from "../components/buttons/create-event-btn/CreateEventBtn";
+import hero_image from "../assets/hero_image.png"
 
 const Home: React.FC = () => {
 
@@ -79,6 +80,8 @@ const Home: React.FC = () => {
           {access_type === "Admin" || access_type === "Moderator" ? <CreateEventBtn /> : null}
 
       </div>
+
+        <img src={hero_image} alt="hero image" className={styles.heroImage}></img>
     </>
   );
 };

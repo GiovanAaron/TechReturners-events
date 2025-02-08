@@ -2,6 +2,7 @@ import React, { FunctionComponent, useState } from "react";
 import styles from "./LoginTool.module.css";
 
 import { useApiReq } from "../../hooks/useApiReq";
+import { storeSession } from "../../utils/tokenHandlers";
 
 
 // interface UserState {
@@ -32,14 +33,8 @@ const LoginTool: FunctionComponent = () => {
         { email: email, password : password} // Data to send
       )
      
-      console.log("token", res);
-      localStorage.setItem("authToken", res.token );
-      localStorage.setItem("accessType", res.access_type)
-      
-      
-      
-      // console.log("failed to login",error)
-    
+      storeSession(res.token, res.access_type, 15)
+     
     } catch (err) {
       console.error("Login failed:", err);
       // setError(apiError || "Something went wrong. Please try again.");

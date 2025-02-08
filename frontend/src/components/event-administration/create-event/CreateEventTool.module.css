@@ -26,12 +26,15 @@
     align-items: flex-start;
     justify-content: flex-start;
 }
-.detailsRight {
-    width: 512px;
+.rightCol {
+    width: 32rem;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     justify-content: flex-start;
+    gap:.5rem;
+
+
 }
 .eventName {
     position: relative;
@@ -56,13 +59,15 @@
     justify-content: center;
     padding: 13px 0px;
 }
-.setDateDropdowns {
+.colSplit {
     align-self: stretch;
     display: flex;
     flex-direction: row;
     align-items: flex-start;
-    justify-content: flex-start;
-    gap: 32px;
+    gap: 2rem
+   
+    
+ 
 }
 .signInBtn {
     width: 176px;
@@ -78,13 +83,19 @@
     color: #fff;
     font-family: 'Product Sans Black';
 }
-.detailsRight1 {
-    width: 512px;
+.leftCol {
+    width: 32rem;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     justify-content: flex-start;
-    gap: 32px;
+    gap: .5rem; /* 32px / 16 */
+}
+
+.leftCol :focus {
+
+    outline-color: #a76eab;
+
 }
 .loginRender {
     position: relative;
@@ -95,10 +106,220 @@
     justify-content: flex-start;
     flex-wrap: wrap;
     align-content: flex-start;
-    gap: 87px;
+    gap: 5.4375rem;
     text-align: left;
-    font-size: 17.06px;
+    font-size: 1.06625rem;
     color: #696969;
     font-family: 'Product Sans';
 }
 
+.basicInput  {
+
+    
+    border: none;
+    
+    align-self: stretch;
+    border-radius: .4rem;
+    
+    display: flex;
+    flex-direction: column;
+    /* align-items: center; */
+    justify-content: start;
+    
+    color:#454545;
+    font-size: 1rem;
+
+}
+.basicInput input {
+
+    background-color: #cbcbcb;
+    width: auto;
+    
+    
+    padding: 1rem 2rem;
+    border: none;
+    justify-items:start;
+    color:#454545;
+    font-size: 1rem;
+    border-radius: .4rem;
+
+
+}
+.basicInput label {
+
+
+    width: auto;
+    
+    
+    padding: 0.3rem 1rem;
+    border: none;
+    justify-items:start;
+    color:#b2b2b2;
+    font-size: .9rem;
+    border-radius: .4rem;
+
+
+
+}
+.dateInput label {
+
+
+    width: auto;
+    
+    display: flex;
+    padding: 0.3rem 1rem;
+    border: none;
+    justify-items:start;
+    color:#817a7a;
+    font-size: .9rem;
+    border-radius: .4rem;
+    flex-direction: column;
+
+
+
+}
+
+
+.basicInput input:focus {
+    width: 28rem;
+    background-color: #cbcbcb;
+    
+    justify-items:start;
+    
+    font-size: 1rem;
+    outline-color: #a76eab;
+
+}
+
+.basicInput select {
+    padding: 1rem 2rem;
+    background-color: #cbcbcb;
+    color:#454545;
+    border-radius: .4rem;
+    
+    text-align: center;
+    width: 15rem;
+    font-size: .75rem
+
+}
+
+.dateInput {
+
+    padding: .8rem 1rem;
+    background-color: #cbcbcb;
+    color:#454545;
+    border-radius: .4rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    font-size: .75rem;
+    gap: .7rem;
+}
+
+.eventDetails {
+    margin-top: 1rem;
+
+    width: 28rem;
+   
+    min-height: 15rem;
+    padding: 1rem 2rem;
+    border-radius: 1rem;
+    background-color: #746e7b;
+    color:#f3f3f3
+   
+
+
+}
+
+textarea::placeholder {
+    color: #c9c9c9;
+} 
+
+
+.rightCol  :focus{
+
+   outline-width: 2rem;
+   outline-color: #a76eab;
+
+}
+
+.price {
+border-radius: .5rem;
+display: flex;
+flex-direction: row;
+background-color: #cbcbcb;
+height: 2.8rem;
+align-items: center;
+width: 8rem
+}
+
+.price input {
+    
+    background-color: #cbcbcb;
+    color:#454545;
+    border-radius: .4rem;
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+    font-size: 1rem;
+    gap: .7rem;
+    height: 2.5rem;
+    border: none;
+    width: 6rem;
+    font-size: 1.1rem;
+    
+}
+
+.price p {
+    font-size: 1.25rem;
+    padding-left: 0.8rem;
+    
+}
+
+.price :focus {
+
+    /* outline-color: #a76eab; */
+    outline: none;
+    
+}
+
+.capacity {
+    color: #696969;
+    padding-left: 1rem;
+    border-radius: .5rem;
+    display: flex;
+    flex-direction: row;
+    background-color: #cbcbcb;
+    height: 2.62rem;
+    align-items: center;
+    width: 8rem;
+    height: 2.7rem;
+
+    font-size: 1rem;
+    text-align: center;
+    border: none;
+}
+
+.capacity :focus {
+
+    outline-color: #a76eab;
+    
+}
+
+
+.dateLabel {
+
+    font-size: 0.9rem;
+    color:#b2b2b2;
+
+    
+
+}
+
+
+.dateLabel p {
+
+    margin: 0;
+    padding: .2rem .5rem
+
+}
