@@ -6,12 +6,16 @@ import HeaderNavBar from './components/header-nav-bar/HeaderNavBar';
 import EventbyID from './pages/EventbyID';
 import SignIn from './pages/SignIn';
 import CreateEvent from './pages/CreateEvent';
+import { endSession, isTokenExpired } from './utils/tokenHandlers';
 
 
 
 const App: React.FC = () => {
   console.log("App component re-rendered");
 
+  if (isTokenExpired()) {
+    endSession();
+  }
 
   return (
     

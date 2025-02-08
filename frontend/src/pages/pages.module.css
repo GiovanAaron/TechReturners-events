@@ -22,3 +22,12 @@
     gap: 1rem;
     min-width: 45rem;
 }
+
+.heroImage {
+    max-width: 50%;
+    height: auto;
+    position: absolute;
+    top: 10rem;
+    left: 45rem;
+    z-index: -10;
+}

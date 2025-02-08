@@ -82,7 +82,7 @@ const LargeEvent: FunctionComponent<LargeEventProps> = ({
           rel="noopener noreferrer"
           className={styles.getTickets}
         >
-          <div className={styles.date}>Get Tickets</div>
+          <div className={styles.date}>Add to My Calendar</div>
         </a>
       </div>
       <div className={styles.detailsRight}>
