@@ -102,7 +102,9 @@ const CreateEventTool: FunctionComponent = () => {
     <div className={styles.loginRender}>
       <div className={styles.leftCol}>
         <div className={styles.basicInput}>
-          <label className={styles.label} htmlFor="Title">Event Title (Required)</label>
+          <label className={styles.label} htmlFor="Title">
+            (Required)
+          </label>
           <input
             placeholder="Event Title"
             type="text"
@@ -116,7 +118,7 @@ const CreateEventTool: FunctionComponent = () => {
 
         <div className={styles.colSplit}>
           <div className={styles.basicInput}>
-            <label>Event Type</label>
+            <label>(Required)</label>
             <select
               className={styles.basicInput}
               name="eventType"
@@ -132,7 +134,7 @@ const CreateEventTool: FunctionComponent = () => {
             </select>
           </div>
           <div className={styles.basicInput}>
-          <label>Location Type</label>
+            <label>(Required)</label>
             <select
               className={styles.basicInput}
               name="Location_Type"
@@ -148,55 +150,66 @@ const CreateEventTool: FunctionComponent = () => {
           </div>
         </div>
         <div className={styles.colSplit}>
-          <div className={styles.dateInput}>
-            <label>Start Date
-            <input
-              type="date"
-              name="startDate"
-              value={
-                formData.startDate || new Date().toISOString().split("T")[0]
-              }
-              onChange={handleInputChange}
-            />
-             </label>
-             <label>Start Time
-            <input
-              type="time"
-              name="startTime"
-              value={
-                formData.startTime ||
-                new Date().toISOString().split("T")[1].slice(0, -8)
-              }
-              onChange={handleInputChange}
-            />
-            </label>
-           
-          </div>
-
-          <div className={styles.dateInput}>
-            <label>End Date</label>
-            
-            <input
-              type="date"
-              name="endDate"
-              value={formData.endDate || new Date().toISOString().split("T")[0]}
-              onChange={handleInputChange}
-            />
-            <label>End Time
-            <input
-              type="time"
-              name="endTime"
-              value={
-                formData.endTime ||
-                new Date().toISOString().split("T")[1].slice(0, -8)
-              }
-              onChange={handleInputChange}
-            />
-            </label>
-          </div>
+          <label className={styles.dateLabel} htmlFor="Title">
+            <p>(Required)</p>
+            <div className={styles.dateInput}>
+              <label>
+                Start Date
+                <input
+                  type="date"
+                  name="startDate"
+                  value={
+                    formData.startDate || new Date().toISOString().split("T")[0]
+                  }
+                  onChange={handleInputChange}
+                />
+              </label>
+              <label>
+                Start Time
+                <input
+                  type="time"
+                  name="startTime"
+                  value={
+                    formData.startTime ||
+                    new Date().toISOString().split("T")[1].slice(0, -8)
+                  }
+                  onChange={handleInputChange}
+                />
+              </label>
+            </div>
+          </label>
+          <label className={styles.dateLabel} htmlFor="Title">
+            {" "}
+            <p>(Required)</p>
+            <div className={styles.dateInput}>
+              <label>
+                End Date
+                <input
+                  type="date"
+                  name="endDate"
+                  value={
+                    formData.endDate || new Date().toISOString().split("T")[0]
+                  }
+                  onChange={handleInputChange}
+                />
+              </label>
+              <label>
+                End Time
+                <input
+                  type="time"
+                  name="endTime"
+                  value={
+                    formData.endTime ||
+                    new Date().toISOString().split("T")[1].slice(0, -8)
+                  }
+                  onChange={handleInputChange}
+                />
+              </label>
+            </div>
+          </label>
         </div>
 
-        <div className={styles.basicInput}>
+        <div className={styles.basicInput} style={{ marginTop: ".6rem" }}>
           <input
             placeholder="Address/ Virtual Meeting Link"
             type="text"
@@ -206,7 +219,7 @@ const CreateEventTool: FunctionComponent = () => {
           />
         </div>
 
-        <div className={styles.colSplit}>
+        <div className={styles.colSplit} style={{ marginTop: ".6rem" }}>
           <div className={styles.basicInput}>
             <select
               className={styles.basicInput}
@@ -232,7 +245,9 @@ const CreateEventTool: FunctionComponent = () => {
               <option value="" disabled>
                 Select City
               </option>
-              <option value="" disabled>-- England --</option>
+              <option value="" disabled>
+                -- England --
+              </option>
               <option value="London">London</option>
               <option value="Manchester">Manchester</option>
               <option value="Birmingham">Birmingham</option>
@@ -240,11 +255,15 @@ const CreateEventTool: FunctionComponent = () => {
               <option value="Bristol">Bristol</option>
               <option value="Cambridge">Cambridge</option>
               <option value="Newcastle upon Tyne">Newcastle upon Tyne</option>
-              <option value="" disabled>-- Wales --</option>
+              <option value="" disabled>
+                -- Wales --
+              </option>
               <option value="Edinburgh">Edinburgh</option>
               <option value="Glasgow">Glasgow</option>
               <option value="Dundee">Dundee</option>
-              <option value="" disabled>-- Scotland --</option>
+              <option value="" disabled>
+                -- Scotland --
+              </option>
               <option value="Cardiff">Cardiff</option>
               <option value="Swansea">Swansea</option>
               <option value="Newport">Newport</option>
@@ -252,18 +271,22 @@ const CreateEventTool: FunctionComponent = () => {
           </div>
         </div>
 
-        <div className={styles.basicInput}>
+        <div className={styles.basicInput} style={{ marginTop: ".6rem" }}>
+          <label style={{paddingTop: "0", marginTop: "-.5rem"}}>(Required)</label>
           <input
             placeholder="Photo URL (.JPG, .PNG, .GIF)"
             type="text"
             name="imageUrl"
             value={formData.ImageUrl}
             onChange={handleInputChange}
-            // className={styles.basicInput}
           />
         </div>
 
-        <button className={styles.signInBtn} onClick={handleSubmit}>
+        <button
+          className={styles.signInBtn}
+          onClick={handleSubmit}
+          style={{ marginTop: ".6rem" }}
+        >
           <div className={styles.eventName}>Create Event</div>
         </button>
       </div>
@@ -277,7 +300,14 @@ const CreateEventTool: FunctionComponent = () => {
             onChange={handleInputChange}
           />
 
-          <div style={{ display: "flex", flexDirection: "row", gap: "1rem" }}>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              gap: "1rem",
+              alignItems: "end",
+            }}
+          >
             <div className={styles.price}>
               <p>£ </p>
               <input
@@ -289,14 +319,28 @@ const CreateEventTool: FunctionComponent = () => {
                 onChange={handleInputChange}
               />
             </div>
-            <input
-              className={styles.capacity}
-              type="number"
-              placeholder="Capacity"
-              name="capacity"
-              value={formData.capacity}
-              onChange={handleInputChange}
-            />
+            <label>
+              {" "}
+              <p
+                style={{
+                  margin: "0",
+                  paddingBottom: ".2rem",
+                  paddingLeft: ".6rem",
+                  fontSize: ".9rem",
+                  color: "#b2b2b2",
+                }}
+              >
+                (Required)
+              </p>
+              <input
+                className={styles.capacity}
+                type="number"
+                placeholder="Capacity"
+                name="capacity"
+                value={formData.capacity}
+                onChange={handleInputChange}
+              />
+            </label>
           </div>
         </div>
       </form>

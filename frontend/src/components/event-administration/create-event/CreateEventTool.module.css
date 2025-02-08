@@ -32,7 +32,7 @@
     flex-direction: column;
     align-items: flex-start;
     justify-content: flex-start;
-    gap:2rem;
+    gap:.5rem;
 
 
 }
@@ -170,7 +170,7 @@
     padding: 0.3rem 1rem;
     border: none;
     justify-items:start;
-    color:#b2b2b2;
+    color:#817a7a;
     font-size: .9rem;
     border-radius: .4rem;
     flex-direction: column;
@@ -295,7 +295,7 @@ width: 8rem
     width: 8rem;
     height: 2.7rem;
 
-    font-size: 1.1rem;
+    font-size: 1rem;
     text-align: center;
     border: none;
 }
@@ -304,4 +304,22 @@ width: 8rem
 
     outline-color: #a76eab;
     
+}
+
+
+.dateLabel {
+
+    font-size: 0.9rem;
+    color:#b2b2b2;
+
+    
+
+}
+
+
+.dateLabel p {
+
+    margin: 0;
+    padding: .2rem .5rem
+
 }
