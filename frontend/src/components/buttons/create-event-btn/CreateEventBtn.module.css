@@ -3,7 +3,7 @@
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     align-self: stretch;
     border-radius: 0.625rem; /* 10px / 16 */
-    background: linear-gradient(99.25deg, rgba(245, 226, 245, 0.2), rgba(211, 187, 77, 0.2)), #e3c139;
+    background: linear-gradient(99.25deg, rgba(245, 226, 245, 0.2), rgba(211, 187, 77, 0.2)), #cdb141;
     display: flex;
     flex-direction: row;
     align-items: center;
