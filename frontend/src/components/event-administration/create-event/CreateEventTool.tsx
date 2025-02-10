@@ -260,15 +260,15 @@ const CreateEventTool: FunctionComponent = () => {
               <option value="" disabled>
                 -- Wales --
               </option>
-              <option value="Edinburgh">Edinburgh</option>
-              <option value="Glasgow">Glasgow</option>
-              <option value="Dundee">Dundee</option>
-              <option value="" disabled>
-                -- Scotland --
-              </option>
               <option value="Cardiff">Cardiff</option>
               <option value="Swansea">Swansea</option>
               <option value="Newport">Newport</option>
+              <option value="" disabled>
+                -- Scotland --
+              </option>
+              <option value="Edinburgh">Edinburgh</option>
+              <option value="Glasgow">Glasgow</option>
+              <option value="Dundee">Dundee</option>
             </select>
           </div>
         </div>
