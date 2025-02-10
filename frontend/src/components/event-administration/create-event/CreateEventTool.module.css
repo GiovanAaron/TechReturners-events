@@ -1,31 +1,4 @@
-.helmet {
-    align-self: stretch;
-    background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), linear-gradient(90deg, rgba(183, 104, 189, 0.46), rgba(144, 8, 154, 0.46) 47.05%, rgba(211, 137, 217, 0.46));
-    height: 22px;
-}
-.emailInsert {
-    width: 400px;
-    position: relative;
-    display: inline-block;
-    flex-shrink: 0;
-}
-.alert {
-    align-self: stretch;
-    border-radius: 0px 0px 7px 7px;
-    background-color: #cbcbcb;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    padding: 13px 0px;
-}
-.avisory {
-    align-self: stretch;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-start;
-}
+
 .rightCol {
     width: 32rem;
     display: flex;
@@ -39,16 +12,7 @@
 .eventName {
     position: relative;
 }
-.eventTitle {
-    align-self: stretch;
-    border-radius: 7px;
-    background-color: #cbcbcb;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    padding: 13px 0px;
-}
+
 .startDate {
     flex: 1;
     border-radius: 7px;
@@ -128,6 +92,7 @@
     
     color:#454545;
     font-size: 1rem;
+    
 
 }
 .basicInput input {
@@ -142,6 +107,7 @@
     color:#454545;
     font-size: 1rem;
     border-radius: .4rem;
+    font-size: .8rem;
 
 
 }

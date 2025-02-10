@@ -20,7 +20,7 @@ const CreateEventTool: FunctionComponent = () => {
     capacity: "",
     price: "",
     eventDetails: "",
-    ImageUrl: "",
+    photo1Url: "",
     city: "",
   });
 
@@ -36,7 +36,7 @@ const CreateEventTool: FunctionComponent = () => {
       [name]: value,
     });
 
-    console.log(formData);
+    // console.log(formData);
   };
 
   const { makeRequest } = useApiReq();
@@ -53,9 +53,9 @@ const CreateEventTool: FunctionComponent = () => {
       address: formData.address,
       region: formData.region,
       capacity: parseInt(formData.capacity, 10),
-      price: parseFloat(formData.price),
+      price: formData.price == "" ? 0 : parseFloat(formData.price),
       details: formData.eventDetails,
-      imageUrl: formData.ImageUrl,
+      imageUrl: formData.photo1Url,
       city: formData.city,
     };
 
@@ -69,8 +69,8 @@ const CreateEventTool: FunctionComponent = () => {
     );
 
     try {
-      console.log("authToken", authToken);
-      const { responseData } = await makeRequest(
+      // console.log("authToken", authToken);
+      const  {newEvent}  = await makeRequest(
         "/events",
         "POST",
         {
@@ -92,7 +92,9 @@ const CreateEventTool: FunctionComponent = () => {
         authToken
       );
 
-      console.log(responseData);
+ 
+
+      window.location.href = `/events/${newEvent.id}`
     } catch (error) {
       console.error("Failed to create event:", error);
     }
@@ -258,15 +260,15 @@ const CreateEventTool: FunctionComponent = () => {
               <option value="" disabled>
                 -- Wales --
               </option>
-              <option value="Edinburgh">Edinburgh</option>
-              <option value="Glasgow">Glasgow</option>
-              <option value="Dundee">Dundee</option>
-              <option value="" disabled>
-                -- Scotland --
-              </option>
               <option value="Cardiff">Cardiff</option>
               <option value="Swansea">Swansea</option>
               <option value="Newport">Newport</option>
+              <option value="" disabled>
+                -- Scotland --
+              </option>
+              <option value="Edinburgh">Edinburgh</option>
+              <option value="Glasgow">Glasgow</option>
+              <option value="Dundee">Dundee</option>
             </select>
           </div>
         </div>
@@ -276,8 +278,8 @@ const CreateEventTool: FunctionComponent = () => {
           <input
             placeholder="Photo URL (.JPG, .PNG, .GIF)"
             type="text"
-            name="imageUrl"
-            value={formData.ImageUrl}
+            name="photo1Url"
+            value={formData.photo1Url}
             onChange={handleInputChange}
           />
         </div>
