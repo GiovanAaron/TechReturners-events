@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 
 const BASE_API_URL = "https://techreturners-events.onrender.com/api";
 
@@ -62,8 +62,13 @@ export const useApiReq = (
       // console.log("API response:", res.data); // Log the API response
       setResponseData(res.data);
       return res.data;
-    } catch (err) {
-      console.error("API error:", err, err.response.data); // Log any errors
+    } catch (err: unknown) {
+      if ((err as AxiosError)?.response) {
+        console.error("API error:", err, (err as AxiosError)?.response?.data); // Log any errors
+      } else {
+        console.error("API error:", err); // Log any errors
+      }
+      
       setError(err instanceof Error ? err.message : 'Something went wrong');
     } finally {
       setLoading(false);

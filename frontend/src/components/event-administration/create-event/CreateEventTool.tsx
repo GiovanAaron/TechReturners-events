@@ -5,6 +5,16 @@ import styles from "./CreateEventTool.module.css";
 import useApiReq from "../../../hooks/useApiReq";
 import { defaultStart, defaultEnd } from "../../../utils/defaultDate";
 
+interface RequiredData {
+  title: boolean;
+  category: boolean;
+  location_type: boolean;
+  tickets_remaining: boolean;
+  description: boolean;
+  photo_1_url: boolean;
+}
+
+
 const CreateEventTool: React.FC = () => {
   const authToken = localStorage.getItem("authToken");
 
@@ -25,7 +35,9 @@ const CreateEventTool: React.FC = () => {
   
 
   // Define a single state object to manage all form fields
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<{
+    [key: string]: any;
+  }>({
     title: null,
     category: "",
     location_type: "",
@@ -58,15 +70,15 @@ const CreateEventTool: React.FC = () => {
 
     if (firstSubmit) {
       setRequiredData((prev) => {
-        const updatedRequiredData = { ...prev };
+        const updatedRequiredData = { ...prev } as RequiredData;
   
         for (let key in updatedRequiredData) {
           console.log("key", key, "formData[key]", formData[key]);
-  
+        
           if (formData[key] === null || formData[key] === "") {
-            updatedRequiredData[key] = false;
+            updatedRequiredData[key as keyof RequiredData] = false;
           } else {
-            updatedRequiredData[key] = true;
+            updatedRequiredData[key as keyof RequiredData] = true;
           }
         }
   
@@ -104,18 +116,18 @@ const CreateEventTool: React.FC = () => {
 
     setFirstSubmit(true);
 
-    setRequiredData((prev) => {
-      const updatedRequiredData = { ...prev };
-
-      for (let key in updatedRequiredData) {
-        console.log("key", key, "formData[key]", formData[key]);
-
-        if (formData[key] === null || formData[key] === "") {
-          updatedRequiredData[key] = false;
-        } else {
-          updatedRequiredData[key] = true;
+      setRequiredData((prev) => {
+        const updatedRequiredData = { ...prev } as RequiredData;
+  
+        for (let key in updatedRequiredData) {
+          console.log("key", key, "formData[key]", formData[key]);
+        
+          if (formData[key] === null || formData[key] === "") {
+            updatedRequiredData[key as keyof RequiredData] = false;
+          } else {
+            updatedRequiredData[key as keyof RequiredData] = true;
+          }
         }
-      }
 
       return updatedRequiredData;
     });
@@ -123,9 +135,9 @@ const CreateEventTool: React.FC = () => {
 
     const eventData = {
       ...formData,
-
       start_datetime: formData.startDate + "T" + formData.startTime + ":00Z",
       end_datetime: formData.endDate + "T" + formData.endTime + ":00Z",
+      tickets_remaining: formData.tickets_remaining,
     };
 
     try {
