@@ -1,34 +1,34 @@
-import { createContext, useContext, useState, ReactNode } from "react";
-import React from "react";
+// import { createContext, useContext, useState, ReactNode } from "react";
 
-interface AuthContextType {
-  isAuthenticated: boolean;
-  login: () => void;
-  logout: () => void;
-}
 
-// Create the context with a default value of `null`
-const AuthContext = createContext<AuthContextType | null>(null);
+// interface AuthContextType {
+//   isAuthenticated: boolean;
+//   login: () => void;
+//   logout: () => void;
+// }
 
-// Provider component
-export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+// // Create the context with a default value of `null`
+// const AuthContext = createContext<AuthContextType | null>(null);
 
-  const login = () => setIsAuthenticated(true);
-  const logout = () => setIsAuthenticated(false);
+// // Provider component
+// export const AuthProvider = ({ children }: { children: ReactNode }) => {
+//   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  return (
-    <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
-      {children}
-    </AuthContext.Provider>
-  );
-};
+//   const login = () => setIsAuthenticated(true);
+//   const logout = () => setIsAuthenticated(false);
 
-// Custom hook to use the AuthContext safely
-export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (!context) {
-    return { isAuthenticated: false, login: () => {}, logout: () => {} }; // Placeholder values
-  }
-  return context;
-};
+//   return (
+//     <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
+//       {children}
+//     </AuthContext.Provider>
+//   );
+// };
+
+// // Custom hook to use the AuthContext safely
+// export const useAuth = () => {
+//   const context = useContext(AuthContext);
+//   if (!context) {
+//     return { isAuthenticated: false, login: () => {}, logout: () => {} }; // Placeholder values
+//   }
+//   return context;
+// };

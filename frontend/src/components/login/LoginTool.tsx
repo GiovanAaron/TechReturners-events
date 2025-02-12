@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from "react";
+import React, { useState } from "react";
 import styles from "./LoginTool.module.css";
 
 import { useApiReq } from "../../hooks/useApiReq";
@@ -10,7 +10,7 @@ import { storeSession } from "../../utils/tokenHandlers";
 //   access_type: string;
 // }
 
-const LoginTool: FunctionComponent = () => {
+const LoginTool: React.FC = () => {
 
 
   

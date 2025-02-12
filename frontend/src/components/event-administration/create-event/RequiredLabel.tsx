@@ -1,10 +1,9 @@
 import React from "react";
-import { FunctionComponent, useState, useEffect } from "react";
 import styles from "./CreateEventTool.module.css";
 
 
 
-export const RequiredLabel: FunctionComponent = () => {
+export const RequiredLabel: React.FC = () => {
     return (
         <label className={styles.label} htmlFor="Title" >
             (Required)
@@ -12,7 +11,7 @@ export const RequiredLabel: FunctionComponent = () => {
     )
 }
 
-export const RequiredLabelActivated: FunctionComponent = () => {
+export const RequiredLabelActivated: React.FC = () => {
     return (
         <label className={styles.label} htmlFor="Title" style={{color:"red"}}>
             (Required)

@@ -1,4 +1,4 @@
-import { FunctionComponent } from "react";
+import React from "react";
 import styles from "./LargeEvent.module.css";
 import { arrayRandomizer } from "../../../utils/arrayRandomizer";
 import randomImages from "../../../assets/loremipsum/random_event_image";
@@ -21,7 +21,7 @@ interface LargeEventProps {
   endTime: string;
 }
 
-const LargeEvent: FunctionComponent<LargeEventProps> = ({
+const LargeEvent: React.FC <LargeEventProps> = ({
   city,
   date,
   price,

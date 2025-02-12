@@ -1,14 +1,14 @@
 
-import React from "react";
+
 import { Link } from "react-router-dom"; // Assuming you are using React Router
-import { FunctionComponent } from "react";
+import React from "react";
 import styles from "./HeaderNavBar.module.css";
 import TRElogoVector from "../../assets/TR_events_logo.svg"
 import { endSession } from "../../utils/tokenHandlers";
 
 
 
-const HeaderNavBar: FunctionComponent = () => {
+const HeaderNavBar: React.FC = () => {
  
  
 

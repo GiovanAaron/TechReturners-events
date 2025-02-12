@@ -1,4 +1,4 @@
-import { FunctionComponent } from "react";
+import React from "react";
 import { Link } from "react-router-dom"; // Import Link from react-router-dom
 import styles from "./SmallEvent.module.css";
 import { arrayRandomizer } from "../../../utils/arrayRandomizer";
@@ -14,7 +14,7 @@ interface SmallEventProps {
   id: string; // Assuming each event has an id
 }
 
-const SmallEvent: FunctionComponent<SmallEventProps> = ({
+const SmallEvent: React.FC <SmallEventProps> = ({
   city,
   date,
   category,

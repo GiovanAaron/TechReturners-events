@@ -1,11 +1,11 @@
-import React from "react";
-import { FunctionComponent, useState, useEffect } from "react";
+
+import React, { useState } from "react";
 import styles from "./CreateEventTool.module.css";
-import createDateString from "../../../utils/createSQLDate";
+// import createDateString from "../../../utils/createSQLDate";
 import useApiReq from "../../../hooks/useApiReq";
 import { defaultStart, defaultEnd } from "../../../utils/defaultDate";
 
-const CreateEventTool: FunctionComponent = () => {
+const CreateEventTool: React.FC = () => {
   const authToken = localStorage.getItem("authToken");
 
   const normalLabel = { color: "normal" };
