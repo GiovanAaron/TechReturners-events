@@ -1,5 +1,5 @@
 import React from "react";
-import { FunctionComponent, useState, useEffect } from "react";
+import { FunctionComponent } from "react";
 import styles from "./CreateEventTool.module.css";
 
 
