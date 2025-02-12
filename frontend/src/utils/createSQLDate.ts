@@ -1,8 +1,8 @@
 const createDateString = (date :string, time :string) => {
 
 
-    // console.log("date", date)
-    // console.log("time", time)
+    console.log("date", date)
+    console.log("time", time)
     // Combine the date and time into a single string
     const dateTimeString = `${date}T${time}:00Z`;
 
