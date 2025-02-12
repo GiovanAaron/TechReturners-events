@@ -1,4 +1,4 @@
-
+import React from "react";
 import styles from "./pages.module.css";
 import CreateEventTool from "../components/event-administration/create-event/CreateEventTool";
 

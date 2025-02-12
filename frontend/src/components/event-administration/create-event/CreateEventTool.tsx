@@ -54,15 +54,15 @@ const CreateEventTool: FunctionComponent = () => {
       [name]: value,
     });
 
-    // console.log(formData);
-  };
+   
 
-  useEffect(() => {
     if (firstSubmit) {
       setRequiredData((prev) => {
         const updatedRequiredData = { ...prev };
   
         for (let key in updatedRequiredData) {
+          console.log("key", key, "formData[key]", formData[key]);
+  
           if (formData[key] === null || formData[key] === "") {
             updatedRequiredData[key] = false;
           } else {
@@ -72,8 +72,28 @@ const CreateEventTool: FunctionComponent = () => {
   
         return updatedRequiredData;
       });
+    };
     }
-  }, [firstSubmit, formData])
+
+  
+
+  // useEffect(() => {
+  //   if (firstSubmit) {
+  //     setRequiredData((prev) => {
+  //       const updatedRequiredData = { ...prev };
+  
+  //       for (let key in updatedRequiredData) {
+  //         if (formData[key] === null || formData[key] === "") {
+  //           updatedRequiredData[key] = false;
+  //         } else {
+  //           updatedRequiredData[key] = true;
+  //         }
+  //       }
+  
+  //       return updatedRequiredData;
+  //     });
+  //   }
+  // }, [firstSubmit, formData])
 
   // console.log(formData.startDate + "T" + formData.startTime + ":00Z");
   const { makeRequest } = useApiReq();
@@ -83,6 +103,23 @@ const CreateEventTool: FunctionComponent = () => {
     // Prepare the data for the POST request
 
     setFirstSubmit(true);
+
+    setRequiredData((prev) => {
+      const updatedRequiredData = { ...prev };
+
+      for (let key in updatedRequiredData) {
+        console.log("key", key, "formData[key]", formData[key]);
+
+        if (formData[key] === null || formData[key] === "") {
+          updatedRequiredData[key] = false;
+        } else {
+          updatedRequiredData[key] = true;
+        }
+      }
+
+      return updatedRequiredData;
+    });
+
 
     const eventData = {
       ...formData,
@@ -114,7 +151,7 @@ const CreateEventTool: FunctionComponent = () => {
     <div className={styles.loginRender}>
       <div className={styles.leftCol}>
         <div className={styles.basicInput}>
-          <label className={styles.label} htmlFor="Title" style={requiredData.title && !firstSubmit ? normalLabel : warningLabel}>
+          <label className={styles.label} htmlFor="Title" style={requiredData.title && (firstSubmit == true || requiredData.title) ? normalLabel : warningLabel}>
             (Required)
           </label>
           <input
@@ -129,7 +166,7 @@ const CreateEventTool: FunctionComponent = () => {
 
         <div className={styles.colSplit}>
           <div className={styles.basicInput}>
-            <label style={!firstSubmit && requiredData.category ? normalLabel : warningLabel}>(Required)</label>
+            <label style={requiredData.category && (firstSubmit == true || requiredData.category) ? normalLabel : warningLabel}>(Required)</label>
             <select
               className={styles.basicInput}
               name="category"
@@ -145,7 +182,7 @@ const CreateEventTool: FunctionComponent = () => {
             </select>
           </div>
           <div className={styles.basicInput}>
-            <label style={!firstSubmit && requiredData.location_type ? normalLabel : warningLabel}>(Required)</label>
+            <label style={(firstSubmit || requiredData.location_type) && requiredData.location_type ? normalLabel : warningLabel}>(Required)</label>
             <select
               className={styles.basicInput}
               name="location_type"
@@ -283,7 +320,8 @@ const CreateEventTool: FunctionComponent = () => {
         </div>
 
         <div className={styles.basicInput} style={{ marginTop: ".6rem" }}>
-          <label style={!firstSubmit && requiredData.photo_1_url ? { paddingTop: "0", marginTop: "-.5rem", color: normalLabel.color } : { paddingTop: "0", marginTop: "-.5rem", color: warningLabel.color }}>
+          
+          <label style={(firstSubmit || requiredData.photo_1_url) && requiredData.photo_1_url ? { paddingTop: "0", marginTop: "-.5rem", color: normalLabel.color } : { paddingTop: "0", marginTop: "-.5rem", color: warningLabel.color }}>
             (Required)
           </label>
           <input
@@ -304,14 +342,18 @@ const CreateEventTool: FunctionComponent = () => {
         </button>
       </div>
       <form>
+        
         <div className={styles.rightCol}>
+        <label className={styles.descLabel} htmlFor="Title" style={requiredData.description && (firstSubmit == true || requiredData.description) ? normalLabel : warningLabel}>
+            <p >(Required)</p>
           <textarea
             className={styles.eventDetails}
             placeholder="Provide details about the event..."
             name="description"
             value={formData.description ?? ""}
             onChange={handleInputChange}
-          />
+          /> 
+        </label>
 
           <div
             style={{
@@ -332,15 +374,15 @@ const CreateEventTool: FunctionComponent = () => {
                 onChange={handleInputChange}
               />
             </div>
-            <label>
+            <label style={requiredData.tickets_remaining && (firstSubmit == true || requiredData.tickets_remaining) ? {color: "#B2B2B2"} : warningLabel}>
               {" "}
-              <p
+              <p 
                 style={{
                   margin: "0",
                   paddingBottom: ".2rem",
                   paddingLeft: ".6rem",
                   fontSize: ".9rem",
-                  color: "#b2b2b2",
+                 
                 }}
               >
                 (Required)

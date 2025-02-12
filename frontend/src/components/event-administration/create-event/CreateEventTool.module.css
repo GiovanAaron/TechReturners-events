@@ -183,7 +183,7 @@
 }
 
 .eventDetails {
-    margin-top: 1rem;
+    /* margin-top: 1rem; */
 
     width: 28rem;
    
@@ -278,7 +278,22 @@ width: 8rem
     font-size: 0.9rem;
     color:#b2b2b2;
 
-    
+}
+
+.descLabel {
+
+    color:#b2b2b2;
+
+}
+
+.descLabel p {
+
+    font-size: 0.9rem;
+   
+   
+   margin-top: 0rem;
+   margin-bottom: .5rem;
+   margin-left: .5rem;
 
 }
 
@@ -289,3 +304,4 @@ width: 8rem
     padding: .2rem .5rem
 
 }
+
