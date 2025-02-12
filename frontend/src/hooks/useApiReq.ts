@@ -63,7 +63,7 @@ export const useApiReq = (
       setResponseData(res.data);
       return res.data;
     } catch (err) {
-      console.error("API error:", err); // Log any errors
+      console.error("API error:", err, err.response.data); // Log any errors
       setError(err instanceof Error ? err.message : 'Something went wrong');
     } finally {
       setLoading(false);
