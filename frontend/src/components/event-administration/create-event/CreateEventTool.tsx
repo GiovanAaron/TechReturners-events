@@ -27,6 +27,7 @@ interface RequiredData {
 
 const CreateEventTool: React.FC = () => {
   const authToken = localStorage.getItem("authToken");
+  const user_id = localStorage.getItem("user_id");
 
   const normalLabel = {color: "#B2B2B2"};
   const warningLabel = { color: "#db3c3c" };
@@ -143,7 +144,7 @@ const CreateEventTool: React.FC = () => {
         "POST",
         {
           ...eventData,
-          owner_id: 3,
+          owner_id: user_id,
           capacity: eventData.tickets_remaining,
         },
         authToken
