@@ -6,7 +6,7 @@ import useApiReq from "../../../hooks/useApiReq";
 import { defaultStart, defaultEnd } from "../../../utils/defaultDate";
 
 
-function removeEmptyStringKeys(obj : any) {
+function removeEmptyStringKeys(obj : object) {
   for (const key in obj) {
     if (obj[key] === "") {
       delete obj[key];
