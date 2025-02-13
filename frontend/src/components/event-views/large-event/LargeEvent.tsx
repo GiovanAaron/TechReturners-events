@@ -38,20 +38,20 @@ const LargeEvent: React.FC <LargeEventProps> = ({
   const randomImage = arrayRandomizer(randomImages.imagesFlat);
   const randomSubheading = arrayRandomizer(subheadings.flattened)
 
-  console.log("LargeEvent Props:", {
-    city,
-    date,
-    price,
-    category,
-    title,
-    location_type,
-    id,
-    startTime,
-    description,
-    address,
-    region,
-    endTime,
-  });
+  // console.log("LargeEvent Props:", {
+  //   city,
+  //   date,
+  //   price,
+  //   category,
+  //   title,
+  //   location_type,
+  //   id,
+  //   startTime,
+  //   description,
+  //   address,
+  //   region,
+  //   endTime,
+  // });
 
   return (
     // Wrap the entire component with a Link to make it clickable

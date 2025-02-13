@@ -23,9 +23,9 @@ const Home: React.FC = () => {
     true // Automatically fetch data when the component mounts
   );
 
-  console.log("loading", loading);
-  console.log("error", error);
-  console.log("events", events);
+  // console.log("loading", loading);
+  // console.log("error", error);
+  // console.log("events", events);
 
   const renderSmallEvents = (events: any) => {
     if (!events || !events.events) {

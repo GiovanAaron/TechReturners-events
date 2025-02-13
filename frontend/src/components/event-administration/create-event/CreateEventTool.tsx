@@ -1,11 +1,20 @@
 
 import React, { useState } from "react";
 import styles from "./CreateEventTool.module.css";
-// import createDateString from "../../../utils/createSQLDate";
 import useApiReq from "../../../hooks/useApiReq";
 import { defaultStart, defaultEnd } from "../../../utils/defaultDate";
 
 
+
+function validationChecker(requiredData: RequiredData) {
+  for (let key in requiredData) {
+    if (requiredData[key as keyof RequiredData] == false) {
+      return false;
+    }
+  }
+  return true;
+
+}
 function removeEmptyStringKeys(obj: { [key: string]: any }) {
   for (const key in obj) {
     if ((obj as { [key: string]: any })[key] === "") {
@@ -347,8 +356,10 @@ const CreateEventTool: React.FC = () => {
           onClick={handleSubmit}
           style={{ marginTop: ".6rem" }}
         >
-          <div className={styles.eventName}>Create Event</div>
+          <div className={styles.eventName}>Create Event</div> 
         </button>
+        {!validationChecker(requiredData) ? <i style={{color: warningLabel.color, marginTop: ".8rem"}}>[Event failed to create with details provided.
+          Please ensure all required fields are completed.]  </i> : null}
       </div>
       <form>
         
