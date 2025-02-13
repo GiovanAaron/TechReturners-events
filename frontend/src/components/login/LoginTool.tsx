@@ -1,14 +1,18 @@
 import React, { useState } from "react";
 import styles from "./LoginTool.module.css";
+import {jwtDecode} from "jwt-decode";
+
 
 import { useApiReq } from "../../hooks/useApiReq";
 import { storeSession } from "../../utils/tokenHandlers";
 
+interface DecodedToken {
+  exp: number;
+  iat: number;
+  user_id: number;
+}
 
-// interface UserState {
-//   isAuthenticated: boolean;
-//   access_type: string;
-// }
+
 
 const LoginTool: React.FC = () => {
 
@@ -32,8 +36,12 @@ const LoginTool: React.FC = () => {
         "POST", // Use the default method
         { email: email, password : password} // Data to send
       )
+
+      const decoded = jwtDecode(res.token) as DecodedToken;
+      const user_id = decoded.user_id
      
-      storeSession(res.token, res.access_type, 15)
+      storeSession(res.token, user_id, res.access_type, 15)
+
      
     } catch (err) {
       console.error("Login failed:", err);
