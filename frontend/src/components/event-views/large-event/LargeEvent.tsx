@@ -22,13 +22,13 @@ interface LargeEventProps {
 }
 
 const LargeEvent: React.FC <LargeEventProps> = ({
-  city,
+  
   date,
   price,
   category,
   title,
   location_type,
-  id,
+ 
   startTime,
   description,
   address,
