@@ -23,7 +23,7 @@ const EventbyID: React.FC = () => {
     true
   );
 
-  console.log("Fetched event data:", event);
+  // console.log("Fetched event data:", event);
 
   // Handle loading and errors
   if (loading) return <div>Loading event...</div>;

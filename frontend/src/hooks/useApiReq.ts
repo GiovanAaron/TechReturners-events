@@ -26,8 +26,8 @@ export const useApiReq = (
     setError(null);
 
     const url = `${BASE_API_URL}${customEndpoint || endpoint}`;
-    console.log("Making request to:", url); // Log the URL being requested
-    console.log("making request with method", customMethod , "to url", url ,"and data", customData);
+    // console.log("Making request to:", url); // Log the URL being requested
+    // console.log("making request with method", customMethod , "to url", url ,"and data", customData);
     const config = {
       headers: {
         ...(customHeaders || headers),
@@ -37,7 +37,7 @@ export const useApiReq = (
       },
     };
 
-    console.log("config", config);  
+    // console.log("config", config);  
 
     try {
       let res;
@@ -78,7 +78,7 @@ export const useApiReq = (
   // Automatically fetch data when the component mounts if autoReq is true
   useEffect(() => {
     if (autoReq && endpoint) {
-      console.log("useApiReq useEffect triggered"); // Log when useEffect runs
+      // console.log("useApiReq useEffect triggered"); // Log when useEffect runs
       makeRequest();
     }
   }, [endpoint, token, method, data, headers, autoReq]);

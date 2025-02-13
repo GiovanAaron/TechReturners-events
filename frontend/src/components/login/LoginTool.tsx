@@ -17,8 +17,8 @@ interface DecodedToken {
 const LoginTool: React.FC = () => {
 
 
-  
-
+  const [loading, setLoading] = useState(false);
+  const [apiError, setError] = useState(false)
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   // const [error, setError] = useState<string | null>(null);
@@ -30,6 +30,9 @@ const LoginTool: React.FC = () => {
     event.preventDefault();
 
     try {
+
+      setLoading(true);
+
       // Manually trigger the POST request using makeRequest
       const res = await makeRequest(
         "/users/login", // Use the default endpoint
@@ -42,13 +45,18 @@ const LoginTool: React.FC = () => {
      
       storeSession(res.token, user_id, res.access_type, 15)
 
+      window.location.href = "/";
+
      
     } catch (err) {
       console.error("Login failed:", err);
-      // setError(apiError || "Something went wrong. Please try again.");
-    } finally {
-      window.location.href = "/";
-    }
+      setLoading(false)
+
+      setError(true);
+    } 
+    // finally {
+    //   // window.location.href = "/";
+    // }
   };
 
 
@@ -84,9 +92,12 @@ const LoginTool: React.FC = () => {
           <div className={styles.emailForm}>
             <input value={password} onChange={(event) => setPassword(event.target.value)} type="password"className={styles.input} placeholder="Password"></input>
           </div>
+          <div style={{ display: "flex", justifyContent: "center", gap: "1rem", color: "#db3c3c" }}>
           <button className={styles.signInBtn}>
-            <div className={styles.accesstype}>Sign In</div>
+            <div className={styles.accesstype}>{loading ? "Signing In..." : "Sign In"}</div>
           </button>
+          {apiError ? <p>Invalid email or password</p> : null}
+        </div>
         </div>
       </form>
     </div>
