@@ -5,6 +5,16 @@ import styles from "./CreateEventTool.module.css";
 import useApiReq from "../../../hooks/useApiReq";
 import { defaultStart, defaultEnd } from "../../../utils/defaultDate";
 
+
+function removeEmptyStringKeys(obj) {
+  for (const key in obj) {
+    if (obj[key] === "") {
+      delete obj[key];
+    }
+  }
+  return obj;
+}
+
 interface RequiredData {
   title: boolean;
   category: boolean;
@@ -18,7 +28,7 @@ interface RequiredData {
 const CreateEventTool: React.FC = () => {
   const authToken = localStorage.getItem("authToken");
 
-  const normalLabel = { color: "normal" };
+  const normalLabel = {color: "#B2B2B2"};
   const warningLabel = { color: "#db3c3c" };
 
   const [firstSubmit, setFirstSubmit] = useState(false);
@@ -87,25 +97,6 @@ const CreateEventTool: React.FC = () => {
     };
     }
 
-  
-
-  // useEffect(() => {
-  //   if (firstSubmit) {
-  //     setRequiredData((prev) => {
-  //       const updatedRequiredData = { ...prev };
-  
-  //       for (let key in updatedRequiredData) {
-  //         if (formData[key] === null || formData[key] === "") {
-  //           updatedRequiredData[key] = false;
-  //         } else {
-  //           updatedRequiredData[key] = true;
-  //         }
-  //       }
-  
-  //       return updatedRequiredData;
-  //     });
-  //   }
-  // }, [firstSubmit, formData])
 
   // console.log(formData.startDate + "T" + formData.startTime + ":00Z");
   const { makeRequest } = useApiReq();
@@ -133,12 +124,17 @@ const CreateEventTool: React.FC = () => {
     });
 
 
+
     const eventData = {
       ...formData,
       start_datetime: formData.startDate + "T" + formData.startTime + ":00Z",
       end_datetime: formData.endDate + "T" + formData.endTime + ":00Z",
       tickets_remaining: formData.tickets_remaining,
     };
+
+    removeEmptyStringKeys(eventData);
+
+
 
     try {
       // console.log("authToken", authToken);
@@ -386,7 +382,7 @@ const CreateEventTool: React.FC = () => {
                 onChange={handleInputChange}
               />
             </div>
-            <label style={requiredData.tickets_remaining && (firstSubmit == true || requiredData.tickets_remaining) ? {color: "#B2B2B2"} : warningLabel}>
+            <label style={requiredData.tickets_remaining && (firstSubmit == true || requiredData.tickets_remaining) ? normalLabel : warningLabel}>
               {" "}
               <p 
                 style={{
