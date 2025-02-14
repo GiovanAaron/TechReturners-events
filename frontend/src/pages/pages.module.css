@@ -32,3 +32,12 @@
     left: 45rem;
     z-index: -10;
 }
+
+.smallEventsAll {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: start;
+    gap: 1.5rem;
+    min-width: 45rem;
+}
