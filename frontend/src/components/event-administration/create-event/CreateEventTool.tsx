@@ -356,7 +356,7 @@ const CreateEventTool: React.FC = () => {
           onClick={handleSubmit}
           style={{ marginTop: ".6rem" }}
         >
-          <div className={styles.eventName}>Create Event</div> 
+          <div className={styles.eventName}>Post Event</div> 
         </button>
         {!validationChecker(requiredData) ? <i style={{color: warningLabel.color, marginTop: ".8rem"}}>[Event failed to create with details provided.
           Please ensure all required fields are completed.]  </i> : null}

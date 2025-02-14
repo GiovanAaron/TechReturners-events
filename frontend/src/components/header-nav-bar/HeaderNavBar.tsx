@@ -36,7 +36,7 @@ const HeaderNavBar: React.FC = () => {
           
           <Link to="/"><h4>Exhibitors</h4></Link>
           <Link to="/"><h4>Partners</h4></Link>
-          <Link to="/"><h4>Events</h4></Link>
+          <Link to="/events"><h4>Events</h4></Link>
           <Link to="/"><h4>Blog</h4></Link>
           <Link to="/"><h4>Contact Us</h4></Link>
           <button onClick={handleLogin}className={styles.signedOut} style={{marginRight: '6em'}} ><Link to="/signin">Sign In/Register</Link></button>
@@ -50,7 +50,7 @@ const HeaderNavBar: React.FC = () => {
           <Link to="/"><img src={TRElogoVector} alt="Tech Returners" style={{ marginLeft: '6em', transform: 'scale(0.7)' }} /></Link>
           <Link to="/"><h4>Exhibitors</h4></Link>
           <Link to="/"><h4>Partners</h4></Link>
-          <Link to="/"><h4>Events</h4></Link>
+          <Link to="/events"><h4>Events</h4></Link>
           <Link to="/"><h4>Blog</h4></Link>          
           <Link to="/"><h4>My Profile</h4></Link>
           <button className={styles.signedIn} onClick={handleLogout} style={{marginRight: '6em'}} ><Link to="/signin" >Sign Out</Link></button>

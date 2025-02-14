@@ -10,6 +10,7 @@ const CreateEvent: React.FC = () => {
 
   return (
     <div className={styles.body}>
+      <h3>Post New Event</h3>
       <CreateEventTool />
     </div>
   );

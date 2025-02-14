@@ -7,6 +7,7 @@ import EventbyID from './pages/EventbyID';
 import SignIn from './pages/SignIn';
 import CreateEvent from './pages/CreateEvent';
 import { endSession, isTokenExpired } from './utils/tokenHandlers';
+import AllEvents from './pages/AllEvents';
 
 
 
@@ -22,6 +23,7 @@ const App: React.FC = () => {
       <Router>
         <HeaderNavBar/>
         <Routes>
+          <Route path="/events" element={<AllEvents />} />
           <Route path="/" element={<Home />} />
           <Route path="/events/:eventId" element={<EventbyID />}/>
           <Route path="/signin" element={<SignIn/>}/>
