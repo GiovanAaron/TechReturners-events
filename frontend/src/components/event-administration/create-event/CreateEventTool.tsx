@@ -96,7 +96,7 @@ const CreateEventTool: React.FC = () => {
         const updatedRequiredData = { ...prev } as RequiredData;
   
         for (let key in updatedRequiredData) {
-          console.log("key", key, "formData[key]", formData[key]);
+          // console.log("key", key, "formData[key]", formData[key]);
         
           if (formData[key] === null || formData[key] === "") {
             updatedRequiredData[key as keyof RequiredData] = false;
@@ -124,7 +124,7 @@ const CreateEventTool: React.FC = () => {
         const updatedRequiredData = { ...prev } as RequiredData;
   
         for (let key in updatedRequiredData) {
-          console.log("key", key, "formData[key]", formData[key]);
+          // console.log("key", key, "formData[key]", formData[key]);
         
           if (formData[key] === null || formData[key] === "") {
             updatedRequiredData[key as keyof RequiredData] = false;
