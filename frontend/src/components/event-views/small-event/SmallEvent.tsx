@@ -1,8 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom"; // Import Link from react-router-dom
 import styles from "./SmallEvent.module.css";
-import { arrayRandomizer } from "../../../utils/arrayRandomizer";
-import randomImages from "../../../assets/loremipsum/random_event_image";
+// import { arrayRandomizer } from "../../../utils/arrayRandomizer";
+// import randomImages from "../../../assets/loremipsum/random_event_image";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 
 interface SmallEventProps {
@@ -11,7 +11,8 @@ interface SmallEventProps {
   category: string;
   title: string;
   location_type: string;
-  id: string; // Assuming each event has an id
+  id: string;
+  imgUrl1: string // Assuming each event has an id
 }
 
 const SmallEvent: React.FC <SmallEventProps> = ({
@@ -20,15 +21,16 @@ const SmallEvent: React.FC <SmallEventProps> = ({
   category,
   title,
   location_type,
-  id, // Receive the id as a prop
+  id,
+  imgUrl1 // Receive the id as a prop
 }) => {
-  const randomImage = arrayRandomizer(randomImages.imagesFlat);
+  // const randomImage = arrayRandomizer(randomImages.imagesFlat);
 
   return (
     // Wrap the entire component with a Link to make it clickable
     <Link to={`/events/${id}`} className={styles.parent}>
       <div className={styles.smallEvent}>
-        <img className={styles.eventImage} alt="" src={randomImage} />
+        <img className={styles.eventImage} alt="" src={imgUrl1} />
         <div className={styles.gradientOveraly} />
         <div className={styles.dateAndLocation}>
           <div className={styles.city}>

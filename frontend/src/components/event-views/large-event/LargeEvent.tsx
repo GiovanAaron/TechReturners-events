@@ -1,9 +1,9 @@
 import React from "react";
 import styles from "./LargeEvent.module.css";
-import { arrayRandomizer } from "../../../utils/arrayRandomizer";
-import randomImages from "../../../assets/loremipsum/random_event_image";
-import subheadings from "../../../assets/loremipsum/random_event_subheading";
-import randomEventDesc from "../../../assets/loremipsum/random_event_desc"
+// import { arrayRandomizer } from "../../../utils/arrayRandomizer";
+// import randomImages from "../../../assets/loremipsum/random_event_image";
+// import subheadings from "../../../assets/loremipsum/random_event_subheading";
+// import randomEventDesc from "../../../assets/loremipsum/random_event_desc"
 import { genGoogleCalLink } from "../../../utils/googleCalFormat";
 
 interface LargeEventProps {
@@ -19,6 +19,7 @@ interface LargeEventProps {
   price: number | string;
   startTime: string;
   endTime: string;
+  imgUrl1: string;
 }
 
 const LargeEvent: React.FC <LargeEventProps> = ({
@@ -34,9 +35,10 @@ const LargeEvent: React.FC <LargeEventProps> = ({
   address,
   region,
   endTime,
+  imgUrl1
 }) => {
-  const randomImage = arrayRandomizer(randomImages.imagesFlat);
-  const randomSubheading = arrayRandomizer(subheadings.flattened)
+  // const randomImage = arrayRandomizer(randomImages.imagesFlat);
+  // const randomSubheading = arrayRandomizer(subheadings.flattened)
 
   // console.log("LargeEvent Props:", {
   //   city,
@@ -59,9 +61,13 @@ const LargeEvent: React.FC <LargeEventProps> = ({
       <div className={styles.detailsLeft}>
         <div className={styles.titleSubhead}>
           <div className={styles.title}>{title}</div>
-          <div className={styles.subeading}>{randomSubheading}</div>
+          {/* <div className={styles.subeading}>{randomSubheading}</div> */}
         </div>
-        <div className={styles.description}>{description} {arrayRandomizer(randomEventDesc)} {arrayRandomizer(randomEventDesc)}</div>
+        <div className={styles.description}>{description} 
+          
+          {/* {arrayRandomizer(randomEventDesc)} {arrayRandomizer(randomEventDesc)}
+           */}
+          </div>
         <div className={styles.dateTag}>
           <div className={styles.date}>Date:</div>
           <div className={styles.date}>{date}</div>
@@ -87,7 +93,7 @@ const LargeEvent: React.FC <LargeEventProps> = ({
       </div>
       <div className={styles.detailsRight}>
         <div className={styles.eventImageParent}>
-          <img className={styles.eventImageIcon} alt="" src={randomImage} />
+          <img className={styles.eventImageIcon} alt="" src={imgUrl1} />
           <div className={styles.gradient} />
           <div className={styles.eventTag}>
             <div className={styles.eventTypeTag}>

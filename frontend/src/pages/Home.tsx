@@ -29,7 +29,7 @@ const Home: React.FC = () => {
 
   // console.log("loading", loading);
   // console.log("error", error);
-  // console.log("events", events);
+  console.log("first events", events);
 
   const renderSmallEvents = (events: any) => {
     if (!events || !events.events) {
@@ -49,6 +49,7 @@ const Home: React.FC = () => {
         title={event.title}
         location_type={event.location_type}
         id={event.id}
+        imgUrl1={event.photo_1_url}
       />
     ));
   };

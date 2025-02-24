@@ -44,6 +44,7 @@ const AllEvents: React.FC = () => {
         title={event.title}
         location_type={event.location_type}
         id={event.id}
+        imgUrl1={event.photo_1_url}
       />
     ));
   };

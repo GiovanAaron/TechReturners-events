@@ -47,6 +47,7 @@ const EventbyID: React.FC = () => {
         price={fetchedEvent.price == 0 ? "Free" : fetchedEvent.price}
         startTime={fetchedEvent.start_datetime}
         endTime={fetchedEvent.end_datetime}
+        imgUrl1={fetchedEvent.photo_1_url}
         
       />
     </div>
