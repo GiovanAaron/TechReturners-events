@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import styles from "./CreateEventTool.module.css";
 import useApiReq from "../../../hooks/useApiReq";
 import { defaultStart, defaultEnd } from "../../../utils/defaultDate";
+import isEndAfterStart from "../../../utils/eventFormValidation";
 
 
 
@@ -52,6 +53,9 @@ const CreateEventTool: React.FC = () => {
     photo_1_url: true,
   });
 
+  const [wrongDate, setWrongDate] = useState(false);
+
+
   
 
   // Define a single state object to manage all form fields
@@ -86,14 +90,13 @@ const CreateEventTool: React.FC = () => {
       [name]: value,
     });
 
-   
 
     if (firstSubmit) {
       setRequiredData((prev) => {
         const updatedRequiredData = { ...prev } as RequiredData;
   
         for (let key in updatedRequiredData) {
-          console.log("key", key, "formData[key]", formData[key]);
+          // console.log("key", key, "formData[key]", formData[key]);
         
           if (formData[key] === null || formData[key] === "") {
             updatedRequiredData[key as keyof RequiredData] = false;
@@ -121,7 +124,7 @@ const CreateEventTool: React.FC = () => {
         const updatedRequiredData = { ...prev } as RequiredData;
   
         for (let key in updatedRequiredData) {
-          console.log("key", key, "formData[key]", formData[key]);
+          // console.log("key", key, "formData[key]", formData[key]);
         
           if (formData[key] === null || formData[key] === "") {
             updatedRequiredData[key as keyof RequiredData] = false;
@@ -144,6 +147,15 @@ const CreateEventTool: React.FC = () => {
 
     removeEmptyStringKeys(eventData);
 
+    if (!(isEndAfterStart(eventData.start_datetime, eventData.end_datetime))) {
+
+      
+      setWrongDate(true);
+
+      return
+    }
+
+    setWrongDate(false);
 
 
     try {
@@ -360,6 +372,7 @@ const CreateEventTool: React.FC = () => {
         </button>
         {!validationChecker(requiredData) ? <i style={{color: warningLabel.color, marginTop: ".8rem"}}>[Event failed to create with details provided.
           Please ensure all required fields are completed.]  </i> : null}
+          {wrongDate ? <i style={{color: warningLabel.color, marginTop: ".8rem"}}>[Start date must be before end date.]  </i> : null}
       </div>
       <form>
         

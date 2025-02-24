@@ -6,7 +6,11 @@ import formatDateWithSuffix from "../utils/formatdatesuffix";
 import CreateEventBtn from "../components/buttons/create-event-btn/CreateEventBtn";
 import hero_image from "../assets/hero_image.png"
 
+
 const Home: React.FC = () => {
+
+
+ 
 
   // const token = localStorage.getItem("authToken");
   const access_type = localStorage.getItem("accessType");
@@ -49,6 +53,7 @@ const Home: React.FC = () => {
     ));
   };
 
+
   return (
     <>
       {/* <HeaderNavBar /> */}
@@ -62,7 +67,7 @@ const Home: React.FC = () => {
           )}
         </p>
         <h4>Next Event: 14th of May 2025 13:09 to 19:00 (GMT)</h4>
-        <button>Free TR Manchester Ticket</button>
+        <button className={styles.freeTicketBtn}>Free TR Manchester Ticket</button>
         <div className={styles.divider}></div>
         <h4>Upcoming Events</h4>
 
