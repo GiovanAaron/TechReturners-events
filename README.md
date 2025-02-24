@@ -60,7 +60,10 @@ password: password
 which allows you to create new events
 
 Basic User account details:
+
 email: victor.langston@severance.com
+
+
 password: password
 
 ### Where to Find It
