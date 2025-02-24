@@ -193,3 +193,18 @@
     font-family: 'Product Sans Black';
 }
 
+
+@media (prefers-color-scheme: dark) {
+
+
+    .title {
+        color: rgb(212, 212, 212)
+    }
+    .description{
+        color: rgb(212, 212, 212);
+    }
+
+    .dateTag{
+        color: rgb(212, 212, 212);
+    }
+}

@@ -28,7 +28,7 @@ const LargeEvent: React.FC <LargeEventProps> = ({
   category,
   title,
   location_type,
- 
+  
   startTime,
   description,
   address,

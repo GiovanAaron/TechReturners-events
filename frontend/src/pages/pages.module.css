@@ -1,3 +1,8 @@
+/* button {
+   color:rgb(67, 70, 12)
+  } */
+  
+
 .body {
 
  margin: 10rem 8.5rem;
@@ -9,6 +14,7 @@
   line-height: 1.5;
   word-break: break-word;
 }
+
 
 .divider {
     height: 5rem
@@ -40,4 +46,24 @@
     justify-content: start;
     gap: 1.5rem;
     min-width: 45rem;
+
+}
+
+
+.freeTicketBtn {
+    color:rgb(44, 44, 44);
+    border-color: rgba(191, 191, 191, 0.249);
+    border-width: .125em;
+    background-color: rgba(236, 236, 236, 0.641);
+}
+
+@media (prefers-color-scheme: dark) {
+    .freeTicketBtn  {
+        color:rgb(239, 199, 55);
+        border-color: rgb(239, 199, 55);
+        border-width: .1em;
+        background-color: rgb(44, 44, 44);
+
+
+    }
 }
