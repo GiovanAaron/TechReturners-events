@@ -89,7 +89,7 @@ const Home: React.FC = () => {
             featureEvent.endTime,
             featureEvent.title,
             featureEvent.description,
-            featureEvent.address
+            featureEvent.address ?? "https://zoom.us/j/1234567890?pwd=abcdEFGHijkl"
           )}>Free TR {featureEvent.city ??"Virtual" } Ticket</a>
           </button>
         <div className={styles.divider}></div>

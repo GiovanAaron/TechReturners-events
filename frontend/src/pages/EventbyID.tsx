@@ -4,6 +4,7 @@ import useApiReq from "../hooks/useApiReq"; // Import the API hook
 import styles from "./pages.module.css";
 import formatDateWithSuffix from "../utils/formatdatesuffix";
 import LargeEvent from "../components/event-views/large-event/LargeEvent";
+import loading_animation from "../assets/loading_animation.gif"
 
 const EventbyID: React.FC = () => {
 
@@ -26,7 +27,11 @@ const EventbyID: React.FC = () => {
   // console.log("Fetched event data:", event);
 
   // Handle loading and errors
-  if (loading) return <div>Loading event...</div>;
+  if (loading) return (
+    <div className={styles.body}> <div>
+    <img src={loading_animation} alt="loading animation" style={{ width: "5rem" }}/>
+    <p>Loading event information... This may take a few moments</p></div></div>
+);
   if (error) return <div>Error fetching event: {error}</div>;
   if (!event) return <div>Event not found</div>;
 
