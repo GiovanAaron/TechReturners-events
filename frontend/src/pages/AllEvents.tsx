@@ -4,6 +4,7 @@ import useApiReq from "../hooks/useApiReq";  // Import the API hook
 import styles from "./pages.module.css";
 import formatDateWithSuffix from "../utils/formatdatesuffix";
 import CreateEventBtn from "../components/buttons/create-event-btn/CreateEventBtn";
+import loading_animation from "../assets/loading_animation.gif"
 
 
 const AllEvents: React.FC = () => {
@@ -56,11 +57,15 @@ const AllEvents: React.FC = () => {
 
       <div className={styles.smallEventsList}>
           {loading ? (
-            <div>Loading events...</div> // Show loading only for events section
+            <div><img src={loading_animation} alt="loading animation" style={{ width: "5rem" }}/>
+            <p>Loading events... This may take a few moments</p></div> // Show loading only for events section
           ) : error ? (
             <div>Error fetching events: {error}</div> // Show error if any
           ) : (
-            renderSmallEvents(events) // Render the events if fetched successfully
+            // Render the events if fetched successfully
+            renderSmallEvents(events)
+            // <div>Loading events...</div>
+
           )}
         </div>
 

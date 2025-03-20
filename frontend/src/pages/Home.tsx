@@ -1,16 +1,21 @@
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo , useState} from "react";
 import SmallEvent from "../components/event-views/small-event/SmallEvent";
 import useApiReq from "../hooks/useApiReq";  // Import the API hook
 import styles from "./pages.module.css";
 import formatDateWithSuffix from "../utils/formatdatesuffix";
 import CreateEventBtn from "../components/buttons/create-event-btn/CreateEventBtn";
 import hero_image from "../assets/hero_image.png"
+import loading_animation from "../assets/loading_animation.gif"
+import TestNotifModal from "../components/notifs/TestNotifModal";
+import { genGoogleCalLink } from "../utils/googleCalFormat";
+
 
 
 const Home: React.FC = () => {
 
+  const [featureEvent, setFeatureEvent] = useState<any>({
+  });
 
- 
 
   // const token = localStorage.getItem("authToken");
   const access_type = localStorage.getItem("accessType");
@@ -31,11 +36,19 @@ const Home: React.FC = () => {
   // console.log("error", error);
   console.log("first events", events);
 
+  useEffect(() => {
+    if (events && events.events) {
+      const firstEvent = events.events[0];
+      setFeatureEvent(firstEvent);
+    }
+  }, [events]);
+
   const renderSmallEvents = (events: any) => {
     if (!events || !events.events) {
       return null; // Return null if events data is not available
     }
 
+    
     // Shuffle the array randomly
     const shuffledEvents = events.events.sort(() => Math.random() - 0.5);
 
@@ -67,19 +80,36 @@ const Home: React.FC = () => {
             "\n"
           )}
         </p>
-        <h4>Next Event: 14th of May 2025 13:09 to 19:00 (GMT)</h4>
-        <button className={styles.freeTicketBtn}>Free TR Manchester Ticket</button>
+        <h4>Next Event: {isNaN(new Date(featureEvent.start_datetime).getTime()) 
+    ? "loading..." 
+    : formatDateWithSuffix(featureEvent.start_datetime)}</h4>
+        <button className={styles.freeTicketBtn}>
+          <a target="_blank" href={genGoogleCalLink(
+            featureEvent.startTime,
+            featureEvent.endTime,
+            featureEvent.title,
+            featureEvent.description,
+            featureEvent.address
+          )}>Free TR {featureEvent.city ??"Virtual" } Ticket</a>
+          </button>
         <div className={styles.divider}></div>
         <h4>Upcoming Events</h4>
 
         {/* Conditionally render loading, events or error message */}
         <div className={styles.smallEventsList}>
           {loading ? (
-            <div>Loading events...</div> // Show loading only for events section
+            <div>
+            <img src={loading_animation} alt="loading animation" style={{ width: "5rem" }}/>
+            <p>Loading events... This may take a few moments</p>
+          </div>// Show loading only for events section
           ) : error ? (
             <div>Error fetching events: {error}</div> // Show error if any
           ) : (
-            renderSmallEvents(events) // Render the events if fetched successfully
+            // Render the events if fetched successfully
+            renderSmallEvents(events) 
+           
+            // <div>Loading events...</div>
+
           )}
         </div>
 
@@ -88,6 +118,8 @@ const Home: React.FC = () => {
       </div>
 
         <img src={hero_image} alt="hero image" className={styles.heroImage}></img>
+
+        <TestNotifModal />
     </>
   );
 };

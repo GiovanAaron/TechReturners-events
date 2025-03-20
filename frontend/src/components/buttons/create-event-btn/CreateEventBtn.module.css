@@ -3,7 +3,7 @@
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     align-self: stretch;
     border-radius: 0.625rem; /* 10px / 16 */
-    background: linear-gradient(99.25deg, rgba(245, 226, 245, 0.2), rgba(211, 187, 77, 0.2)), #cdb141;
+    background: linear-gradient(65.25deg, rgba(245, 226, 245, 0.2), rgba(211, 187, 77, 0.2)), #e3ab03e1;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -11,7 +11,7 @@
     padding: 1rem 1.25rem; /* 16px / 16, 20px / 16 */
     color: #ffffff;
     transition: background 0.8s ease, box-shadow 0.8s ease; /* Smooth transition for background and shadow */
-    text-shadow: rgba(61, 6, 78, 0.351) 0.1em 0.1em 0.1em;
+    text-shadow: rgba(51, 6, 65, 0.399) 0.15em 0.1em 0.1em;
     outline: auto;
     outline-color: rgba(109, 19, 136, 0.831);
 

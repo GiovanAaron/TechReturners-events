@@ -3,9 +3,8 @@
 import { Link } from "react-router-dom"; // Assuming you are using React Router
 import React from "react";
 import styles from "./HeaderNavBar.module.css";
-import TRElogoVector from "../../assets/TR_events_logo.svg"
+import TRElogoVector from "../../assets/TR_events_logo_lite.svg"
 import { endSession } from "../../utils/tokenHandlers";
-import GV_TR_Logo from "../../assets/GV_TR_Logo.svg"
 
 
 
@@ -33,13 +32,13 @@ const HeaderNavBar: React.FC = () => {
     return (
       <header >
         <div className={styles.headerNavBar}>
-          <Link to="/"><img src={GV_TR_Logo} alt="Tech Returners" style={{ marginLeft: '6em', transform: 'scale(0.7)' }} /></Link>
-{/*           
+          <Link to="/"><img src={TRElogoVector} alt="Tech Returners" style={{ marginLeft: '6em', transform: 'scale(0.7)' }} /></Link>
+          
           <Link to="/"><h4>Exhibitors</h4></Link>
-          <Link to="/"><h4>Partners</h4></Link> */}
+          <Link to="/"><h4>Partners</h4></Link>
           <Link to="/events"><h4>All Events</h4></Link>
-          {/* <Link to="/"><h4>Blog</h4></Link>
-          <Link to="/"><h4>Contact Us</h4></Link> */}
+          <Link to="/"><h4>Blog</h4></Link>
+          <Link to="/"><h4>Contact Us</h4></Link>
           <button onClick={handleLogin}className={styles.signedOut} style={{marginRight: '6em'}} ><Link to="/signin">Sign In/Register</Link></button>
         </div>
       </header>
@@ -49,11 +48,11 @@ const HeaderNavBar: React.FC = () => {
       <header >
         <div className={styles.headerNavBar}>
           <Link to="/"><img src={TRElogoVector} alt="Tech Returners" style={{ marginLeft: '6em', transform: 'scale(0.7)' }} /></Link>
-          {/* <Link to="/"><h4>Exhibitors</h4></Link>
-          <Link to="/"><h4>Partners</h4></Link> */}
+          <Link to="/"><h4>Exhibitors</h4></Link>
+          <Link to="/"><h4>Partners</h4></Link>
           <Link to="/events"><h4>All Events</h4></Link>
-          {/* <Link to="/"><h4>Blog</h4></Link>          
-          <Link to="/"><h4>My Profile</h4></Link> */}
+          <Link to="/"><h4>Blog</h4></Link>          
+          <Link to="/"><h4>My Profile</h4></Link>
           <button className={styles.signedIn} onClick={handleLogout} style={{marginRight: '6em'}} ><Link to="/signin" >Sign Out</Link></button>
         </div>
       </header>
